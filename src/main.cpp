@@ -33,12 +33,17 @@ main()
 
   auto frame_start = SDL_GetTicks();
 
+  // Main loop
   while(!quit)
   {
+    // Input processing
     while(SDL_PollEvent(&event))
     {
       if(event.type == SDL_QUIT) quit = true;
     }
+
+    // Update game
+    // TODO
 
     { // Render
       SDL_SetRenderDrawColor(core.renderer, 0, 0, 0, 0xff);
