@@ -14,31 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_MODE_FIGHT_H
+#define YAFG_MODE_FIGHT_H 1
 
-#include <SDL2/SDL.h>
+#include "../entity/fighter.hpp"
+#include "../input_config.hpp"
+#include "../mode.hpp"
 
-#include "command.hpp"
-#include "input_config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Mode
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  InputConfig *player1_input;
+struct Fight : public Base
+{
+  Entity::Fighter player1;
 
   void
-  init();
+  key_down(SDL_Keycode keycode);
   void
-  finish();
+  key_up(SDL_Keycode keycode);
+  void
+  tick();
+  void
+  render();
+
+  Fight();
 };
 
-extern Core core;
+}
 
-#endif /* YAFG_CORE_H */
+#endif /* YAFG_MODE_FIGHT_H */

@@ -14,31 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_INPUT_CONFIG_H
+#define YAFG_INPUT_CONFIG_H 1
 
-#include <SDL2/SDL.h>
+#include <cstdint>
+#include <unordered_map>
 
-#include "command.hpp"
-#include "input_config.hpp"
+#include "entity.hpp"
 
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
+constexpr uint8_t DIRECTION_UP_BIT = 0;
+constexpr uint8_t DIRECTION_DOWN_BIT = 1;
+constexpr uint8_t DIRECTION_LEFT_BIT = 2;
+constexpr uint8_t DIRECTION_RIGHT_BIT = 3;
+constexpr uint8_t HEAVY_PUNCH_BIT = 4;
+constexpr uint8_t HEAVY_KICK_BIT = 5;
+constexpr uint8_t LIGHT_PUNCH_BIT = 6;
+constexpr uint8_t LIGHT_KICK_BIT = 7;
 
-struct Core
-{
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
+typedef std::unordered_map<uint32_t, uint8_t> InputConfig;
 
-  InputConfig *player1_input;
-
-  void
-  init();
-  void
-  finish();
-};
-
-extern Core core;
-
-#endif /* YAFG_CORE_H */
+#endif /* YAFG_INPUT_CONFIG_H */

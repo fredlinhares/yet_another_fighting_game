@@ -14,31 +14,35 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_ENTITY_FIGHTER_H
+#define YAFG_ENTITY_FIGHTER_H 1
 
-#include <SDL2/SDL.h>
+#include <bitset>
+#include <cstdint>
 
-#include "command.hpp"
-#include "input_config.hpp"
+#include "../core.hpp"
+#include "../entity.hpp"
 
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Entity
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  InputConfig *player1_input;
+struct Fighter
+{
+  SDL_Rect sprite;
+
+  std::bitset<8> input_status{};
+
+  Direction current_direction;
 
   void
-  init();
+  tick();
+
   void
-  finish();
+  render();
+
+  Fighter();
 };
 
-extern Core core;
+}
 
-#endif /* YAFG_CORE_H */
+#endif /* YAFG_ENTITY_FIGHTER_H */

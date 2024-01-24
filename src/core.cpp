@@ -44,7 +44,7 @@ load_window(void *obj)
   core.window = SDL_CreateWindow(
     "Yet Another Fighting Game",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    1024, 576,
+    WINDOW_WIDTH, WINDOW_HEIGHT,
     SDL_WINDOW_SHOWN);
   if(core.window == NULL)
   {
@@ -96,11 +96,22 @@ const CommandChain loader{
 void
 Core::init()
 {
+  player1_input = new InputConfig{
+    {SDLK_e, DIRECTION_UP_BIT},
+    {SDLK_d, DIRECTION_DOWN_BIT},
+    {SDLK_s, DIRECTION_LEFT_BIT},
+    {SDLK_f, DIRECTION_RIGHT_BIT},
+    {SDLK_j, HEAVY_PUNCH_BIT},
+    {SDLK_k, HEAVY_KICK_BIT},
+    {SDLK_l, LIGHT_PUNCH_BIT},
+    {SDLK_SEMICOLON, LIGHT_KICK_BIT}};
+
   loader.execute(nullptr);
 }
 
 void
 Core::finish()
 {
+  delete player1_input;
   loader.revert(nullptr);
 }

@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "core.hpp"
+#include "mode/fight.hpp"
 
 constexpr int FRAMES_PER_SECOND = 60;
 constexpr int MAX_FRAME_DURATION = 1000/FRAMES_PER_SECOND;
@@ -28,6 +29,7 @@ main()
 {
   SDL_Event event;
   bool quit{false};
+  Mode::Base *game_mode = new Mode::Fight{};
 
   core.init();
 
@@ -39,15 +41,28 @@ main()
     // Input processing
     while(SDL_PollEvent(&event))
     {
-      if(event.type == SDL_QUIT) quit = true;
+      switch(event.type)
+      {
+      case SDL_QUIT:
+	quit = true;
+	break;
+      case SDL_KEYDOWN:
+	game_mode->key_down(event.key.keysym.sym);
+	break;
+      case SDL_KEYUP:
+	game_mode->key_up(event.key.keysym.sym);
+	break;
+      }
     }
 
     // Update game
-    // TODO
+    game_mode->tick();
 
     { // Render
       SDL_SetRenderDrawColor(core.renderer, 0, 0, 0, 0xff);
       SDL_RenderClear(core.renderer);
+
+      game_mode->render();
 
       SDL_UpdateWindowSurface(core.window);
     }
@@ -64,6 +79,7 @@ main()
     }
   }
 
+  delete game_mode;
   core.finish();
 
   return 0;

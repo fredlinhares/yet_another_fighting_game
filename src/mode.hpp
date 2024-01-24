@@ -14,31 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_MODE_H
+#define YAFG_MODE_H 1
 
-#include <SDL2/SDL.h>
+#include "core.hpp"
 
-#include "command.hpp"
-#include "input_config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Mode
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  InputConfig *player1_input;
+struct Base
+{
+  virtual void
+  key_down(SDL_Keycode keycode) = 0;
+  virtual void
+  key_up(SDL_Keycode keycode) = 0;
 
-  void
-  init();
-  void
-  finish();
+  virtual void
+  tick() = 0;
+
+  virtual void
+  render() = 0;
+
+  virtual
+  ~Base(){};
 };
 
-extern Core core;
+}
 
-#endif /* YAFG_CORE_H */
+
+#endif /* YAFG_MODE_H */

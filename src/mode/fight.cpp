@@ -14,31 +14,41 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#include "fight.hpp"
 
-#include <SDL2/SDL.h>
+#include "../core.hpp"
 
-#include "command.hpp"
-#include "input_config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Mode
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  InputConfig *player1_input;
+void
+Fight::key_down(SDL_Keycode keycode)
+{
+  if(core.player1_input->contains(keycode))
+    player1.input_status[core.player1_input->at(keycode)] = true;
+}
 
-  void
-  init();
-  void
-  finish();
-};
+void
+Fight::key_up(SDL_Keycode keycode)
+{
+  if(core.player1_input->contains(keycode))
+    player1.input_status[core.player1_input->at(keycode)] = false;
+}
 
-extern Core core;
+void
+Fight::tick()
+{
+  player1.tick();
+}
 
-#endif /* YAFG_CORE_H */
+void
+Fight::render()
+{
+  player1.render();
+}
+
+Fight::Fight()
+{
+}
+
+}

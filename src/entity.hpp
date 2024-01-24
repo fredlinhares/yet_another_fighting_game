@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_ENTITY_H
+#define YAFG_ENTITY_H 1
 
-#include <SDL2/SDL.h>
+#include <cstdint>
 
-#include "command.hpp"
-#include "input_config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Entity
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  InputConfig *player1_input;
-
-  void
-  init();
-  void
-  finish();
+enum class Direction: uint8_t
+{
+  none = 0,
+  up = 1,
+  down = 2,
+  left = 3,
+  right = 6,
+  up_left = 4,
+  up_right = 7,
+  down_left = 5,
+  down_right = 8
 };
 
-extern Core core;
 
-#endif /* YAFG_CORE_H */
+Direction
+operator+(const Direction &a, const Direction &b);
+
+}
+
+#endif /* YAFG_ENTITY_H */
