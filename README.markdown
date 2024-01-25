@@ -9,14 +9,53 @@ Nesse projeto usaremos as linguagens de programação C++ e Ruby e a libSDL, nad
 Como esse é projeto didático, sinta-se livre para contribuir mesmo que você tenha pouca ou nenhum experiência como programador.
 
 
-## Compilando
+## Dependências
 
 A principal plataforma de desenvolvimento desse jogo será o GNU/Linux com o compilador GCC.
 Para que você consiga compilar o código no Windows ou MacOS, recomendo que use um ambiente de desenvolvimento parecido com o do Linux.
 Para o Windows, você pode usar o [MSYS2 com MINGW](https://www.msys2.org/).
 Para o MacOs, você pode usar o [Homebrew](https://brew.sh/).
-
 Toda a compilação do código é automatizada com o [Rake](https://ruby.github.io/rake/).
+
+### Windows (MSYS2)
+
+Primeiro faça o download do MSYS2 como explicado no site.
+Apos instalar o MSYS2, ele fornecerá vários ambientes como compiladores diferentes.
+Abra o `MSYS2 MINGW64` que se encontra no seu menu Iniciar.
+
+Para instalar os pacotes do MSYS2 use o seguinte comando:
+
+```
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 ruby
+```
+
+Após instalar os pacotes do Ruby, use:
+
+```
+gem install rake
+```
+
+
+### Arch Linux
+
+Para instalar as dependências basta usar o pacman:
+
+```
+pacman -S gcc sdl2 ruby ruby-rake
+```
+
+
+### Debian Linux
+
+Para instalar as dependências é necessário instalar também os pacotes de desenvolvimento:
+
+```
+apt install g++ libsdl2-2.0-0 libsdl2-dev ruby ruby-rake
+```
+
+
+## Compilando
+
 Uma vez que você tenha o Ruby, o GCC (com suporte para C++) e o Rake instalado, pode compilar o jogo com apenas um comando no seu terminal:
 
 ```
