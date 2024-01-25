@@ -17,6 +17,8 @@
 #ifndef YAFG_CORE_H
 #define YAFG_CORE_H 1
 
+#define SDL_MAIN_HANDLED
+
 #include <SDL2/SDL.h>
 
 #include "command.hpp"
