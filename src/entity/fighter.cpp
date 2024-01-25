@@ -16,40 +16,48 @@
 
 #include "fighter.hpp"
 
-namespace
-{
-  constexpr int orthogonal_speed = 3;
-  constexpr int diagonal_speed = 2;
+#include <algorithm>
 
-  inline void
-  collide_top(Entity::Fighter &player)
-  {
-    if(player.sprite.y < 0) player.sprite.y = 0;
-  }
-
-  inline void
-  collide_bottom(Entity::Fighter &player)
-  {
-    if((player.sprite.y + player.sprite.h) > WINDOW_HEIGHT)
-      player.sprite.y = WINDOW_HEIGHT - player.sprite.h;
-  }
-
-  inline void
-  collide_left(Entity::Fighter &player)
-  {
-    if(player.sprite.x < 0) player.sprite.x = 0;
-  }
-
-  inline void
-  collide_right(Entity::Fighter &player)
-  {
-    if((player.sprite.x + player.sprite.w) > WINDOW_WIDTH)
-      player.sprite.x = WINDOW_WIDTH - player.sprite.w;
-  }
-}
+#include "../mode/fight.hpp"
+#include "jump_state.hpp"
+#include "stand_state.hpp"
+#include "walk_state.hpp"
 
 namespace Entity
 {
+
+bool
+Fighter::collide_floor()
+{
+  if(this->y > Mode::Fight::FLOOR_POSITION)
+  {
+    this->y = Mode::Fight::FLOOR_POSITION;
+    return true;
+  }
+  return false;
+}
+
+bool
+Fighter::collide_left()
+{
+  if(this->x - this->half_width < 0)
+  {
+    this->x = this->half_width;
+    return true;
+  }
+  return false;
+}
+
+bool
+Fighter::collide_right()
+{
+  if(this->x + this->half_width > WINDOW_WIDTH)
+  {
+    this->x = WINDOW_WIDTH -this->half_width;
+    return true;
+  }
+  return false;
+}
 
 void
 Fighter::tick()
@@ -72,63 +80,41 @@ Fighter::tick()
     this->current_direction = vertical_direction + horizontal_direction;
   }
 
-  { // Move
-    switch(this->current_direction)
-    {
-    case Direction::up:
-      this->sprite.y -= orthogonal_speed;
-      collide_top(*this);
-      break;
-    case Direction::down:
-      this->sprite.y += orthogonal_speed;
-      collide_bottom(*this);
-      break;
-    case Direction::left:
-      this->sprite.x -= orthogonal_speed;
-      collide_left(*this);
-      break;
-    case Direction::right:
-      this->sprite.x += orthogonal_speed;
-      collide_right(*this);
-      break;
-    case Direction::up_left:
-      this->sprite.x -= diagonal_speed;
-      this->sprite.y -= diagonal_speed;
-      collide_left(*this);
-      collide_top(*this);
-      break;
-    case Direction::up_right:
-      this->sprite.x += diagonal_speed;
-      this->sprite.y -= diagonal_speed;
-      collide_right(*this);
-      collide_top(*this);
-      break;
-    case Direction::down_left:
-      this->sprite.x -= diagonal_speed;
-      this->sprite.y += diagonal_speed;
-      collide_left(*this);
-      collide_bottom(*this);
-      break;
-    case Direction::down_right:
-      this->sprite.x += diagonal_speed;
-      this->sprite.y += diagonal_speed;
-      collide_right(*this);
-      collide_bottom(*this);
-      break;
-    }
-  }
+  this->current_state->tick();
 }
 
 void
 Fighter::render()
 {
   SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0xff);
-  SDL_RenderFillRect(core.renderer, &this->sprite);
+  this->current_state->sprite.x = this->x + this->current_state->x;
+  this->current_state->sprite.y = this->y + this->current_state->y;
+  SDL_RenderFillRect(core.renderer, &this->current_state->sprite);
+}
+
+void
+Fighter::set_state(int state)
+{
+  this->current_state = this->states[state];
+  this->current_state->init();
 }
 
 Fighter::Fighter():
-  sprite{0, 0, 63, 100}
+  x{192},
+  y{Mode::Fight::FLOOR_POSITION},
+  half_width{31},
+  states{
+    new StandState{this},
+    new WalkState{this},
+    new JumpState{this}}
 {
+  this->set_state(STAND_STATE);
+}
+
+Fighter::~Fighter()
+{
+  std::for_each(this->states.begin(), this->states.begin(), [](State *s)
+    {delete s;});
 }
 
 }

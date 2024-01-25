@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_MODE_FIGHT_H
-#define YAFG_MODE_FIGHT_H 1
+#include "stand_state.hpp"
 
-#include "../entity/fighter.hpp"
-#include "../input_config.hpp"
-#include "../mode.hpp"
+#include "fighter.hpp"
 
-namespace Mode
+namespace Entity
 {
 
-struct Fight : public Base
+void
+StandState::tick()
 {
-  static constexpr int FLOOR_POSITION{203};
-
-  Entity::Fighter player1;
-
-  void
-  key_down(SDL_Keycode keycode);
-  void
-  key_up(SDL_Keycode keycode);
-  void
-  tick();
-  void
-  render();
-
-  Fight();
-};
-
+  switch(this->fighter->current_direction)
+  {
+  case Direction::left:
+  case Direction::right:
+    this->fighter->set_state(WALK_STATE);
+    break;
+  case Direction::up:
+  case Direction::up_left:
+  case Direction::up_right:
+    this->fighter->set_state(JUMP_STATE);
+    break;
+  }
 }
 
-#endif /* YAFG_MODE_FIGHT_H */
+StandState::StandState(Fighter *f):
+  State{f, -31, -100, 63, 100}
+{
+}
+
+}

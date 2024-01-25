@@ -14,59 +14,35 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_ENTITY_FIGHTER_H
-#define YAFG_ENTITY_FIGHTER_H 1
-
-#include <bitset>
-#include <cstdint>
-#include <vector>
+#ifndef YAFG_ENTITY_STATE_H
+#define YAFG_ENTITY_STATE_H 1
 
 #include "../core.hpp"
-#include "../entity.hpp"
-#include "state.hpp"
 
 namespace Entity
 {
 
-constexpr int STAND_STATE = 0;
-constexpr int WALK_STATE = 1;
-constexpr int JUMP_STATE = 2;
+class Fighter;
 
-class Fighter
+struct State
 {
-  std::vector<State*> states;
-  State* current_state;
+  Fighter* const fighter;
+  const int x, y;
 
-public:
-  const int half_width;
+  SDL_Rect sprite;
 
-  int x, y;
-  std::bitset<8> input_status{};
-  Direction current_direction;
+  virtual void
+  init(){};
 
-  bool
-  collide_floor();
+  virtual void
+  tick() = 0;
 
-  bool
-  collide_left();
+  State(Fighter *f, int x, int y, int w, int h);
 
-  bool
-  collide_right();
-
-  void
-  tick();
-
-  void
-  render();
-
-  void
-  set_state(int state);
-
-  Fighter();
-
-  ~Fighter();
+  virtual
+  ~State(){};
 };
 
 }
 
-#endif /* YAFG_ENTITY_FIGHTER_H */
+#endif /* YAFG_ENTITY_STATE_H */
