@@ -75,4 +75,8 @@ Uma vez que tenha conseguido compilar e rodar o jogo com sucesso, você pode com
 
 [Ciclo principal](doc/ciclo_principal.markdown)
 
+[Modo de jogo](doc/modo_de_jogo.markdown)
+
 [Inicialização de subsistemas](doc/inicializacao_de_subsistemas.markdown)
+
+[Personagem](doc/personagem.markdown)
