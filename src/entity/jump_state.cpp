@@ -34,12 +34,12 @@ JumpState::init()
   this->vertical_speed = - INITIAL_VERTICAL_SPEED;
   this->gravit_update_delay = GRAVIT_UPDATE_DELAY;
 
-  switch(this->fighter->current_direction)
+  switch(this->fighter->effective_direction)
   {
-  case Direction::up_left:
+  case Input::Direction::up_left:
     this->horizontal_speed = - HORIZONTAL_SPEED;
     break;
-  case Direction::up_right:
+  case Input::Direction::up_right:
     this->horizontal_speed = HORIZONTAL_SPEED;
     break;
   default:

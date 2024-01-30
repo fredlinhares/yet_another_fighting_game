@@ -22,7 +22,8 @@
 #include <vector>
 
 #include "../core.hpp"
-#include "../entity.hpp"
+#include "../input/config.hpp"
+#include "../input/ring.hpp"
 #include "state.hpp"
 
 namespace Entity
@@ -41,8 +42,11 @@ public:
   const int half_width;
 
   int x, y;
-  std::bitset<8> input_status{};
-  Direction current_direction;
+
+  Input::AttackState last_attack, current_attack;
+  Input::DirectionState current_direction;
+  Input::Direction effective_direction;
+  Input::Ring input_ring;
 
   bool
   collide_floor();

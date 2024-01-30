@@ -14,33 +14,16 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#include "direction.hpp"
 
-#define SDL_MAIN_HANDLED
-
-#include <SDL2/SDL.h>
-
-#include "command.hpp"
-#include "input/config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Input
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  Input::Config *player1_input;
+Direction
+operator+(const Direction &a, const Direction &b)
+{
+  return static_cast<Direction>(
+    static_cast<uint8_t>(a) + static_cast<uint8_t>(b));
+}
 
-  void
-  init();
-  void
-  finish();
-};
-
-extern Core core;
-
-#endif /* YAFG_CORE_H */
+}

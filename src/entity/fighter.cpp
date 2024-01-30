@@ -64,20 +64,34 @@ Fighter::tick()
 {
   // Set direction.
   { // Eliminate self-contradicting input like left-right movement.
-    Direction vertical_direction{Direction::none};
-    Direction horizontal_direction{Direction::none};
+    Input::Direction vertical_direction{Input::Direction::none};
+    Input::Direction horizontal_direction{Input::Direction::none};
 
-    if(input_status[DIRECTION_UP_BIT])
-      vertical_direction = Direction::up;
-    else if(input_status[DIRECTION_DOWN_BIT])
-      vertical_direction = Direction::down;
+    if(this->current_direction[Input::DIRECTION_BIT_UP])
+      vertical_direction = Input::Direction::up;
+    else if(this->current_direction[Input::DIRECTION_BIT_DOWN])
+      vertical_direction = Input::Direction::down;
 
-    if(input_status[DIRECTION_LEFT_BIT])
-      horizontal_direction = Direction::left;
-    else if(input_status[DIRECTION_RIGHT_BIT])
-      horizontal_direction = Direction::right;
+    if(this->current_direction[Input::DIRECTION_BIT_LEFT])
+      horizontal_direction = Input::Direction::left;
+    else if(this->current_direction[Input::DIRECTION_BIT_RIGHT])
+      horizontal_direction = Input::Direction::right;
 
-    this->current_direction = vertical_direction + horizontal_direction;
+    this->effective_direction = vertical_direction + horizontal_direction;
+  }
+
+  Input::AttackState effective_attack{0};
+  if(this->current_attack != this->last_attack)
+  {
+    effective_attack = this->current_attack;
+    this->last_attack = this->current_attack;
+  }
+
+  if((effective_attack != this->input_ring.current_state()->attack) ||
+     (this->effective_direction !=
+      this->input_ring.current_state()->direction))
+  {
+    this->input_ring.change_state(this->effective_direction, effective_attack);
   }
 
   this->current_state->tick();
@@ -100,13 +114,16 @@ Fighter::set_state(int state)
 }
 
 Fighter::Fighter():
-  x{192},
-  y{Mode::Fight::FLOOR_POSITION},
-  half_width{31},
   states{
     new StandState{this},
     new WalkState{this},
-    new JumpState{this}}
+    new JumpState{this}},
+  half_width{31},
+  x{192},
+  y{Mode::Fight::FLOOR_POSITION},
+  last_attack{},
+  current_attack{},
+  current_direction{}
 {
   this->set_state(STAND_STATE);
 }

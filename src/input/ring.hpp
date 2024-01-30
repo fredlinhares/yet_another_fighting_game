@@ -14,33 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFG_INPUT_RING_H
+#define YAFG_INPUT_RING_H 1
 
-#define SDL_MAIN_HANDLED
+#include "state.hpp"
 
-#include <SDL2/SDL.h>
-
-#include "command.hpp"
-#include "input/config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Input
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  Input::Config *player1_input;
+struct Ring
+{
+  static constexpr int SIZE{16};
+
+  int state_index;
+  State states[SIZE];
+
+  Ring();
+
+  inline State*
+  current_state(){return &this->states[this->state_index];};
 
   void
-  init();
-  void
-  finish();
+  change_state(Input::Direction direction, Input::AttackState attack);
 };
 
-extern Core core;
+}
 
-#endif /* YAFG_CORE_H */
+#endif /* YAFG_INPUT_RING_H */

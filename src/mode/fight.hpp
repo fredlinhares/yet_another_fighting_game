@@ -18,7 +18,7 @@
 #define YAFG_MODE_FIGHT_H 1
 
 #include "../entity/fighter.hpp"
-#include "../input_config.hpp"
+#include "../input/config.hpp"
 #include "../mode.hpp"
 
 namespace Mode

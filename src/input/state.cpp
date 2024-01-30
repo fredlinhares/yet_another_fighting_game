@@ -14,31 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_ENTITY_H
-#define YAFG_ENTITY_H 1
+#include "state.hpp"
 
-#include <cstdint>
-
-namespace Entity
+namespace Input
 {
 
-enum class Direction: uint8_t
+State::State():
+  direction{Direction::none},
+  attack{0}
 {
-  none = 0,
-  up = 1,
-  down = 2,
-  left = 3,
-  right = 6,
-  up_left = 4,
-  up_right = 7,
-  down_left = 5,
-  down_right = 8
-};
-
-
-Direction
-operator+(const Direction &a, const Direction &b);
-
 }
 
-#endif /* YAFG_ENTITY_H */
+}

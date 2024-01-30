@@ -96,15 +96,16 @@ const CommandChain loader{
 void
 Core::init()
 {
-  player1_input = new InputConfig{
-    {SDLK_e, DIRECTION_UP_BIT},
-    {SDLK_d, DIRECTION_DOWN_BIT},
-    {SDLK_s, DIRECTION_LEFT_BIT},
-    {SDLK_f, DIRECTION_RIGHT_BIT},
-    {SDLK_j, HEAVY_PUNCH_BIT},
-    {SDLK_k, HEAVY_KICK_BIT},
-    {SDLK_l, LIGHT_PUNCH_BIT},
-    {SDLK_SEMICOLON, LIGHT_KICK_BIT}};
+  player1_input = new Input::Config{
+    {SDLK_e, {Input::TYPE_BIT_DIRECTION, Input::DIRECTION_BIT_UP}},
+    {SDLK_d, {Input::TYPE_BIT_DIRECTION, Input::DIRECTION_BIT_DOWN}},
+    {SDLK_s, {Input::TYPE_BIT_DIRECTION, Input::DIRECTION_BIT_LEFT}},
+    {SDLK_f, {Input::TYPE_BIT_DIRECTION, Input::DIRECTION_BIT_RIGHT}},
+    {SDLK_j, {Input::TYPE_BIT_ATTACK, Input::ATTACK_BIT_HEAVY_PUNCH}},
+    {SDLK_k, {Input::TYPE_BIT_ATTACK, Input::ATTACK_BIT_HEAVY_KICK}},
+    {SDLK_l, {Input::TYPE_BIT_ATTACK, Input::ATTACK_BIT_LIGHT_PUNCH}},
+    {SDLK_SEMICOLON,
+     {Input::TYPE_BIT_ATTACK, Input::ATTACK_BIT_LIGHT_KICK}}};
 
   loader.execute(nullptr);
 }

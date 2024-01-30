@@ -17,20 +17,31 @@
 #ifndef YAFG_INPUT_CONFIG_H
 #define YAFG_INPUT_CONFIG_H 1
 
+#include <array>
+#include <bitset>
 #include <cstdint>
 #include <unordered_map>
 
-#include "entity.hpp"
+namespace Input
+{
 
-constexpr uint8_t DIRECTION_UP_BIT = 0;
-constexpr uint8_t DIRECTION_DOWN_BIT = 1;
-constexpr uint8_t DIRECTION_LEFT_BIT = 2;
-constexpr uint8_t DIRECTION_RIGHT_BIT = 3;
-constexpr uint8_t HEAVY_PUNCH_BIT = 4;
-constexpr uint8_t HEAVY_KICK_BIT = 5;
-constexpr uint8_t LIGHT_PUNCH_BIT = 6;
-constexpr uint8_t LIGHT_KICK_BIT = 7;
+constexpr uint8_t TYPE_BIT_DIRECTION = 0;
+constexpr uint8_t TYPE_BIT_ATTACK = 1;
 
-typedef std::unordered_map<uint32_t, uint8_t> InputConfig;
+constexpr uint8_t DIRECTION_BIT_UP = 0;
+constexpr uint8_t DIRECTION_BIT_DOWN = 1;
+constexpr uint8_t DIRECTION_BIT_LEFT = 2;
+constexpr uint8_t DIRECTION_BIT_RIGHT = 3;
+
+constexpr uint8_t ATTACK_BIT_HEAVY_PUNCH = 0;
+constexpr uint8_t ATTACK_BIT_HEAVY_KICK = 1;
+constexpr uint8_t ATTACK_BIT_LIGHT_PUNCH = 2;
+constexpr uint8_t ATTACK_BIT_LIGHT_KICK = 3;
+
+typedef std::bitset<4> AttackState;
+typedef std::bitset<4> DirectionState;
+typedef std::unordered_map<uint32_t, std::array<uint8_t, 2>> Config;
+
+}
 
 #endif /* YAFG_INPUT_CONFIG_H */
