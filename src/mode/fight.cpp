@@ -31,10 +31,10 @@ change_key_state(Entity::Fighter &player1, SDL_Keycode keycode, bool state)
 
     switch(input_type)
     {
-    case Input::TYPE_BIT_DIRECTION:
+    case Input::TYPE_INDEX_DIRECTION:
       player1.current_direction[input_bit] = state;
       break;
-    case Input::TYPE_BIT_ATTACK:
+    case Input::TYPE_INDEX_ATTACK:
       player1.current_attack[input_bit] = state;
       break;
     }

@@ -17,29 +17,56 @@
 #include "ring.hpp"
 #include <iostream>
 
+namespace
+{
+
+inline void
+decrement_ring_rindex(int &ring_rindex)
+{
+  ring_rindex--;
+  if(ring_rindex < 0) ring_rindex = Input::Ring::SIZE - 1;
+}
+
+}
+
 namespace Input
 {
 
 Ring::Ring():
-  state_index{0}
+  start_index{0},
+  num_inputs{0}
 {
+  this->reset();
+}
+
+void
+Ring::reset()
+{
+  this->start_index = 0;
+  this->num_inputs = 0;
 }
 
 void
 Ring::change_state(Input::Direction direction, Input::AttackState attack)
 {
-  this->state_index++;
-  if(this->state_index >= Ring::SIZE) this->state_index = 0;
+  if(this->num_inputs < SIZE)
+    this->num_inputs++;
+  else
+  {
+    this->start_index++;
+    if(this->start_index >= Ring::SIZE) this->start_index = 0;
+  }
 
-  this->current_state()->direction = direction;
-  this->current_state()->attack = attack;
+  auto current_input{&this->inputs[this->current_index()]};
+  current_input->direction = direction;
+  current_input->attack = attack;
 
-  int index{this->state_index + 1};
-  for(int i{0}; i < Ring::SIZE; i++)
+  int index{this->start_index};
+  for(int i{0}; i < this->num_inputs; i++)
   {
     if(index >= Ring::SIZE) index = 0;
 
-    switch(this->states[index].direction)
+    switch(this->inputs[index].direction)
     {
     case Input::Direction::none:
       std::cout << "_";
@@ -71,22 +98,76 @@ Ring::change_state(Input::Direction direction, Input::AttackState attack)
     }
     std::cout << " ";
 
-    // if(states[index].attack.count() > 0)
-    {
-      if(this->states[index].attack[Input::ATTACK_BIT_HEAVY_PUNCH])
-	std::cout << "HP ";
-      if(this->states[index].attack[Input::ATTACK_BIT_HEAVY_KICK])
-	std::cout << "HK ";
-      if(this->states[index].attack[Input::ATTACK_BIT_LIGHT_PUNCH])
-	std::cout << "LP ";
-      if(this->states[index].attack[Input::ATTACK_BIT_LIGHT_KICK])
-	std::cout << "LK ";
-    }
+    if(this->inputs[index].attack[Input::ATTACK_INDEX_HEAVY_PUNCH])
+      std::cout << "HP ";
+    if(this->inputs[index].attack[Input::ATTACK_INDEX_HEAVY_KICK])
+      std::cout << "HK ";
+    if(this->inputs[index].attack[Input::ATTACK_INDEX_LIGHT_PUNCH])
+      std::cout << "LP ";
+    if(this->inputs[index].attack[Input::ATTACK_INDEX_LIGHT_KICK])
+      std::cout << "LK ";
     std::cout << "-";
 
     index++;
   }
   std::cout << std::endl;
+}
+
+const char*
+Ring::find_move(const std::vector<Move> &moves)
+{
+  int ring_end{this->start_index + this->num_inputs};
+  if(ring_end >= Ring::SIZE) ring_end -= Ring::SIZE;
+  ring_end -= 1;
+
+  for(int i{0}; i < moves.size(); i++)
+  {
+    const Move *current_move{&moves.at(i)};
+    if(current_move->nodes.size() > this->num_inputs) continue;
+
+    int node_rindex = current_move->nodes.size() - 1;
+    int ring_rindex{ring_end};
+
+    for(int ii{0}; ii < Ring::SIZE; ii++)
+    {
+      bool valid_node{false};
+      if(current_move->nodes[node_rindex].is_attack)
+      {
+	if(current_move->nodes[node_rindex].entry.attack ==
+	   this->inputs[ring_rindex].attack)
+	  valid_node = true;
+      }
+      else
+      {
+	if(current_move->nodes[node_rindex].entry.direction ==
+	      this->inputs[ring_rindex].direction)
+	  valid_node = true;
+	// if is empty movement, maybe the player slipped for a single frame,
+	// so we read the previous one.
+	else if(this->inputs[ring_rindex].direction == Input::Direction::none)
+	{
+	  decrement_ring_rindex(ring_rindex);
+	  continue;
+	}
+      }
+
+      if(valid_node)
+      {
+	if(node_rindex == 0)
+	{
+	  this->reset();
+	  return current_move->move_name;
+	}
+
+	node_rindex--;
+	decrement_ring_rindex(ring_rindex);
+      }
+      else
+	break;
+    }
+  }
+
+  return nullptr;
 }
 
 }

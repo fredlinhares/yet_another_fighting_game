@@ -17,6 +17,9 @@
 #ifndef YAFG_INPUT_RING_H
 #define YAFG_INPUT_RING_H 1
 
+#include <vector>
+
+#include "move.hpp"
 #include "state.hpp"
 
 namespace Input
@@ -26,16 +29,32 @@ struct Ring
 {
   static constexpr int SIZE{16};
 
-  int state_index;
-  State states[SIZE];
+protected:
+  int start_index, num_inputs;
+  State inputs[SIZE];
+
+  void
+  reset();
+
+public:
+  inline int
+  current_index()
+  {
+    int _current_index{this->start_index + this->num_inputs};
+    if(_current_index >= SIZE) _current_index -= SIZE;
+    return _current_index;
+  };
+
+  inline const State*
+  current_input() {return &this->inputs[this->current_index()];};
 
   Ring();
 
-  inline State*
-  current_state(){return &this->states[this->state_index];};
-
   void
   change_state(Input::Direction direction, Input::AttackState attack);
+
+  const char*
+  find_move(const std::vector<Move> &moves);
 };
 
 }

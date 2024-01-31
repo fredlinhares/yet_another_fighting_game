@@ -23,6 +23,7 @@
 
 #include "../core.hpp"
 #include "../input/config.hpp"
+#include "../input/move.hpp"
 #include "../input/ring.hpp"
 #include "state.hpp"
 
@@ -47,6 +48,7 @@ public:
   Input::DirectionState current_direction;
   Input::Direction effective_direction;
   Input::Ring input_ring;
+  std::vector<Input::Move> moves;
 
   bool
   collide_floor();

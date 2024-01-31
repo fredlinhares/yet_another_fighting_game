@@ -25,18 +25,34 @@
 namespace Input
 {
 
-constexpr uint8_t TYPE_BIT_DIRECTION = 0;
-constexpr uint8_t TYPE_BIT_ATTACK = 1;
+constexpr uint8_t TYPE_INDEX_DIRECTION = 0;
+constexpr uint8_t TYPE_INDEX_ATTACK = 1;
 
-constexpr uint8_t DIRECTION_BIT_UP = 0;
-constexpr uint8_t DIRECTION_BIT_DOWN = 1;
-constexpr uint8_t DIRECTION_BIT_LEFT = 2;
-constexpr uint8_t DIRECTION_BIT_RIGHT = 3;
+constexpr uint8_t DIRECTION_BIT_NONE = 0b0000;
+constexpr uint8_t DIRECTION_BIT_UP = 0b0001;
+constexpr uint8_t DIRECTION_BIT_DOWN = 0b0010;
+constexpr uint8_t DIRECTION_BIT_LEFT = 0b0100;
+constexpr uint8_t DIRECTION_BIT_RIGHT = 0b1000;
 
-constexpr uint8_t ATTACK_BIT_HEAVY_PUNCH = 0;
-constexpr uint8_t ATTACK_BIT_HEAVY_KICK = 1;
-constexpr uint8_t ATTACK_BIT_LIGHT_PUNCH = 2;
-constexpr uint8_t ATTACK_BIT_LIGHT_KICK = 3;
+constexpr uint8_t DIRECTION_BIT_UP_LEFT = 0b0101;
+constexpr uint8_t DIRECTION_BIT_UP_RIGHT = 0b1001;
+constexpr uint8_t DIRECTION_BIT_DOWN_LEFT = 0b0110;
+constexpr uint8_t DIRECTION_BIT_DOWN_RIGHT = 0b1010;
+
+constexpr uint8_t ATTACK_BIT_HEAVY_PUNCH = 0b0001;
+constexpr uint8_t ATTACK_BIT_HEAVY_KICK = 0b0010;
+constexpr uint8_t ATTACK_BIT_LIGHT_PUNCH = 0b0100;
+constexpr uint8_t ATTACK_BIT_LIGHT_KICK = 0b1000;
+
+constexpr uint8_t DIRECTION_INDEX_UP = 0;
+constexpr uint8_t DIRECTION_INDEX_DOWN = 1;
+constexpr uint8_t DIRECTION_INDEX_LEFT = 2;
+constexpr uint8_t DIRECTION_INDEX_RIGHT = 3;
+
+constexpr uint8_t ATTACK_INDEX_HEAVY_PUNCH = 0;
+constexpr uint8_t ATTACK_INDEX_HEAVY_KICK = 1;
+constexpr uint8_t ATTACK_INDEX_LIGHT_PUNCH = 2;
+constexpr uint8_t ATTACK_INDEX_LIGHT_KICK = 3;
 
 typedef std::bitset<4> AttackState;
 typedef std::bitset<4> DirectionState;

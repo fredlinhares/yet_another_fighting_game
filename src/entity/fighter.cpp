@@ -22,6 +22,7 @@
 #include "jump_state.hpp"
 #include "stand_state.hpp"
 #include "walk_state.hpp"
+#include <iostream>
 
 namespace Entity
 {
@@ -67,14 +68,14 @@ Fighter::tick()
     Input::Direction vertical_direction{Input::Direction::none};
     Input::Direction horizontal_direction{Input::Direction::none};
 
-    if(this->current_direction[Input::DIRECTION_BIT_UP])
+    if(this->current_direction[Input::DIRECTION_INDEX_UP])
       vertical_direction = Input::Direction::up;
-    else if(this->current_direction[Input::DIRECTION_BIT_DOWN])
+    else if(this->current_direction[Input::DIRECTION_INDEX_DOWN])
       vertical_direction = Input::Direction::down;
 
-    if(this->current_direction[Input::DIRECTION_BIT_LEFT])
+    if(this->current_direction[Input::DIRECTION_INDEX_LEFT])
       horizontal_direction = Input::Direction::left;
-    else if(this->current_direction[Input::DIRECTION_BIT_RIGHT])
+    else if(this->current_direction[Input::DIRECTION_INDEX_RIGHT])
       horizontal_direction = Input::Direction::right;
 
     this->effective_direction = vertical_direction + horizontal_direction;
@@ -87,11 +88,13 @@ Fighter::tick()
     this->last_attack = this->current_attack;
   }
 
-  if((effective_attack != this->input_ring.current_state()->attack) ||
+  if((effective_attack != this->input_ring.current_input()->attack) ||
      (this->effective_direction !=
-      this->input_ring.current_state()->direction))
+      this->input_ring.current_input()->direction))
   {
     this->input_ring.change_state(this->effective_direction, effective_attack);
+    auto move{input_ring.find_move(this->moves)};
+    if(move != nullptr) std::cout << move << std::endl;
   }
 
   this->current_state->tick();
@@ -123,7 +126,18 @@ Fighter::Fighter():
   y{Mode::Fight::FLOOR_POSITION},
   last_attack{},
   current_attack{},
-  current_direction{}
+  current_direction{},
+  moves{
+    {"Fireball",
+     {Input::MoveNode(false, Input::Direction::down),
+      Input::MoveNode(false, Input::Direction::down_right),
+      Input::MoveNode(false, Input::Direction::right),
+      Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
+    {"Uppercut",
+     {Input::MoveNode(false, Input::Direction::right),
+      Input::MoveNode(false, Input::Direction::down),
+      Input::MoveNode(false, Input::Direction::down_right),
+      Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
   this->set_state(STAND_STATE);
 }
