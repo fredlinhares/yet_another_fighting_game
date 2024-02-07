@@ -84,11 +84,30 @@ unload_renderer(void *obj)
   SDL_DestroyRenderer(core.renderer);
 }
 
+void
+load_sdl_img(void *obj)
+{
+  int img_flags{IMG_INIT_PNG};
+  if(!(IMG_Init(img_flags) & img_flags))
+  {
+    std::string error{"SDL_image could not initialize! SDL Error → "};
+    error += IMG_GetError();
+    throw error;
+  }
+}
+
+void
+unload_sdl_img(void *obj)
+{
+  IMG_Quit();
+}
+
 const CommandChain loader{
   {&load_sdl, &unload_sdl},
   {&load_window, &unload_window},
   {&load_window_surface, nullptr},
-  {&load_renderer, &unload_renderer}
+  {&load_renderer, &unload_renderer},
+  {&load_sdl_img, &unload_sdl_img}
 };
 
 }

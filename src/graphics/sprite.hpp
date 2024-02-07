@@ -14,40 +14,23 @@
  * limitations under the License.
  */
 
-#include "stand_state.hpp"
+#ifndef YAFG_GRAPHICS_SPRITE_H
+#define YAFG_GRAPHICS_SPRITE_H 1
 
-#include "fighter.hpp"
+#include "../core.hpp"
 
-namespace Entity
+namespace Graphics
 {
 
-void
-StandState::tick()
+struct Sprite
 {
-  this->sprite_index = this->animation.tick();
+  // position relative to pivot.
+  int x, y;
+  SDL_Rect rect;
 
-  switch(this->fighter->effective_direction)
-  {
-  case Input::Direction::left:
-  case Input::Direction::right:
-    this->fighter->set_state(WALK_STATE);
-    break;
-  case Input::Direction::up:
-  case Input::Direction::up_left:
-  case Input::Direction::up_right:
-    this->fighter->set_state(JUMP_STATE);
-    break;
-  }
-}
-
-StandState::StandState(Fighter *f):
-  State{f, 0},
-  animation{true, {
-    {45, 0},
-    {45, 1},
-    {45, 2},
-    {45, 3}}}
-{
-}
+  Sprite(int pivot_x, int pivot_y, int x, int y, int w, int h);
+};
 
 }
+
+#endif /* YAFG_GRAPHICS_SPRITE_H */

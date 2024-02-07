@@ -27,8 +27,16 @@ namespace Entity
 {
 
 void
+WalkState::init()
+{
+  this->animation.reset();
+}
+
+void
 WalkState::tick()
 {
+  this->sprite_index = this->animation.tick();
+
   switch(this->fighter->effective_direction)
   {
   case Input::Direction::left:
@@ -50,7 +58,13 @@ WalkState::tick()
 }
 
 WalkState::WalkState(Fighter *f):
-  State{f, -31, -100, 63, 100}
+  State{f, 4},
+  animation{true, {
+    {15, 4},
+    {15, 5},
+    {15, 6},
+    {15, 7},
+    {15, 8}}}
 {
 }
 

@@ -69,7 +69,7 @@ JumpState::tick()
 }
 
 JumpState::JumpState(Fighter *f):
-  State{f, -31, -100, 63, 100}
+  State{f, 9}
 {
 }
 

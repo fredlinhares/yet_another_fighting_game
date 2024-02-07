@@ -103,10 +103,15 @@ Fighter::tick()
 void
 Fighter::render()
 {
-  SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0xff);
-  this->current_state->sprite.x = this->x + this->current_state->x;
-  this->current_state->sprite.y = this->y + this->current_state->y;
-  SDL_RenderFillRect(core.renderer, &this->current_state->sprite);
+  Graphics::Sprite *sprite{&this->sprites[this->current_state->sprite_index]};
+  SDL_Rect destination{
+    this->x + sprite->x,
+    this->y + sprite->y,
+    sprite->rect.w,
+    sprite->rect.h
+  };
+
+  SDL_RenderCopy(core.renderer, this->texture, &sprite->rect, &destination);
 }
 
 void
@@ -117,6 +122,22 @@ Fighter::set_state(int state)
 }
 
 Fighter::Fighter():
+  texture{Graphics::Texture::load("img/sprites.png")},
+  sprites{
+    // Idle
+    {-31, -124, 19, 0, 87, 125},
+    {-31, -124, 121, 0, 79, 125},
+    {-31, -122, 204, 2, 71, 123},
+    {-31, -124, 284, 0, 97, 125},
+
+    // Walk
+    {-20, -127, 19, 260, 40, 128},
+    {-20, -124, 68, 263, 72, 125},
+    {-20, -126, 147, 261, 63, 127},
+    {-20, -127, 213, 260, 44, 128},
+    {-20, -124, 261, 264, 66, 125},
+
+    {-32, -100, 661, 1013, 64, 95}},
   states{
     new StandState{this},
     new WalkState{this},
@@ -144,6 +165,7 @@ Fighter::Fighter():
 
 Fighter::~Fighter()
 {
+  SDL_DestroyTexture(this->texture);
   std::for_each(this->states.begin(), this->states.begin(), [](State *s)
     {delete s;});
 }

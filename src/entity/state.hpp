@@ -27,9 +27,7 @@ class Fighter;
 struct State
 {
   Fighter* const fighter;
-  const int x, y;
-
-  SDL_Rect sprite;
+  int sprite_index;
 
   virtual void
   init(){};
@@ -37,7 +35,7 @@ struct State
   virtual void
   tick() = 0;
 
-  State(Fighter *f, int x, int y, int w, int h);
+  State(Fighter *f, int sprite_index);
 
   virtual
   ~State(){};

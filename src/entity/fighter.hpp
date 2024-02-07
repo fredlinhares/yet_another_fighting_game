@@ -22,6 +22,8 @@
 #include <vector>
 
 #include "../core.hpp"
+#include "../graphics/sprite.hpp"
+#include "../graphics/texture.hpp"
 #include "../input/config.hpp"
 #include "../input/move.hpp"
 #include "../input/ring.hpp"
@@ -36,6 +38,9 @@ constexpr int JUMP_STATE = 2;
 
 class Fighter
 {
+  SDL_Texture *texture;
+  std::vector<Graphics::Sprite> sprites;
+
   std::vector<State*> states;
   State* current_state;
 

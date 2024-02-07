@@ -29,9 +29,10 @@ main()
 {
   SDL_Event event;
   bool quit{false};
-  Mode::Base *game_mode = new Mode::Fight{};
 
   core.init();
+
+  Mode::Base *game_mode = new Mode::Fight{};
 
   auto frame_start = SDL_GetTicks();
 

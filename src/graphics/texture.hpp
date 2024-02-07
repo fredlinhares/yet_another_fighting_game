@@ -14,40 +14,17 @@
  * limitations under the License.
  */
 
-#include "stand_state.hpp"
+#ifndef YAFG_GRAPHICS_TEXTURE_H
+#define YAFG_GRAPHICS_TEXTURE_H 1
 
-#include "fighter.hpp"
+#include "../core.hpp"
 
-namespace Entity
+namespace Graphics::Texture
 {
 
-void
-StandState::tick()
-{
-  this->sprite_index = this->animation.tick();
-
-  switch(this->fighter->effective_direction)
-  {
-  case Input::Direction::left:
-  case Input::Direction::right:
-    this->fighter->set_state(WALK_STATE);
-    break;
-  case Input::Direction::up:
-  case Input::Direction::up_left:
-  case Input::Direction::up_right:
-    this->fighter->set_state(JUMP_STATE);
-    break;
-  }
-}
-
-StandState::StandState(Fighter *f):
-  State{f, 0},
-  animation{true, {
-    {45, 0},
-    {45, 1},
-    {45, 2},
-    {45, 3}}}
-{
-}
+SDL_Texture*
+load(const char *file_path);
 
 }
+
+#endif /* YAFG_GRAPHICS_TEXTURE_H */

@@ -14,40 +14,41 @@
  * limitations under the License.
  */
 
-#include "stand_state.hpp"
+#ifndef YAFG_GRAPHICS_ANIMATION_H
+#define YAFG_GRAPHICS_ANIMATION_H 1
 
-#include "fighter.hpp"
+#include <vector>
 
-namespace Entity
+namespace Graphics
 {
 
-void
-StandState::tick()
+struct AnimationFrame
 {
-  this->sprite_index = this->animation.tick();
+  int duration, index;
+};
 
-  switch(this->fighter->effective_direction)
-  {
-  case Input::Direction::left:
-  case Input::Direction::right:
-    this->fighter->set_state(WALK_STATE);
-    break;
-  case Input::Direction::up:
-  case Input::Direction::up_left:
-  case Input::Direction::up_right:
-    this->fighter->set_state(JUMP_STATE);
-    break;
-  }
-}
-
-StandState::StandState(Fighter *f):
-  State{f, 0},
-  animation{true, {
-    {45, 0},
-    {45, 1},
-    {45, 2},
-    {45, 3}}}
+class Animation
 {
-}
+  bool looping, sequence_over;
+  int frame_index, time;
+  std::vector<AnimationFrame> frames;
+
+public:
+  void
+  reset();
+
+  int
+  tick();
+
+  inline int
+  index(){return this->frames[this->frame_index].index;};
+
+  inline bool
+  over(){return this->sequence_over;};
+
+  Animation(bool looping, std::initializer_list<AnimationFrame> frames);
+};
 
 }
+
+#endif /* YAFG_GRAPHICS_ANIMATION_H */

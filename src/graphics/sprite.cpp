@@ -14,39 +14,15 @@
  * limitations under the License.
  */
 
-#include "stand_state.hpp"
+#include "sprite.hpp"
 
-#include "fighter.hpp"
-
-namespace Entity
+namespace Graphics
 {
 
-void
-StandState::tick()
-{
-  this->sprite_index = this->animation.tick();
-
-  switch(this->fighter->effective_direction)
-  {
-  case Input::Direction::left:
-  case Input::Direction::right:
-    this->fighter->set_state(WALK_STATE);
-    break;
-  case Input::Direction::up:
-  case Input::Direction::up_left:
-  case Input::Direction::up_right:
-    this->fighter->set_state(JUMP_STATE);
-    break;
-  }
-}
-
-StandState::StandState(Fighter *f):
-  State{f, 0},
-  animation{true, {
-    {45, 0},
-    {45, 1},
-    {45, 2},
-    {45, 3}}}
+Sprite::Sprite(int pivot_x, int pivot_y, int x, int y, int w, int h):
+  x{pivot_x},
+  y{pivot_y},
+  rect{x, y, w, h}
 {
 }
 

@@ -25,7 +25,8 @@ CPP_FILES = FileList[
 CPP_OBJS = CPP_FILES.ext('.o')
 
 LIBRARIES = [
-  'SDL2'
+  'SDL2',
+  'SDL2_image',
 ]
 
 CLEAN.include(

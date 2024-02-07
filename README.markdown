@@ -26,7 +26,7 @@ Abra o `MSYS2 MINGW64` que se encontra no seu menu Iniciar.
 Para instalar os pacotes do MSYS2 use o seguinte comando:
 
 ```
-pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 ruby
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image ruby
 ```
 
 Após instalar os pacotes do Ruby, use:
@@ -41,7 +41,7 @@ gem install rake
 Para instalar as dependências basta usar o pacman:
 
 ```
-pacman -S gcc sdl2 ruby ruby-rake
+pacman -S gcc sdl2 sdl2_image ruby ruby-rake
 ```
 
 
@@ -50,7 +50,7 @@ pacman -S gcc sdl2 ruby ruby-rake
 Para instalar as dependências é necessário instalar também os pacotes de desenvolvimento:
 
 ```
-apt install g++ libsdl2-2.0-0 libsdl2-dev ruby ruby-rake
+apt install g++ libsdl2-2.0-0 libsdl2-dev libsdl2-image-dev ruby ruby-rake
 ```
 
 

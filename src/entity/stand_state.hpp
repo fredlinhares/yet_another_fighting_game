@@ -17,13 +17,18 @@
 #ifndef YAFG_ENTITY_STAND_STATE_H
 #define YAFG_ENTITY_STAND_STATE_H 1
 
+#include "../graphics/animation.hpp"
 #include "state.hpp"
 
 namespace Entity
 {
 
-struct StandState: public State
+class StandState: public State
 {
+  Graphics::Animation animation;
+
+public:
+
   void
   tick();
 
