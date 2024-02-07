@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "../core.hpp"
+#include "../../common/core.hpp"
 #include "../graphics/sprite.hpp"
 #include "../graphics/texture.hpp"
 #include "../input/config.hpp"

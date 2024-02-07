@@ -16,7 +16,8 @@
 
 #include "fight.hpp"
 
-#include "../core.hpp"
+#include "../../common/core.hpp"
+#include "../input.hpp"
 
 namespace
 {
@@ -24,10 +25,10 @@ namespace
 inline void
 change_key_state(Entity::Fighter &player1, SDL_Keycode keycode, bool state)
 {
-  if(core.player1_input->contains(keycode))
+  if(input_config.player1->contains(keycode))
   {
-    uint8_t input_type = core.player1_input->at(keycode)[0];
-    uint8_t input_bit = core.player1_input->at(keycode)[1];
+    uint8_t input_type = input_config.player1->at(keycode)[0];
+    uint8_t input_bit = input_config.player1->at(keycode)[1];
 
     switch(input_type)
     {

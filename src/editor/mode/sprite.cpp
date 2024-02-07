@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_ENTITY_STATE_H
-#define YAFG_ENTITY_STATE_H 1
+#include "sprite.hpp"
 
-#include "../core.hpp"
-
-namespace Entity
+namespace Mode
 {
 
-class Fighter;
-
-struct State
+void
+Sprite::key_down(SDL_Keycode keycode)
 {
-  Fighter* const fighter;
-  int sprite_index;
-
-  virtual void
-  init(){};
-
-  virtual void
-  tick() = 0;
-
-  State(Fighter *f, int sprite_index);
-
-  virtual
-  ~State(){};
-};
-
 }
 
-#endif /* YAFG_ENTITY_STATE_H */
+void
+Sprite::key_up(SDL_Keycode keycode)
+{
+}
+
+void
+Sprite::tick()
+{
+}
+
+void
+Sprite::render()
+{
+}
+
+Sprite::Sprite()
+{
+}
+
+}

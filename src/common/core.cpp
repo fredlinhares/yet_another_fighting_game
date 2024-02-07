@@ -18,6 +18,8 @@
 
 #include <string>
 
+Core core;
+
 namespace{
 
 void
@@ -42,7 +44,7 @@ load_window(void *obj)
 {
   core.window = nullptr;
   core.window = SDL_CreateWindow(
-    "Yet Another Fighting Game",
+    core.app_name,
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
     WINDOW_WIDTH, WINDOW_HEIGHT,
     SDL_WINDOW_SHOWN);
@@ -115,23 +117,11 @@ const CommandChain loader{
 void
 Core::init()
 {
-  player1_input = new Input::Config{
-    {SDLK_e, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_UP}},
-    {SDLK_d, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_DOWN}},
-    {SDLK_s, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_LEFT}},
-    {SDLK_f, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_RIGHT}},
-    {SDLK_j, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_PUNCH}},
-    {SDLK_k, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_KICK}},
-    {SDLK_l, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_PUNCH}},
-    {SDLK_SEMICOLON,
-     {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_KICK}}};
-
   loader.execute(nullptr);
 }
 
 void
 Core::finish()
 {
-  delete player1_input;
   loader.revert(nullptr);
 }

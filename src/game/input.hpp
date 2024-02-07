@@ -14,34 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_MODE_FIGHT_H
-#define YAFG_MODE_FIGHT_H 1
+#ifndef YAFG_INPUT_H
+#define YAFG_INPUT_H 1
 
-#include "../entity/fighter.hpp"
-#include "../input/config.hpp"
-#include "../mode.hpp"
+#include "input/config.hpp"
 
-namespace Mode
+struct InputConfig
 {
-
-struct Fight : public Base
-{
-  static constexpr int FLOOR_POSITION{203};
-
-  Entity::Fighter player1;
-
-  void
-  key_down(SDL_Keycode keycode);
-  void
-  key_up(SDL_Keycode keycode);
-  void
-  tick();
-  void
-  render();
-
-  Fight();
+  Input::Config *player1;
+  Input::Config *player2;
 };
 
-}
+extern InputConfig input_config;
 
-#endif /* YAFG_MODE_FIGHT_H */
+#endif /* YAFG_INPUT_H */

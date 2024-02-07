@@ -12,31 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rake/clean'
+module Editor
+  OBJ = 'yafce'
 
-CPP_H_FILES = FileList[
-  'src/common/**/*.hpp'
-]
-CPP_FILES = FileList[
-  'src/common/**/*.cpp'
-]
-
-LIBRARIES = [
-  'SDL2',
-  'SDL2_image',
-]
-
-CLEAN.include(
-  FileList[
-    'src/**/*.o',
+  CPP_H_FILES = FileList[
+    'src/editor/**/*.hpp'
   ]
-)
+  CPP_FILES = FileList[
+    'src/editor/**/*.cpp'
+  ]
 
-load 'tasks/editor.rake'
-load 'tasks/game.rake'
+  CPP_OBJS = (::CPP_FILES + CPP_FILES).ext('.o')
 
-rule '.o' => ['.cpp'] do |t|
-  system("g++ #{t.source} -o #{t.name} -g -c -std=c++23")
 end
 
-task default: ["game:build", "editor:build"]
+namespace "editor" do
+  task build: Editor::CPP_OBJS do
+    libs = LIBRARIES.inject('') {_1 + "-l#{_2} "}
+
+    system("g++ -o #{Editor::OBJ} #{Editor::CPP_OBJS} #{libs}")
+  end
+end

@@ -17,7 +17,7 @@
 #ifndef YAFG_GRAPHICS_SPRITE_H
 #define YAFG_GRAPHICS_SPRITE_H 1
 
-#include "../core.hpp"
+#include "../../common/core.hpp"
 
 namespace Graphics
 {

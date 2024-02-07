@@ -14,34 +14,28 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFCE_MODE_SPRITE_H
+#define YAFCE_MODE_SPRITE_H 1
 
-#define SDL_MAIN_HANDLED
+#include "../../common/mode.hpp"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-
-#include "command.hpp"
-#include "input/config.hpp"
-
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
-struct Core
+namespace Mode
 {
-  SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
-  SDL_Renderer *renderer{nullptr};
 
-  Input::Config *player1_input;
+struct Sprite: public Base
+{
+  void
+  key_down(SDL_Keycode keycode);
+  void
+  key_up(SDL_Keycode keycode);
+  void
+  tick();
+  void
+  render();
 
-  void
-  init();
-  void
-  finish();
+  Sprite();
 };
 
-extern Core core;
+}
 
-#endif /* YAFG_CORE_H */
+#endif /* YAFCE_MODE_SPRITE_H */

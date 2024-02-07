@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_GRAPHICS_TEXTURE_H
-#define YAFG_GRAPHICS_TEXTURE_H 1
+#include "../common/main.hpp"
+#include "mode/sprite.hpp"
 
-#include "../core.hpp"
-
-namespace Graphics::Texture
+int
+main()
 {
+  core.app_name = "Yet Another Fighting Character Editor";
+  core.init();
+  Mode::Base *game_mode = new Mode::Sprite{};
 
-SDL_Texture*
-load(const char *file_path);
+  main_loop(game_mode);
 
+  delete game_mode;
+  core.finish();
+
+  return 0;
 }
-
-#endif /* YAFG_GRAPHICS_TEXTURE_H */

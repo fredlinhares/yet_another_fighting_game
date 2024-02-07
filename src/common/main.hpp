@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-#include <iostream>
+#ifndef YAFC_MAIN_H
+#define YAFC_MAIN_H 1
 
 #include "core.hpp"
-#include "mode/fight.hpp"
+#include "mode.hpp"
 
 constexpr int FRAMES_PER_SECOND = 60;
 constexpr int MAX_FRAME_DURATION = 1000/FRAMES_PER_SECOND;
 
-Core core;
-
-int
-main()
+inline void
+main_loop(Mode::Base *game_mode)
 {
   SDL_Event event;
   bool quit{false};
-
-  core.init();
-
-  Mode::Base *game_mode = new Mode::Fight{};
-
   auto frame_start = SDL_GetTicks();
 
   // Main loop
@@ -79,9 +73,6 @@ main()
       frame_start = frame_stop;
     }
   }
-
-  delete game_mode;
-  core.finish();
-
-  return 0;
 }
+
+#endif /* YAFC_CORE_H */
