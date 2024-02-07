@@ -46,7 +46,7 @@ load_window(void *obj)
   core.window = SDL_CreateWindow(
     core.app_name,
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    WINDOW_WIDTH, WINDOW_HEIGHT,
+    core.window_width, core.window_height,
     SDL_WINDOW_SHOWN);
   if(core.window == NULL)
   {

@@ -37,10 +37,28 @@ Sprite::tick()
 void
 Sprite::render()
 {
+  int destination_width, destination_height;
+
+  if(this->texture_width < core.window_width)
+    destination_width = texture_width;
+  else
+    destination_width = core.window_width;
+
+  if(this->texture_height < core.window_height)
+    destination_height = texture_height;
+  else
+    destination_height = core.window_height;
+
+  SDL_Rect destination{0, 0, destination_width, destination_height};
+
+  SDL_RenderCopy(core.renderer, this->texture, &destination, &destination);
 }
 
-Sprite::Sprite()
+Sprite::Sprite(SDL_Texture* texture):
+  texture{texture}
 {
+  SDL_QueryTexture(
+    this->texture, nullptr, nullptr, &texture_width, &texture_height);
 }
 
 }

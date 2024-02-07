@@ -52,9 +52,9 @@ Fighter::collide_left()
 bool
 Fighter::collide_right()
 {
-  if(this->x + this->half_width > WINDOW_WIDTH)
+  if(this->x + this->half_width > core.window_width)
   {
-    this->x = WINDOW_WIDTH -this->half_width;
+    this->x = core.window_width -this->half_width;
     return true;
   }
   return false;

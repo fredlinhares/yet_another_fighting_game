@@ -24,12 +24,10 @@
 
 #include "command.hpp"
 
-constexpr int WINDOW_WIDTH = 384;
-constexpr int WINDOW_HEIGHT = 224;
-
 struct Core
 {
   const char *app_name;
+  int window_width, window_height;
 
   SDL_Window *window{nullptr};
   SDL_Surface *screen_surface{nullptr};

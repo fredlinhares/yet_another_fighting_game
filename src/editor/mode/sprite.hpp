@@ -22,8 +22,12 @@
 namespace Mode
 {
 
-struct Sprite: public Base
+class Sprite: public Base
 {
+  SDL_Texture* texture;
+  int texture_width, texture_height;
+
+public:
   void
   key_down(SDL_Keycode keycode);
   void
@@ -33,7 +37,7 @@ struct Sprite: public Base
   void
   render();
 
-  Sprite();
+  Sprite(SDL_Texture* texture);
 };
 
 }

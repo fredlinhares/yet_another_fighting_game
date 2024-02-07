@@ -22,8 +22,8 @@
 #include <vector>
 
 #include "../../common/core.hpp"
+#include "../../common/graphics/texture.hpp"
 #include "../graphics/sprite.hpp"
-#include "../graphics/texture.hpp"
 #include "../input/config.hpp"
 #include "../input/move.hpp"
 #include "../input/ring.hpp"

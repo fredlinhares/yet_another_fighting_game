@@ -24,6 +24,8 @@ int
 main()
 {
   core.app_name = "Yet Another Fighting Game";
+  core.window_width = 384;
+  core.window_height = 224;
   core.init();
 
   input_config.player1 = new Input::Config{
