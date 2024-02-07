@@ -17,7 +17,7 @@
 #ifndef YAFG_MODE_FIGHT_H
 #define YAFG_MODE_FIGHT_H 1
 
-#include "../../common/mode.hpp"
+#include "../mode.hpp"
 #include "../entity/fighter.hpp"
 #include "../input/config.hpp"
 

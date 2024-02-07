@@ -15,6 +15,7 @@
  */
 
 #include "sprite.hpp"
+#include <iostream>
 
 namespace Mode
 {
@@ -27,6 +28,25 @@ Sprite::key_down(SDL_Keycode keycode)
 void
 Sprite::key_up(SDL_Keycode keycode)
 {
+}
+
+void
+Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
+{
+  std::cout << "mouse down" << std::endl;
+}
+
+void
+Sprite::mouse_button_up(SDL_MouseButtonEvent& b)
+{
+  std::cout << "mouse up" << std::endl;
+}
+
+void
+Sprite::mouse_motion(int x, int y)
+{
+  std::cout << "x: " << x << std::endl;
+  std::cout << "y: " << y << std::endl;
 }
 
 void

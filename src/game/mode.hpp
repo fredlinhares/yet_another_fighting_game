@@ -17,7 +17,7 @@
 #ifndef YAFG_MODE_H
 #define YAFG_MODE_H 1
 
-#include "core.hpp"
+#include "../common/core.hpp"
 
 namespace Mode
 {

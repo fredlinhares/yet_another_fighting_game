@@ -17,7 +17,7 @@
 #ifndef YAFCE_MODE_SPRITE_H
 #define YAFCE_MODE_SPRITE_H 1
 
-#include "../../common/mode.hpp"
+#include "../mode.hpp"
 
 namespace Mode
 {
@@ -32,6 +32,14 @@ public:
   key_down(SDL_Keycode keycode);
   void
   key_up(SDL_Keycode keycode);
+
+  void
+  mouse_button_down(SDL_MouseButtonEvent& b);
+  void
+  mouse_button_up(SDL_MouseButtonEvent& b);
+  void
+  mouse_motion(int x, int y);
+
   void
   tick();
   void

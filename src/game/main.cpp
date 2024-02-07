@@ -41,7 +41,45 @@ main()
 
   Mode::Base *game_mode = new Mode::Fight{};
 
-  main_loop(game_mode);
+  { // main loop
+    SDL_Event event;
+    bool quit{false};
+    auto frame_start = SDL_GetTicks();
+
+    while(!quit)
+    {
+      // Input processing
+      while(SDL_PollEvent(&event))
+      {
+	switch(event.type)
+	{
+	case SDL_QUIT:
+	  quit = true;
+	  break;
+	case SDL_KEYDOWN:
+	  game_mode->key_down(event.key.keysym.sym);
+	  break;
+	case SDL_KEYUP:
+	  game_mode->key_up(event.key.keysym.sym);
+	  break;
+	}
+      }
+
+      // Update game
+      game_mode->tick();
+
+      { // Render
+	SDL_SetRenderDrawColor(core.renderer, 0, 0, 0, 0xff);
+	SDL_RenderClear(core.renderer);
+
+	game_mode->render();
+
+	SDL_UpdateWindowSurface(core.window);
+      }
+
+      timer(frame_start);
+    }
+  }
 
   delete game_mode;
   delete input_config.player1;

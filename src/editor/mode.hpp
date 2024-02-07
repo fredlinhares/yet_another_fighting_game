@@ -14,25 +14,39 @@
  * limitations under the License.
  */
 
-#ifndef YAFC_MAIN_H
-#define YAFC_MAIN_H 1
+#ifndef YAFCE_MODE_H
+#define YAFCE_MODE_H 1
 
-#include "core.hpp"
+#include "../common/core.hpp"
 
-constexpr int FRAMES_PER_SECOND = 60;
-constexpr int MAX_FRAME_DURATION = 1000/FRAMES_PER_SECOND;
-
-inline void
-timer(Uint32 &frame_start)
+namespace Mode
 {
-  auto frame_stop = SDL_GetTicks();
-  auto frame_duration = frame_stop - frame_start;
 
-  // If frame take less time than maximum allowed.
-  if(MAX_FRAME_DURATION > frame_duration)
-    SDL_Delay(MAX_FRAME_DURATION - frame_duration);
+struct Base
+{
+  virtual void
+  key_down(SDL_Keycode keycode) = 0;
+  virtual void
+  key_up(SDL_Keycode keycode) = 0;
 
-  frame_start = frame_stop;
+  virtual void
+  mouse_button_down(SDL_MouseButtonEvent& b) = 0;
+  virtual void
+  mouse_button_up(SDL_MouseButtonEvent& b) = 0;
+  virtual void
+  mouse_motion(int x, int y) = 0;
+
+  virtual void
+  tick() = 0;
+
+  virtual void
+  render() = 0;
+
+  virtual
+  ~Base(){};
+};
+
 }
 
-#endif /* YAFC_CORE_H */
+
+#endif /* YAFCE_MODE_H */
