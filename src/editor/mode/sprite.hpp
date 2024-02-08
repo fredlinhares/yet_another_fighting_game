@@ -18,6 +18,8 @@
 #define YAFCE_MODE_SPRITE_H 1
 
 #include "../mode.hpp"
+#include "../state/scroll.hpp"
+#include "../state/sprite.hpp"
 
 namespace Mode
 {
@@ -25,20 +27,15 @@ namespace Mode
 class Sprite: public Base
 {
   SDL_Texture* texture;
-  int texture_width, texture_height;
+  SDL_Rect src_rect, dst_rect;
+  int tex_width, tex_height;
 
 public:
-  void
-  key_down(SDL_Keycode keycode);
-  void
-  key_up(SDL_Keycode keycode);
+  State::Scroll scroll_state;
+  State::Sprite sprite_state;
 
   void
-  mouse_button_down(SDL_MouseButtonEvent& b);
-  void
-  mouse_button_up(SDL_MouseButtonEvent& b);
-  void
-  mouse_motion(int x, int y);
+  scroll(int x, int y);
 
   void
   tick();

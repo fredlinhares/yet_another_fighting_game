@@ -14,30 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_H
-#define YAFCE_MODE_H 1
+#ifndef YAFCE_STATE_SPRITE_H
+#define YAFCE_STATE_SPRITE_H 1
 
-#include "../common/core.hpp"
-#include "state.hpp"
+#include "../state.hpp"
 
 namespace Mode
 {
+  class Sprite;
+}
 
-struct Base
+namespace State
 {
-  State::Base *current_state;
 
-  virtual void
-  tick() = 0;
+struct Sprite: public State::Base
+{
+  Mode::Sprite* const mode;
 
-  virtual void
-  render() = 0;
+  void
+  mouse_button_down(SDL_MouseButtonEvent& b);
 
-  virtual
-  ~Base(){};
+  Sprite(Mode::Sprite* mode);
 };
 
 }
 
-
-#endif /* YAFCE_MODE_H */
+#endif /* YAFCE_STATE_SPRITE_H */

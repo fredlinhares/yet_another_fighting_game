@@ -15,38 +15,42 @@
  */
 
 #include "sprite.hpp"
-#include <iostream>
 
 namespace Mode
 {
 
 void
-Sprite::key_down(SDL_Keycode keycode)
+Sprite::scroll(int x, int y)
 {
-}
+  if(core.window_width < tex_width)
+  {
+    if(x > 0)
+    {
+      this->src_rect.x -= x;
+      if(this->src_rect.x < 0) this->src_rect.x = 0;
+    }
+    else if(x < 0)
+    {
+      this->src_rect.x -= x;
+      if(this->src_rect.x + core.window_width > tex_width)
+	this->src_rect.x = tex_width - core.window_width;
+    }
+  }
 
-void
-Sprite::key_up(SDL_Keycode keycode)
-{
-}
-
-void
-Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
-{
-  std::cout << "mouse down" << std::endl;
-}
-
-void
-Sprite::mouse_button_up(SDL_MouseButtonEvent& b)
-{
-  std::cout << "mouse up" << std::endl;
-}
-
-void
-Sprite::mouse_motion(int x, int y)
-{
-  std::cout << "x: " << x << std::endl;
-  std::cout << "y: " << y << std::endl;
+  if(core.window_height < tex_height)
+  {
+    if(y > 0)
+    {
+      this->src_rect.y -= y;
+      if(this->src_rect.y < 0) this->src_rect.y = 0;
+    }
+    else if(y < 0)
+    {
+      this->src_rect.y -= y;
+      if(this->src_rect.y + core.window_height > tex_height)
+	this->src_rect.y = tex_height - core.window_height;
+    }
+  }
 }
 
 void
@@ -57,28 +61,46 @@ Sprite::tick()
 void
 Sprite::render()
 {
-  int destination_width, destination_height;
-
-  if(this->texture_width < core.window_width)
-    destination_width = texture_width;
-  else
-    destination_width = core.window_width;
-
-  if(this->texture_height < core.window_height)
-    destination_height = texture_height;
-  else
-    destination_height = core.window_height;
-
-  SDL_Rect destination{0, 0, destination_width, destination_height};
-
-  SDL_RenderCopy(core.renderer, this->texture, &destination, &destination);
+  SDL_RenderCopy(
+    core.renderer, this->texture, &this->src_rect, &dst_rect);
 }
 
 Sprite::Sprite(SDL_Texture* texture):
-  texture{texture}
+  texture{texture},
+  scroll_state{this},
+  sprite_state{this}
 {
+  this->current_state = &this->sprite_state;
+
   SDL_QueryTexture(
-    this->texture, nullptr, nullptr, &texture_width, &texture_height);
+    this->texture, nullptr, nullptr, &tex_width, &tex_height);
+
+  this->src_rect.x = 0;
+  this->dst_rect.x = 0;
+  this->src_rect.y = 0;
+  this->dst_rect.y = 0;
+
+  if(this->tex_width < core.window_width)
+  {
+    this->src_rect.w = this->tex_width;
+    this->dst_rect.w = this->tex_width;
+  }
+  else
+  {
+    this->src_rect.w = core.window_width;
+    this->dst_rect.w = core.window_width;
+  }
+
+  if(this->tex_height < core.window_height)
+  {
+    this->src_rect.h = this->tex_height;
+    this->dst_rect.h = this->tex_height;
+  }
+  else
+  {
+    this->src_rect.h = core.window_height;
+    this->dst_rect.h = core.window_height;
+  }
 }
 
 }
