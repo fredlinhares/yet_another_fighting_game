@@ -29,7 +29,7 @@ load_sdl(void *obj)
   {
     std::string error{"SDL could not initialize! SDL Error → "};
     error += SDL_GetError();
-    throw error;
+    throw CommandError{error};
   }
 }
 
@@ -63,20 +63,15 @@ unload_window(void *obj)
 }
 
 void
-load_window_surface(void *obj)
-{
-  core.screen_surface = SDL_GetWindowSurface(core.window);
-}
-
-void
 load_renderer(void *obj)
 {
-  core.renderer = SDL_CreateSoftwareRenderer(core.screen_surface);
+  core.renderer = SDL_CreateRenderer(
+    core.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if(core.renderer == NULL)
   {
     std::string error{"SDL renderer could not be created! SDL Error → "};
     error += SDL_GetError();
-    throw error;
+    throw CommandError{error};
   }
   SDL_SetRenderDrawBlendMode(core.renderer, SDL_BLENDMODE_BLEND);
 }
@@ -95,7 +90,7 @@ load_sdl_img(void *obj)
   {
     std::string error{"SDL_image could not initialize! SDL Error → "};
     error += IMG_GetError();
-    throw error;
+    throw CommandError{error};
   }
 }
 
@@ -108,7 +103,6 @@ unload_sdl_img(void *obj)
 const CommandChain loader{
   {&load_sdl, &unload_sdl},
   {&load_window, &unload_window},
-  {&load_window_surface, nullptr},
   {&load_renderer, &unload_renderer},
   {&load_sdl_img, &unload_sdl_img}
 };

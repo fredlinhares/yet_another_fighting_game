@@ -74,7 +74,7 @@ main()
 
 	game_mode->render();
 
-	SDL_UpdateWindowSurface(core.window);
+	SDL_RenderPresent(core.renderer);
       }
 
       timer(frame_start);

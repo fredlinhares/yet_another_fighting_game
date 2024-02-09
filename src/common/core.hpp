@@ -30,7 +30,6 @@ struct Core
   int window_width, window_height;
 
   SDL_Window *window{nullptr};
-  SDL_Surface *screen_surface{nullptr};
   SDL_Renderer *renderer{nullptr};
 
   void
