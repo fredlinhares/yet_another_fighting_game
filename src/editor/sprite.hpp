@@ -14,39 +14,16 @@
  * limitations under the License.
  */
 
-#include "sprite.hpp"
+#ifndef YAFCE_SPRITE_H
+#define YAFCE_SPRITE_H 1
 
-#include "../mode/sprite.hpp"
+#include "../common/core.hpp"
 
-namespace State
+struct Sprite
 {
+  SDL_Rect size;
 
-void
-Sprite::key_down(SDL_Keycode keycode)
-{
-  switch(keycode)
-  {
-  case SDLK_e:
-    this->mode->zoom_in();
-    break;
-  case SDLK_d:
-    this->mode->zoom_out();
-    break;
-  case SDLK_n:
-    this->mode->add_sprite();
-    break;
-  }
-}
+  Sprite(int x, int y, int w, int h);
+};
 
-void
-Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
-{
-  this->mode->current_state = &this->mode->scroll_state;
-}
-
-Sprite::Sprite(Mode::Sprite* mode):
-  mode{mode}
-{
-}
-
-}
+#endif /* YAFCE_SPRITE_H */

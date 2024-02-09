@@ -78,6 +78,7 @@ load_renderer(void *obj)
     error += SDL_GetError();
     throw error;
   }
+  SDL_SetRenderDrawBlendMode(core.renderer, SDL_BLENDMODE_BLEND);
 }
 
 void

@@ -17,7 +17,10 @@
 #ifndef YAFCE_MODE_SPRITE_H
 #define YAFCE_MODE_SPRITE_H 1
 
+#include <vector>
+
 #include "../mode.hpp"
+#include "../sprite.hpp"
 #include "../state/scroll.hpp"
 #include "../state/sprite.hpp"
 
@@ -31,6 +34,8 @@ class Sprite: public Base
   int tex_width, tex_height;
   int display_width, display_height;
   int zoom;
+
+  std::vector<::Sprite> sprites;
 
   void
   correct_position();
@@ -49,6 +54,9 @@ public:
 
   void
   scroll(int x, int y);
+
+  void
+  add_sprite();
 
   void
   tick();

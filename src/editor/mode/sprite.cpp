@@ -99,6 +99,23 @@ Sprite::scroll(int x, int y)
 }
 
 void
+Sprite::add_sprite()
+{
+  int mouse_x, mouse_y;
+  SDL_GetMouseState(&mouse_x, &mouse_y);
+  int x{this->src_rect.x + mouse_x / this->zoom};
+  int y{this->src_rect.y + mouse_y / this->zoom};
+
+  if(x < 10) x = 10;
+  else if(x > this->tex_width - 10) x = this->tex_width - 10;
+
+  if(y < 10) y = 10;
+  else if(y > this->tex_width - 10) y = this->tex_width - 10;
+
+  this->sprites.emplace_back(x - 10, y - 10, 20, 20);
+}
+
+void
 Sprite::tick()
 {
 }
@@ -108,6 +125,21 @@ Sprite::render()
 {
   SDL_RenderCopy(
     core.renderer, this->texture, &this->src_rect, &dst_rect);
+
+  for(const ::Sprite &sprite: this->sprites)
+  {
+    int x{(sprite.size.x - this->src_rect.x) * this->zoom};
+    int y{(sprite.size.y - this->src_rect.y) * this->zoom};
+    int w{sprite.size.w * this->zoom};
+    int h{sprite.size.h * this->zoom};
+    SDL_Rect position{x, y, w, h};
+
+    SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0x33);
+    SDL_RenderFillRect(core.renderer, &position);
+
+    SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0xff);
+    SDL_RenderDrawRect(core.renderer, &position);
+  }
 }
 
 Sprite::Sprite(SDL_Texture* texture):
