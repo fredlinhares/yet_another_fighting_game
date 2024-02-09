@@ -32,6 +32,9 @@ struct Sprite: public State::Base
   Mode::Sprite* const mode;
 
   void
+  key_down(SDL_Keycode keycode);
+
+  void
   mouse_button_down(SDL_MouseButtonEvent& b);
 
   Sprite(Mode::Sprite* mode);

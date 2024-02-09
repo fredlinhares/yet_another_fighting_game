@@ -20,37 +20,82 @@ namespace Mode
 {
 
 void
-Sprite::scroll(int x, int y)
+Sprite::correct_position()
 {
-  if(core.window_width < tex_width)
+  if(this->src_rect.x < 0) this->src_rect.x = 0;
+  else if(this->src_rect.x + this->src_rect.w > this->tex_width)
+    this->src_rect.x = this->tex_width - this->src_rect.w;
+
+  if(this->src_rect.y < 0) this->src_rect.y = 0;
+  else if(this->src_rect.y + this->src_rect.h > this->tex_height)
+    this->src_rect.y = this->tex_height - this->src_rect.h;
+}
+
+void
+Sprite::define_display_position()
+{
+  this->display_width = this->tex_width * this->zoom;
+  this->display_height = this->tex_height * this->zoom;
+
+  if(display_width < core.window_width)
   {
-    if(x > 0)
-    {
-      this->src_rect.x -= x;
-      if(this->src_rect.x < 0) this->src_rect.x = 0;
-    }
-    else if(x < 0)
-    {
-      this->src_rect.x -= x;
-      if(this->src_rect.x + core.window_width > tex_width)
-	this->src_rect.x = tex_width - core.window_width;
-    }
+    this->src_rect.w = this->tex_width / this->zoom;
+    this->dst_rect.w = display_width;
+  }
+  else
+  {
+    this->src_rect.w = core.window_width / this->zoom;
+    this->dst_rect.w = core.window_width;
   }
 
-  if(core.window_height < tex_height)
+  if(display_height < core.window_height)
   {
-    if(y > 0)
-    {
-      this->src_rect.y -= y;
-      if(this->src_rect.y < 0) this->src_rect.y = 0;
-    }
-    else if(y < 0)
-    {
-      this->src_rect.y -= y;
-      if(this->src_rect.y + core.window_height > tex_height)
-	this->src_rect.y = tex_height - core.window_height;
-    }
+    this->src_rect.h = this->tex_height / this->zoom;
+    this->dst_rect.h = display_height;
   }
+  else
+  {
+    this->src_rect.h = core.window_height / this->zoom;
+    this->dst_rect.h = core.window_height;
+  }
+}
+
+void
+Sprite::zoom_in()
+{
+  if(this->zoom >= 8) return;
+  this->zoom *= 2;
+  this->define_display_position();
+
+  this->src_rect.x += this->src_rect.w / 2;
+  this->src_rect.y += this->src_rect.h / 2;
+
+  this->correct_position();  
+}
+
+void
+Sprite::zoom_out()
+{
+  if(this->zoom <= 1) return;
+  this->zoom /= 2;
+  this->define_display_position();
+
+  this->src_rect.x -= this->src_rect.w / 4;
+  this->src_rect.y -= this->src_rect.h / 4;
+
+  this->correct_position();  
+}
+
+void
+Sprite::scroll(int x, int y)
+{
+  if(core.window_width < this->display_width)
+    this->src_rect.x -= x;
+
+  if(core.window_height < this->display_height)
+    this->src_rect.y -= y;
+
+  this->correct_position();  
 }
 
 void
@@ -67,6 +112,7 @@ Sprite::render()
 
 Sprite::Sprite(SDL_Texture* texture):
   texture{texture},
+  zoom{1},
   scroll_state{this},
   sprite_state{this}
 {
@@ -80,27 +126,7 @@ Sprite::Sprite(SDL_Texture* texture):
   this->src_rect.y = 0;
   this->dst_rect.y = 0;
 
-  if(this->tex_width < core.window_width)
-  {
-    this->src_rect.w = this->tex_width;
-    this->dst_rect.w = this->tex_width;
-  }
-  else
-  {
-    this->src_rect.w = core.window_width;
-    this->dst_rect.w = core.window_width;
-  }
-
-  if(this->tex_height < core.window_height)
-  {
-    this->src_rect.h = this->tex_height;
-    this->dst_rect.h = this->tex_height;
-  }
-  else
-  {
-    this->src_rect.h = core.window_height;
-    this->dst_rect.h = core.window_height;
-  }
+  this->define_display_position();
 }
 
 }

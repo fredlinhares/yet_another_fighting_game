@@ -29,10 +29,23 @@ class Sprite: public Base
   SDL_Texture* texture;
   SDL_Rect src_rect, dst_rect;
   int tex_width, tex_height;
+  int display_width, display_height;
+  int zoom;
+
+  void
+  correct_position();
+
+  void
+  define_display_position();
 
 public:
   State::Scroll scroll_state;
   State::Sprite sprite_state;
+
+  void
+  zoom_in();
+  void
+  zoom_out();
 
   void
   scroll(int x, int y);

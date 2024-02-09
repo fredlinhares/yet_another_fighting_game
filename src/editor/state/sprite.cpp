@@ -22,6 +22,20 @@ namespace State
 {
 
 void
+Sprite::key_down(SDL_Keycode keycode)
+{
+  switch(keycode)
+  {
+  case SDLK_e:
+    this->mode->zoom_in();
+    break;
+  case SDLK_d:
+    this->mode->zoom_out();
+    break;
+  }
+}
+
+void
 Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 {
   this->mode->current_state = &this->mode->scroll_state;
