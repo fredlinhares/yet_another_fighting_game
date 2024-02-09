@@ -61,6 +61,22 @@ Sprite::define_display_position()
 }
 
 void
+Sprite::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
+{
+  int x{(rect.x - this->src_rect.x) * this->zoom};
+  int y{(rect.y - this->src_rect.y) * this->zoom};
+  int w{rect.w * this->zoom};
+  int h{rect.h * this->zoom};
+  SDL_Rect position{x, y, w, h};
+
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0x33);
+  SDL_RenderFillRect(core.renderer, &position);
+
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0xff);
+  SDL_RenderDrawRect(core.renderer, &position);
+}
+
+void
 Sprite::zoom_in()
 {
   if(this->zoom >= 8) return;
@@ -128,17 +144,16 @@ Sprite::render()
 
   for(const ::Sprite &sprite: this->sprites)
   {
-    int x{(sprite.size.x - this->src_rect.x) * this->zoom};
-    int y{(sprite.size.y - this->src_rect.y) * this->zoom};
-    int w{sprite.size.w * this->zoom};
-    int h{sprite.size.h * this->zoom};
-    SDL_Rect position{x, y, w, h};
-
-    SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0x33);
-    SDL_RenderFillRect(core.renderer, &position);
-
-    SDL_SetRenderDrawColor(core.renderer, 0x33, 0x33, 0x99, 0xff);
-    SDL_RenderDrawRect(core.renderer, &position);
+    this->render_rect(sprite.edit_box, 0x99, 0x33, 0x33);
+    this->render_rect(sprite.size, 0x33, 0x99, 0x33);
+    this->render_rect(sprite.resize_up_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_down_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_left_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_righ_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_up_right_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_up_left_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_down_right_box, 0x33, 0x33, 0x99);
+    this->render_rect(sprite.resize_down_left_box, 0x33, 0x33, 0x99);
   }
 }
 

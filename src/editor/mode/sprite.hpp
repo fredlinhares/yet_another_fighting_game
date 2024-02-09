@@ -48,6 +48,9 @@ public:
   State::Sprite sprite_state;
 
   void
+  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+
+  void
   zoom_in();
   void
   zoom_out();
