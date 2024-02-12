@@ -21,6 +21,7 @@
 
 #include "../mode.hpp"
 #include "../sprite.hpp"
+#include "../state/resize.hpp"
 #include "../state/scroll.hpp"
 #include "../state/sprite.hpp"
 
@@ -35,8 +36,6 @@ class Sprite: public Base
   int display_width, display_height;
   int zoom;
 
-  std::vector<::Sprite> sprites;
-
   void
   correct_position();
 
@@ -44,8 +43,25 @@ class Sprite: public Base
   define_display_position();
 
 public:
+  std::vector<::Sprite> sprites;
+
+  State::Resize resize_state;
   State::Scroll scroll_state;
   State::Sprite sprite_state;
+
+  inline int
+  x(){return this->src_rect.x;};
+  inline int
+  y(){return this->src_rect.y;};
+  inline int
+  texture_width(){return this->tex_width;};
+  inline int
+  texture_height(){return this->tex_height;};
+  inline int
+  zoom_level(){return this->zoom;};
+
+  void
+  get_mouse_position(int &x, int &y);
 
   void
   render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);

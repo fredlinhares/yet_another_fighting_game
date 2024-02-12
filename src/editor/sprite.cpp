@@ -36,9 +36,9 @@ Sprite::update_box_size()
   this->resize_left_box.y = this->size.y + 2;
   this->resize_left_box.h = this->size.h - 4;
 
-  this->resize_righ_box.x = this->size.x + this->size.w - 2;
-  this->resize_righ_box.y = this->size.y + 2;
-  this->resize_righ_box.h = this->size.h - 4;
+  this->resize_right_box.x = this->size.x + this->size.w - 2;
+  this->resize_right_box.y = this->size.y + 2;
+  this->resize_right_box.h = this->size.h - 4;
 
   this->resize_up_left_box.x = this->size.x - 1;
   this->resize_up_left_box.y = this->size.y - 1;
@@ -58,7 +58,7 @@ Sprite::Sprite(int x, int y, int w, int h):
   resize_up_box{0, 0, 0, 3},
   resize_down_box{0, 0, 0, 3},
   resize_left_box{0, 0, 3, 0},
-  resize_righ_box{0, 0, 3, 0},
+  resize_right_box{0, 0, 3, 0},
   resize_up_left_box{0, 0, 3, 3},
   resize_up_right_box{0, 0, 3, 3},
   resize_down_left_box{0, 0, 3, 3},
