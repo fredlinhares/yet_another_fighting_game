@@ -19,50 +19,18 @@
 void
 Sprite::update_box_size()
 {
-  this->edit_box.x = this->size.x - 1;
-  this->edit_box.y = this->size.y - 1;
-  this->edit_box.w = this->size.w + 2;
-  this->edit_box.h = this->size.h + 2;
-
-  this->resize_up_box.x = this->size.x + 2;
-  this->resize_up_box.y = this->size.y - 1;
-  this->resize_up_box.w = this->size.w - 4;
-
-  this->resize_down_box.x = this->size.x + 2;
-  this->resize_down_box.y = this->size.y + this->size.h - 2;
-  this->resize_down_box.w = this->size.w - 4;
-
-  this->resize_left_box.x = this->size.x - 1;
-  this->resize_left_box.y = this->size.y + 2;
-  this->resize_left_box.h = this->size.h - 4;
-
-  this->resize_right_box.x = this->size.x + this->size.w - 2;
-  this->resize_right_box.y = this->size.y + 2;
-  this->resize_right_box.h = this->size.h - 4;
-
-  this->resize_up_left_box.x = this->size.x - 1;
-  this->resize_up_left_box.y = this->size.y - 1;
-
-  this->resize_up_right_box.x = this->size.x + this->size.w - 2;
-  this->resize_up_right_box.y = this->size.y - 1;
-
-  this->resize_down_left_box.x = this->size.x - 1;
-  this->resize_down_left_box.y = this->size.y + this->size.h - 2;
-
-  this->resize_down_right_box.x = this->size.x + this->size.w - 2;
-  this->resize_down_right_box.y = this->size.y + this->size.h - 2;
+  this->outer_left = this->size.x - 2;
+  this->center_left = this->size.x + 2;
+  this->outer_right = this->size.x + this->size.w + 2;
+  this->center_right = this->size.x + this->size.w - 2;
+  this->outer_up = this->size.y - 2;
+  this->center_up = this->size.y + 2;
+  this->outer_down = this->size.y + this->size.h + 2;
+  this->center_down = this->size.y + this->size.h - 2;
 }
 
 Sprite::Sprite(int x, int y, int w, int h):
-  size{x, y, w, h},
-  resize_up_box{0, 0, 0, 3},
-  resize_down_box{0, 0, 0, 3},
-  resize_left_box{0, 0, 3, 0},
-  resize_right_box{0, 0, 3, 0},
-  resize_up_left_box{0, 0, 3, 3},
-  resize_up_right_box{0, 0, 3, 3},
-  resize_down_left_box{0, 0, 3, 3},
-  resize_down_right_box{0, 0, 3, 3}
+  size{x, y, w, h}
 {
   this->update_box_size();
 }

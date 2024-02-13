@@ -65,18 +65,18 @@ Fighter::tick()
 {
   // Set direction.
   { // Eliminate self-contradicting input like left-right movement.
-    Input::Direction vertical_direction{Input::Direction::none};
-    Input::Direction horizontal_direction{Input::Direction::none};
+    Direction vertical_direction{Direction::none};
+    Direction horizontal_direction{Direction::none};
 
     if(this->current_direction[Input::DIRECTION_INDEX_UP])
-      vertical_direction = Input::Direction::up;
+      vertical_direction = Direction::up;
     else if(this->current_direction[Input::DIRECTION_INDEX_DOWN])
-      vertical_direction = Input::Direction::down;
+      vertical_direction = Direction::down;
 
     if(this->current_direction[Input::DIRECTION_INDEX_LEFT])
-      horizontal_direction = Input::Direction::left;
+      horizontal_direction = Direction::left;
     else if(this->current_direction[Input::DIRECTION_INDEX_RIGHT])
-      horizontal_direction = Input::Direction::right;
+      horizontal_direction = Direction::right;
 
     this->effective_direction = vertical_direction + horizontal_direction;
   }
@@ -150,14 +150,14 @@ Fighter::Fighter():
   current_direction{},
   moves{
     {"Fireball",
-     {Input::MoveNode(false, Input::Direction::down),
-      Input::MoveNode(false, Input::Direction::down_right),
-      Input::MoveNode(false, Input::Direction::right),
+     {Input::MoveNode(false, Direction::down),
+      Input::MoveNode(false, Direction::down_right),
+      Input::MoveNode(false, Direction::right),
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
     {"Uppercut",
-     {Input::MoveNode(false, Input::Direction::right),
-      Input::MoveNode(false, Input::Direction::down),
-      Input::MoveNode(false, Input::Direction::down_right),
+     {Input::MoveNode(false, Direction::right),
+      Input::MoveNode(false, Direction::down),
+      Input::MoveNode(false, Direction::down_right),
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
   this->set_state(STAND_STATE);

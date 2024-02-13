@@ -39,17 +39,17 @@ WalkState::tick()
 
   switch(this->fighter->effective_direction)
   {
-  case Input::Direction::left:
+  case Direction::left:
     this->fighter->x -= SPEED;
     this->fighter->collide_left();
     break;
-  case Input::Direction::right:
+  case Direction::right:
     this->fighter->x += SPEED;
     this->fighter->collide_right();
     break;
-  case Input::Direction::up:
-  case Input::Direction::up_left:
-  case Input::Direction::up_right:
+  case Direction::up:
+  case Direction::up_left:
+  case Direction::up_right:
     this->fighter->set_state(JUMP_STATE);
     break;
   default:

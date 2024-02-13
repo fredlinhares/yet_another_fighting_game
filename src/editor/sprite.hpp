@@ -21,10 +21,9 @@
 
 struct Sprite
 {
+  int outer_left, center_left, outer_right, center_right, outer_up,
+    center_up, outer_down, center_down;
   SDL_Rect size;
-  SDL_Rect edit_box, resize_up_box, resize_down_box, resize_left_box,
-    resize_right_box, resize_up_right_box, resize_up_left_box,
-    resize_down_right_box, resize_down_left_box;
 
   void
   update_box_size();

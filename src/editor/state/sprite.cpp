@@ -16,19 +16,8 @@
 
 #include "sprite.hpp"
 
+#include "../../common/direction.hpp"
 #include "../mode/sprite.hpp"
-
-namespace
-{
-
-inline bool
-rect_clicked(const SDL_Rect &rect, int x, int y)
-{
-  return (x >= rect.x) && (x <= (rect.x + rect.w)) &&
-    (y >= rect.y) && (y <= (rect.y + rect.h));
-}
-
-}
 
 namespace State
 {
@@ -59,60 +48,81 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
   for(int i{0}; i < this->mode->sprites.size(); i++)
   {
     ::Sprite *sprite{&this->mode->sprites[0]};
-    if(rect_clicked(sprite->edit_box, x, y))
+    Direction vertical_direction{Direction::none};
+    Direction horizontal_direction{Direction::none};
+    Direction direction;
+
+    if(x > sprite->outer_left)
+    {
+      if(x < sprite->center_left)
+	horizontal_direction = Direction::left;
+      else if(x < sprite->center_right)
+	horizontal_direction = Direction::none;
+      else if(x < sprite->outer_right)
+	horizontal_direction = Direction::right;
+    }
+
+    if(y > sprite->outer_up)
+    {
+      if(y < sprite->center_up)
+	vertical_direction = Direction::up;
+      else if(y < sprite->center_down)
+	vertical_direction = Direction::none;
+      else if(y < sprite->outer_down)
+	vertical_direction = Direction::down;
+    }
+
+    direction = vertical_direction + horizontal_direction;
+
+    if(direction != Direction::none)
     {
       this->mode->resize_state.sprite = sprite;
 
       this->mode->resize_state.horizontal_move = nullptr;
       this->mode->resize_state.vertical_move = nullptr;
 
-      if(rect_clicked(sprite->resize_up_box, x, y))
+      switch(direction)
       {
+      case Direction::up:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::up_corner;
-      }
-      else if(rect_clicked(sprite->resize_down_box, x, y))
-      {
+	break;
+      case Direction::down:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::down_corner;
-      }
-      else if(rect_clicked(sprite->resize_left_box, x, y))
-      {
+	break;
+      case Direction::left:
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::left_corner;
-      }
-      else if(rect_clicked(sprite->resize_right_box, x, y))
-      {
+	break;
+      case Direction::right:
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::right_corner;
-      }
-      else if(rect_clicked(sprite->resize_up_right_box, x, y))
-      {
+	break;
+      case Direction::up_right:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::up_corner;
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::right_corner;
-      }
-      else if(rect_clicked(sprite->resize_up_left_box, x, y))
-      {
+	break;
+      case Direction::up_left:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::up_corner;
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::left_corner;
-      }
-      else if(rect_clicked(sprite->resize_down_right_box, x, y))
-      {
+	break;
+      case Direction::down_right:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::down_corner;
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::right_corner;
-      }
-      else if(rect_clicked(sprite->resize_down_left_box, x, y))
-      {
+	break;
+      case Direction::down_left:
 	this->mode->resize_state.vertical_move =
 	  &State::Resize::down_corner;
 	this->mode->resize_state.horizontal_move =
 	  &State::Resize::left_corner;
+	break;
       }
 
       this->mode->current_state = &this->mode->resize_state;

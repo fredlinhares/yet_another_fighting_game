@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-#include "direction.hpp"
+#ifndef YAFG_DIRECTION_H
+#define YAFG_DIRECTION_H 1
 
-namespace Input
+#include <cstdint>
+
+enum class Direction: uint8_t
 {
+  none = 0,
+  up = 1,
+  down = 2,
+  left = 3,
+  right = 6,
+  up_left = 4,
+  up_right = 7,
+  down_left = 5,
+  down_right = 8
+};
 
 Direction
-operator+(const Direction &a, const Direction &b)
-{
-  return static_cast<Direction>(
-    static_cast<uint8_t>(a) + static_cast<uint8_t>(b));
-}
+operator+(const Direction &a, const Direction &b);
 
-}
+#endif /* YAFG_DIRECTION_H */

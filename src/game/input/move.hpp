@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "config.hpp"
-#include "direction.hpp"
+#include "../../common/direction.hpp"
 
 namespace Input
 {

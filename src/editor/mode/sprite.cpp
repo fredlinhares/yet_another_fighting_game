@@ -150,18 +150,7 @@ Sprite::render()
     core.renderer, this->texture, &this->src_rect, &dst_rect);
 
   for(const ::Sprite &sprite: this->sprites)
-  {
-    this->render_rect(sprite.edit_box, 0x99, 0x33, 0x33);
     this->render_rect(sprite.size, 0x33, 0x99, 0x33);
-    this->render_rect(sprite.resize_up_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_down_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_left_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_right_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_up_right_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_up_left_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_down_right_box, 0x33, 0x33, 0x99);
-    this->render_rect(sprite.resize_down_left_box, 0x33, 0x33, 0x99);
-  }
 }
 
 Sprite::Sprite(SDL_Texture* texture):

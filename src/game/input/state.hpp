@@ -18,7 +18,7 @@
 #define YAFG_INPUT_STATE_H 1
 
 #include "config.hpp"
-#include "direction.hpp"
+#include "../../common/direction.hpp"
 
 namespace Input
 {

@@ -51,7 +51,7 @@ public:
 
   Input::AttackState last_attack, current_attack;
   Input::DirectionState current_direction;
-  Input::Direction effective_direction;
+  Direction effective_direction;
   Input::Ring input_ring;
   std::vector<Input::Move> moves;
 
