@@ -17,7 +17,7 @@
 #ifndef YAFG_ENTITY_STAND_STATE_H
 #define YAFG_ENTITY_STAND_STATE_H 1
 
-#include "../graphics/animation.hpp"
+#include "../../common/graphics/animation.hpp"
 #include "state.hpp"
 
 namespace Entity

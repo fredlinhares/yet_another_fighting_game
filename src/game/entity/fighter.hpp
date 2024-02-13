@@ -22,8 +22,8 @@
 #include <vector>
 
 #include "../../common/core.hpp"
+#include "../../common/graphics/frame.hpp"
 #include "../../common/graphics/texture.hpp"
-#include "../graphics/sprite.hpp"
 #include "../input/config.hpp"
 #include "../input/move.hpp"
 #include "../input/ring.hpp"
@@ -39,7 +39,7 @@ constexpr int JUMP_STATE = 2;
 class Fighter
 {
   SDL_Texture *texture;
-  std::vector<Graphics::Sprite> sprites;
+  std::vector<Graphics::Frame> frames;
 
   std::vector<State*> states;
   State* current_state;

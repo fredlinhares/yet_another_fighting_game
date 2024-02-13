@@ -20,9 +20,9 @@ namespace Entity
 {
 
 
-State::State(Fighter *f, int sprite_index):
+State::State(Fighter *f, int frame_index):
   fighter{f},
-  sprite_index{sprite_index}
+  frame_index{frame_index}
 {
 }
 

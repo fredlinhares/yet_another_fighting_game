@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-#include "sprite.hpp"
+#ifndef YAFG_PARSER_H
+#define YAFG_PARSER_H 1
 
-namespace Graphics
+#include <vector>
+
+#include "graphics/frame.hpp"
+
+namespace Parse
 {
 
-Sprite::Sprite(int pivot_x, int pivot_y, int x, int y, int w, int h):
-  x{pivot_x},
-  y{pivot_y},
-  rect{x, y, w, h}
-{
-}
+void
+frames(std::vector<Graphics::Frame> *frames, const char *file_name);
 
 }
+
+#endif /* YAFG_PARSER_H */

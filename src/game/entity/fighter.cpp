@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "../../common/parser.hpp"
 #include "../mode/fight.hpp"
 #include "jump_state.hpp"
 #include "stand_state.hpp"
@@ -103,15 +104,15 @@ Fighter::tick()
 void
 Fighter::render()
 {
-  Graphics::Sprite *sprite{&this->sprites[this->current_state->sprite_index]};
+  Graphics::Frame *frame{&this->frames[this->current_state->frame_index]};
   SDL_Rect destination{
-    this->x + sprite->x,
-    this->y + sprite->y,
-    sprite->rect.w,
-    sprite->rect.h
+    this->x + frame->x,
+    this->y + frame->y,
+    frame->sprite.w,
+    frame->sprite.h
   };
 
-  SDL_RenderCopy(core.renderer, this->texture, &sprite->rect, &destination);
+  SDL_RenderCopy(core.renderer, this->texture, &frame->sprite, &destination);
 }
 
 void
@@ -123,21 +124,6 @@ Fighter::set_state(int state)
 
 Fighter::Fighter():
   texture{Graphics::Texture::load("img/sprites.png")},
-  sprites{
-    // Idle
-    {-31, -124, 19, 0, 87, 125},
-    {-31, -124, 121, 0, 79, 125},
-    {-31, -122, 204, 2, 71, 123},
-    {-31, -124, 284, 0, 97, 125},
-
-    // Walk
-    {-20, -127, 19, 260, 40, 128},
-    {-20, -124, 68, 263, 72, 125},
-    {-20, -126, 147, 261, 63, 127},
-    {-20, -127, 213, 260, 44, 128},
-    {-20, -124, 261, 264, 66, 125},
-
-    {-32, -100, 661, 1013, 64, 95}},
   states{
     new StandState{this},
     new WalkState{this},
@@ -160,6 +146,7 @@ Fighter::Fighter():
       Input::MoveNode(false, Direction::down_right),
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
+  Parse::frames(&this->frames, "fighters/default/frames.conf");
   this->set_state(STAND_STATE);
 }
 

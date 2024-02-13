@@ -24,7 +24,7 @@ namespace Entity
 void
 StandState::tick()
 {
-  this->sprite_index = this->animation.tick();
+  this->frame_index = this->animation.tick();
 
   switch(this->fighter->effective_direction)
   {
