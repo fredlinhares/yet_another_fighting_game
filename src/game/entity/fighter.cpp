@@ -123,7 +123,7 @@ Fighter::set_state(int state)
 }
 
 Fighter::Fighter():
-  texture{Graphics::Texture::load("img/sprites.png")},
+  texture{Graphics::Texture::load("fighters/default/sprites.png")},
   states{
     new StandState{this},
     new WalkState{this},
