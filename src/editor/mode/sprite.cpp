@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include "../../common/parser.hpp"
+#include "../main.hpp"
 #include "sprite.hpp"
 
 namespace Mode
@@ -147,14 +149,13 @@ void
 Sprite::render()
 {
   SDL_RenderCopy(
-    core.renderer, this->texture, &this->src_rect, &dst_rect);
+    core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
   for(const ::Sprite &sprite: this->sprites)
     this->render_rect(sprite.size, 0x33, 0x99, 0x33);
 }
 
-Sprite::Sprite(SDL_Texture* texture):
-  texture{texture},
+Sprite::Sprite():
   zoom{1},
   resize_state{this},
   scroll_state{this},
@@ -162,8 +163,19 @@ Sprite::Sprite(SDL_Texture* texture):
 {
   this->current_state = &this->sprite_state;
 
+  { // Load sprites
+    std::vector<Graphics::Frame> frames;
+    std::string frame_path{
+      "./fighters/" + editor_state->character + "/frames.conf"};
+    Parse::frames(&frames, frame_path.c_str());
+    this->sprites.reserve(frames.size());
+
+    for(Graphics::Frame &f: frames)
+      this->sprites.emplace_back(f);
+  }
+
   SDL_QueryTexture(
-    this->texture, nullptr, nullptr, &tex_width, &tex_height);
+    editor_state->texture, nullptr, nullptr, &tex_width, &tex_height);
 
   this->src_rect.x = 0;
   this->dst_rect.x = 0;

@@ -30,7 +30,6 @@ namespace Mode
 
 class Sprite: public Base
 {
-  SDL_Texture* texture;
   SDL_Rect src_rect, dst_rect;
   int tex_width, tex_height;
   int display_width, display_height;
@@ -82,7 +81,7 @@ public:
   void
   render();
 
-  Sprite(SDL_Texture* texture);
+  Sprite();
 };
 
 }

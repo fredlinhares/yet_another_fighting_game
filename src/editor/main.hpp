@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_SPRITE_H
-#define YAFCE_SPRITE_H 1
+#include <string>
 
-#include "../common/core.hpp"
-#include "../common/graphics/frame.hpp"
+#include "../common/main.hpp"
 
-struct Sprite
+struct EditorState
 {
-  int outer_left, center_left, outer_right, center_right, outer_up,
-    center_up, outer_down, center_down;
-  SDL_Rect size;
-
-  void
-  update_box_size();
-
-  Sprite(int x, int y, int w, int h);
-  Sprite(const Graphics::Frame &frame);
+  std::string character;
+  SDL_Texture *texture;
 };
 
-#endif /* YAFCE_SPRITE_H */
+extern EditorState *editor_state;

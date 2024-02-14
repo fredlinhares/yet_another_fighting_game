@@ -17,8 +17,10 @@
 #include <iostream>
 
 #include "../common/graphics/texture.hpp"
-#include "../common/main.hpp"
+#include "main.hpp"
 #include "mode/sprite.hpp"
+
+EditorState *editor_state;
 
 int
 main(int argc, char *argv[])
@@ -27,6 +29,8 @@ main(int argc, char *argv[])
   core.window_width = 1280;
   core.window_height = 720;
   core.init();
+
+  editor_state = new EditorState();
 
   SDL_Texture* sprites;
   { // Parse args
@@ -37,10 +41,13 @@ main(int argc, char *argv[])
       return 1;
     }
 
-    sprites = Graphics::Texture::load(argv[1]);
+    editor_state->character = argv[1];
+    std::string texture_path{
+      "./fighters/" + editor_state->character + "/sprites.png"};
+    editor_state->texture = Graphics::Texture::load(texture_path.c_str());
   }
 
-  Mode::Base *game_mode = new Mode::Sprite{sprites};
+  Mode::Base *game_mode = new Mode::Sprite{};
 
   { // main loop
     SDL_Event event;
@@ -98,7 +105,8 @@ main(int argc, char *argv[])
   }
 
   delete game_mode;
-  SDL_DestroyTexture(sprites);
+  SDL_DestroyTexture(editor_state->texture);
+  delete editor_state;
   core.finish();
 
   return 0;

@@ -34,3 +34,8 @@ Sprite::Sprite(int x, int y, int w, int h):
 {
   this->update_box_size();
 }
+
+Sprite::Sprite(const Graphics::Frame &frame):
+  Sprite{frame.sprite.x, frame.sprite.y, frame.sprite.w, frame.sprite.h}
+{
+}
