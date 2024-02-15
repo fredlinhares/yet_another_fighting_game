@@ -17,6 +17,8 @@
 #ifndef YAFG_MODE_FIGHT_H
 #define YAFG_MODE_FIGHT_H 1
 
+#include <array>
+
 #include "../mode.hpp"
 #include "../entity/fighter.hpp"
 #include "../input/config.hpp"
@@ -28,7 +30,7 @@ struct Fight : public Base
 {
   static constexpr int FLOOR_POSITION{203};
 
-  Entity::Fighter player1;
+  std::array<Entity::Fighter, 2> player;
 
   void
   key_down(SDL_Keycode keycode);

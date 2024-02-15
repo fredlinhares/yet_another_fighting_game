@@ -70,37 +70,39 @@ namespace Mode
 void
 Fight::key_down(SDL_Keycode keycode)
 {
-  change_key_state(this->player1, keycode, true);
+  change_key_state(this->player[0], keycode, true);
 }
 
 void
 Fight::key_up(SDL_Keycode keycode)
 {
-  change_key_state(this->player1, keycode, false);
+  change_key_state(this->player[0], keycode, false);
 }
 
 void
 Fight::joybutton_down(Uint8 player, Uint8 button)
 {
-  change_button_state(this->player1, button, true);
+  change_button_state(this->player[player], button, true);
 }
 
 void
 Fight::joybutton_up(Uint8 player, Uint8 button)
 {
-  change_button_state(this->player1, button, false);
+  change_button_state(this->player[player], button, false);
 }
 
 void
 Fight::tick()
 {
-  player1.tick();
+  player[0].tick();
+  player[1].tick();
 }
 
 void
 Fight::render()
 {
-  player1.render();
+  player[0].render();
+  player[1].render();
 }
 
 Fight::Fight()

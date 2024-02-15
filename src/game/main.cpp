@@ -139,11 +139,12 @@ main()
 	  game_mode->key_up(event.key.keysym.sym);
 	  break;
 	case SDL_JOYBUTTONDOWN:
-	  // event.jbutton.which == joystick1_id
-	  game_mode->joybutton_down(0, event.jbutton.button);
+	  game_mode->joybutton_down(
+	    event.jbutton.which == joystick1_id, event.jbutton.button);
 	  break;
 	case SDL_JOYBUTTONUP:
-	  game_mode->joybutton_up(0, event.jbutton.button);
+	  game_mode->joybutton_up(
+	    event.jbutton.which == joystick1_id, event.jbutton.button);
 	  break;
 	}
       }
