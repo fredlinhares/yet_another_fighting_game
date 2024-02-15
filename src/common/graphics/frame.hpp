@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_GRAPHICS_FRAME_H
-#define YAFG_GRAPHICS_FRAME_H 1
+#ifndef YAFC_GRAPHICS_FRAME_H
+#define YAFC_GRAPHICS_FRAME_H 1
 
 #include "../../common/core.hpp"
 
@@ -44,4 +44,4 @@ struct Frame
 
 }
 
-#endif /* YAFG_GRAPHICS_FRAME_H */
+#endif /* YAFC_GRAPHICS_FRAME_H */

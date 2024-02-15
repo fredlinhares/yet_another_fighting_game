@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_COMMAND_CHAIN_H
-#define YAFG_COMMAND_CHAIN_H 1
+#ifndef YAFC_COMMAND_CHAIN_H
+#define YAFC_COMMAND_CHAIN_H 1
 
 #include <cstdint>
 #include <initializer_list>
@@ -89,4 +89,4 @@ public:
 
 };
 
-#endif /* YAFG_COMMAND_CHAIN_H */
+#endif /* YAFC_COMMAND_CHAIN_H */

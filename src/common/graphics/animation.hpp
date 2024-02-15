@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_GRAPHICS_ANIMATION_H
-#define YAFG_GRAPHICS_ANIMATION_H 1
+#ifndef YAFC_GRAPHICS_ANIMATION_H
+#define YAFC_GRAPHICS_ANIMATION_H 1
 
 #include <vector>
 
@@ -51,4 +51,4 @@ public:
 
 }
 
-#endif /* YAFG_GRAPHICS_ANIMATION_H */
+#endif /* YAFC_GRAPHICS_ANIMATION_H */

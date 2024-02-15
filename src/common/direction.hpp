@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_DIRECTION_H
-#define YAFG_DIRECTION_H 1
+#ifndef YAFC_DIRECTION_H
+#define YAFC_DIRECTION_H 1
 
 #include <cstdint>
 
@@ -35,4 +35,4 @@ enum class Direction: uint8_t
 Direction
 operator+(const Direction &a, const Direction &b);
 
-#endif /* YAFG_DIRECTION_H */
+#endif /* YAFC_DIRECTION_H */

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_GRAPHICS_TEXTURE_H
-#define YAFG_GRAPHICS_TEXTURE_H 1
+#ifndef YAFC_GRAPHICS_TEXTURE_H
+#define YAFC_GRAPHICS_TEXTURE_H 1
 
 #include "../../common/core.hpp"
 
@@ -27,4 +27,4 @@ load(const char *file_path);
 
 }
 
-#endif /* YAFG_GRAPHICS_TEXTURE_H */
+#endif /* YAFC_GRAPHICS_TEXTURE_H */

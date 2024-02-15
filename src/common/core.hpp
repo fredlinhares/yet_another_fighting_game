@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_CORE_H
-#define YAFG_CORE_H 1
+#ifndef YAFC_CORE_H
+#define YAFC_CORE_H 1
 
 #define SDL_MAIN_HANDLED
 
@@ -40,4 +40,4 @@ struct Core
 
 extern Core core;
 
-#endif /* YAFG_CORE_H */
+#endif /* YAFC_CORE_H */

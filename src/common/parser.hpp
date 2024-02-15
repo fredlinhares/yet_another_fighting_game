@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_PARSER_H
-#define YAFG_PARSER_H 1
+#ifndef YAFC_PARSER_H
+#define YAFC_PARSER_H 1
 
 #include <vector>
 
@@ -29,4 +29,4 @@ frames(std::vector<Graphics::Frame> *frames, const char *file_name);
 
 }
 
-#endif /* YAFG_PARSER_H */
+#endif /* YAFC_PARSER_H */
