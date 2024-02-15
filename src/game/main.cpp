@@ -18,7 +18,24 @@
 #include "input.hpp"
 #include "mode/fight.hpp"
 
-InputConfig input_config;
+InputConfig *input_config;
+
+namespace
+{
+
+// FIXME: These values are bases on the PS4 controller only.
+// This code need to be tested with different controllers.
+constexpr Uint8 JOYSTICK_UP{11};
+constexpr Uint8 JOYSTICK_DOWN{12};
+constexpr Uint8 JOYSTICK_LEFT{13};
+constexpr Uint8 JOYSTICK_RIGHT{14};
+
+constexpr Uint8 JOYSTICK_LIGHT_PUNCH{2};
+constexpr Uint8 JOYSTICK_HEAVY_PUNCH{3};
+constexpr Uint8 JOYSTICK_LIGHT_KICK{0};
+constexpr Uint8 JOYSTICK_HEAVY_KICK{1};
+
+}
 
 int
 main()
@@ -28,16 +45,75 @@ main()
   core.window_height = 224;
   core.init();
 
-  input_config.player1 = new Input::Config{
+  input_config = new InputConfig{
+    Input::ConfigKeyboard{
     {SDLK_e, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_UP}},
-    {SDLK_d, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_DOWN}},
-    {SDLK_s, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_LEFT}},
-    {SDLK_f, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_RIGHT}},
-    {SDLK_j, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_PUNCH}},
-    {SDLK_k, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_KICK}},
-    {SDLK_l, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_PUNCH}},
-    {SDLK_SEMICOLON,
-     {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_KICK}}};
+     {SDLK_d, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_DOWN}},
+     {SDLK_s, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_LEFT}},
+     {SDLK_f, {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_RIGHT}},
+     {SDLK_j, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_PUNCH}},
+     {SDLK_k, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_KICK}},
+     {SDLK_l, {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_PUNCH}},
+     {SDLK_SEMICOLON,
+      {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_KICK}}},
+
+    std::array<Input::ConfigJoystick, 2>{
+      Input::ConfigJoystick{
+	{JOYSTICK_UP,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_UP}},
+	{JOYSTICK_DOWN,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_DOWN}},
+	{JOYSTICK_LEFT,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_LEFT}},
+	{JOYSTICK_RIGHT,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_RIGHT}},
+	{JOYSTICK_LIGHT_PUNCH,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_PUNCH}},
+	{JOYSTICK_HEAVY_PUNCH,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_PUNCH}},
+	{JOYSTICK_LIGHT_KICK,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_KICK}},
+	{JOYSTICK_HEAVY_KICK,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_KICK}}},
+
+      Input::ConfigJoystick{
+	{JOYSTICK_UP,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_UP}},
+	{JOYSTICK_DOWN,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_DOWN}},
+	{JOYSTICK_LEFT,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_LEFT}},
+	{JOYSTICK_RIGHT,
+	 {Input::TYPE_INDEX_DIRECTION, Input::DIRECTION_INDEX_RIGHT}},
+	{JOYSTICK_LIGHT_PUNCH,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_PUNCH}},
+	{JOYSTICK_HEAVY_PUNCH,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_PUNCH}},
+	{JOYSTICK_LIGHT_KICK,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_LIGHT_KICK}},
+	{JOYSTICK_HEAVY_KICK,
+	 {Input::TYPE_INDEX_ATTACK, Input::ATTACK_INDEX_HEAVY_KICK}}}}
+    };
+
+  SDL_Joystick *joystick1{nullptr};
+  SDL_Joystick *joystick2{nullptr};
+
+  SDL_JoystickID joystick1_id;
+  SDL_JoystickID joystick2_id;
+
+  int num_joysticks = SDL_NumJoysticks();
+  if(num_joysticks == 1)
+  {
+    joystick1 = SDL_JoystickOpen(0);
+    joystick1_id = SDL_JoystickInstanceID(joystick1);
+  }
+  else if(num_joysticks > 1)
+  {
+    joystick1 = SDL_JoystickOpen(0);
+    joystick2 = SDL_JoystickOpen(1);
+    joystick1_id = SDL_JoystickInstanceID(joystick1);
+    joystick2_id = SDL_JoystickInstanceID(joystick2);
+  }
 
   Mode::Base *game_mode = new Mode::Fight{};
 
@@ -62,6 +138,13 @@ main()
 	case SDL_KEYUP:
 	  game_mode->key_up(event.key.keysym.sym);
 	  break;
+	case SDL_JOYBUTTONDOWN:
+	  // event.jbutton.which == joystick1_id
+	  game_mode->joybutton_down(0, event.jbutton.button);
+	  break;
+	case SDL_JOYBUTTONUP:
+	  game_mode->joybutton_up(0, event.jbutton.button);
+	  break;
 	}
       }
 
@@ -81,8 +164,10 @@ main()
     }
   }
 
+  SDL_JoystickClose(joystick1);
+  SDL_JoystickClose(joystick2);
   delete game_mode;
-  delete input_config.player1;
+  delete input_config;
   core.finish();
 
   return 0;

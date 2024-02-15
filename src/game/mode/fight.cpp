@@ -25,10 +25,30 @@ namespace
 inline void
 change_key_state(Entity::Fighter &player1, SDL_Keycode keycode, bool state)
 {
-  if(input_config.player1->contains(keycode))
+  if(input_config->player_keyboard.contains(keycode))
   {
-    uint8_t input_type = input_config.player1->at(keycode)[0];
-    uint8_t input_bit = input_config.player1->at(keycode)[1];
+    uint8_t input_type = input_config->player_keyboard.at(keycode)[0];
+    uint8_t input_bit = input_config->player_keyboard.at(keycode)[1];
+
+    switch(input_type)
+    {
+    case Input::TYPE_INDEX_DIRECTION:
+      player1.current_direction[input_bit] = state;
+      break;
+    case Input::TYPE_INDEX_ATTACK:
+      player1.current_attack[input_bit] = state;
+      break;
+    }
+  }
+}
+
+inline void
+change_button_state(Entity::Fighter &player1, Uint8 keycode, bool state)
+{
+  if(input_config->player_joystick[0].contains(keycode))
+  {
+    uint8_t input_type = input_config->player_joystick[0].at(keycode)[0];
+    uint8_t input_bit = input_config->player_joystick[0].at(keycode)[1];
 
     switch(input_type)
     {
@@ -57,6 +77,18 @@ void
 Fight::key_up(SDL_Keycode keycode)
 {
   change_key_state(this->player1, keycode, false);
+}
+
+void
+Fight::joybutton_down(Uint8 player, Uint8 button)
+{
+  change_button_state(this->player1, button, true);
+}
+
+void
+Fight::joybutton_up(Uint8 player, Uint8 button)
+{
+  change_button_state(this->player1, button, false);
 }
 
 void

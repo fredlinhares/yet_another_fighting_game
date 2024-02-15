@@ -56,7 +56,9 @@ constexpr uint8_t ATTACK_INDEX_LIGHT_KICK = 3;
 
 typedef std::bitset<4> AttackState;
 typedef std::bitset<4> DirectionState;
-typedef std::unordered_map<uint32_t, std::array<uint8_t, 2>> Config;
+
+typedef std::unordered_map<uint32_t, std::array<uint8_t, 2>> ConfigKeyboard;
+typedef std::unordered_map<uint8_t, std::array<uint8_t, 2>> ConfigJoystick;
 
 }
 

@@ -14,37 +14,12 @@
  * limitations under the License.
  */
 
-#ifndef YAFG_MODE_H
-#define YAFG_MODE_H 1
+#include "input.hpp"
 
-#include "../common/core.hpp"
-
-namespace Mode
+InputConfig::InputConfig(
+  Input::ConfigKeyboard player_keyboard,
+  std::array<Input::ConfigJoystick, 2> player_joystick):
+  player_keyboard{player_keyboard},
+  player_joystick{player_joystick}
 {
-
-struct Base
-{
-  virtual void
-  key_down(SDL_Keycode keycode) = 0;
-  virtual void
-  key_up(SDL_Keycode keycode) = 0;
-
-  virtual void
-  joybutton_down(Uint8 player, Uint8 button) = 0;
-  virtual void
-  joybutton_up(Uint8 player, Uint8 button) = 0;
-
-  virtual void
-  tick() = 0;
-
-  virtual void
-  render() = 0;
-
-  virtual
-  ~Base(){};
-};
-
 }
-
-
-#endif /* YAFG_MODE_H */

@@ -21,10 +21,15 @@
 
 struct InputConfig
 {
-  Input::Config *player1;
-  Input::Config *player2;
+  Input::ConfigKeyboard player_keyboard;
+
+  std::array<Input::ConfigJoystick, 2> player_joystick;
+
+  InputConfig(
+    Input::ConfigKeyboard player_keyboard,
+    std::array<Input::ConfigJoystick, 2> player_joystick);
 };
 
-extern InputConfig input_config;
+extern InputConfig *input_config;
 
 #endif /* YAFG_INPUT_H */

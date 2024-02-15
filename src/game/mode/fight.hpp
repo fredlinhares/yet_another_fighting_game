@@ -34,6 +34,12 @@ struct Fight : public Base
   key_down(SDL_Keycode keycode);
   void
   key_up(SDL_Keycode keycode);
+
+  void
+  joybutton_down(Uint8 player, Uint8 button);
+  void
+  joybutton_up(Uint8 player, Uint8 button);
+
   void
   tick();
   void
