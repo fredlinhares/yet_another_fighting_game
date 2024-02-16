@@ -42,11 +42,7 @@ StandState::tick()
 
 StandState::StandState(Fighter *f):
   State{f, 0},
-  animation{true, {
-    {45, 0},
-    {45, 1},
-    {45, 2},
-    {45, 3}}}
+  animation{true, {}}
 {
 }
 

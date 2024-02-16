@@ -144,10 +144,7 @@ Fighter::set_state(int state)
 
 Fighter::Fighter(Direction facing_direction, int x):
   texture{Graphics::Texture::load("fighters/default/sprites.png")},
-  states{
-    new StandState{this},
-    new WalkState{this},
-    new JumpState{this}},
+  states{},
   half_width{31},
   facing_direction{facing_direction},
   x{x},
@@ -168,6 +165,21 @@ Fighter::Fighter(Direction facing_direction, int x):
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
   Parse::frames(&this->frames, "fighters/default/frames.conf");
+
+	auto stand_state = new StandState{this};
+	auto walk_state = new WalkState{this};
+	auto jump_state = new JumpState{this};
+
+	std::unordered_map<std::string, Graphics::Animation*> animations;
+	animations.insert({"standing_idle", &stand_state->animation});
+	animations.insert({"walking_foward", &walk_state->animation});
+	Parse::animations(&animations, "fighters/default/animations.conf");
+
+	this->states.reserve(3);
+	this->states.insert(this->states.begin() + STAND_STATE, stand_state);
+	this->states.insert(this->states.begin() + WALK_STATE, walk_state);
+	this->states.insert(this->states.begin() + JUMP_STATE, jump_state);
+
   this->set_state(STAND_STATE);
 }
 

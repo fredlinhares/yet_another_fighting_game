@@ -19,6 +19,13 @@
 namespace Graphics
 {
 
+AnimationFrame*
+Animation::add_frame()
+{
+  this->frames.emplace_back();
+  return &this->frames.back();
+}
+
 void
 Animation::reset()
 {

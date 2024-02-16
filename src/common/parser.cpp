@@ -25,11 +25,14 @@
 
 namespace
 {
-  const std::regex re_title{"^\\[([0-9]+)\\]$"};
+  const std::regex re_title_num{"^\\[([0-9]+)\\]$"};
+  const std::regex re_title_text{"^\\[([a-zA-Z_]+)\\]$"};
   const std::regex re_key_value{"^([a-zA-Z]+)\\s*=\\s*([0-9a-zA-Z,\\-\\s]+)$"};
+  const std::regex re_number{"\\s*(\\-*[0-9]+)\\s*"};
+  const std::regex re_number_sequence{"\\s*(\\-*[0-9]+)[\\s,]*"};
+  const std::regex re_frame{"^\\s*frame\\s*$"};
   const std::regex re_comment{"^\\s*#"};
   const std::regex re_empty{"^\\s*$"};
-  const std::regex re_number{"\\s*(\\-*[0-9]+)[\\s,]*"};
 
   void
   extract_numbers(int *nums, const int quantity, const char *string)
@@ -38,7 +41,7 @@ namespace
     std::smatch match;
     std::string text{string};
 
-    while(std::regex_search(text, match, re_number))
+    while(std::regex_search(text, match, re_number_sequence))
     {
       nums[index] = std::atoi(match[1].str().c_str());
 
@@ -47,6 +50,18 @@ namespace
       text = match.suffix().str();
     }
   }
+
+void
+throw_parsing_error(const char *file, int line)
+{
+  std::string error{"Error while parsing file: \""};
+  error += file;
+  error += "\" on line: ";
+  error += std::to_string(line);
+  error += ".";
+  throw std::runtime_error{error};
+}
+
 }
 
 namespace Parse
@@ -100,7 +115,7 @@ frames(std::vector<Graphics::Frame> *frames, const char *file_name)
 	current_frame->set_collision(nums[0], nums[1], nums[2], nums[3]);
       }
     }
-    else if(std::regex_match(line, match, re_title))
+    else if(std::regex_match(line, match, re_title_num))
     {
       int index{std::atoi(match[1].str().c_str())};
       if(frames->size() < index + 1) frames->resize(index + 1);
@@ -111,15 +126,67 @@ frames(std::vector<Graphics::Frame> *frames, const char *file_name)
     else if(std::regex_match(line, match, re_empty))
       continue;
     else
-    {
-      std::string error{"Error while parsing file: \""};
-      error += file_name;
-      error += "\" on line: ";
-      error += std::to_string(num_line);
-      error += ".";
-      throw std::runtime_error{error};
-    }
+      throw_parsing_error(file_name, num_line);
   }
+}
+
+void
+animations(
+	std::unordered_map<std::string, Graphics::Animation*> *animations,
+	const char *file_name, bool create_animation)
+{
+	std::ifstream input{file_name};
+
+	// In a malformed frame file, it can write attributes before defining a valid
+	// frame. To prevent segmentation fault, the unused data goes to this frame.
+	Graphics::Animation unused_animation{false, {}};
+	Graphics::Animation *current_animation{&unused_animation};
+
+	Graphics::AnimationFrame unused_frame{};
+	Graphics::AnimationFrame *current_frame{&unused_frame};
+
+	int num_line = 0;
+	std::smatch match;
+	for(std::string line; std::getline(input, line);)
+	{
+		num_line++;
+
+		if(std::regex_match(line, match, re_key_value))
+		{
+			const char *key{match[1].str().c_str()};
+
+			if(std::strcmp(key, "duration") == 0)
+				current_frame->duration = std::atoi(match[2].str().c_str());
+			else if(std::strcmp(key, "index") == 0)
+				current_frame->index = std::atoi(match[2].str().c_str());
+		}
+		else if(std::regex_match(line, match, re_frame))
+		{
+			current_frame = current_animation->add_frame();
+		}
+		else if(std::regex_match(line, match, re_title_text))
+		{
+			const char *title{match[1].str().c_str()};
+
+			if(animations->contains(title))
+				current_animation = animations->at(title);
+			else if(create_animation == true)
+			{
+				animations->insert({title, new Graphics::Animation(true, {})});
+				current_animation = animations->at(title);
+			}
+			else
+				current_animation = &unused_animation;
+
+			current_frame = &unused_frame;
+		}
+		else if(std::regex_match(line, match, re_comment))
+			continue;
+		else if(std::regex_match(line, match, re_empty))
+			continue;
+		else
+			throw_parsing_error(file_name, num_line);
+	}
 }
 
 }

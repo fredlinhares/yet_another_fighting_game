@@ -23,11 +23,9 @@
 namespace Entity
 {
 
-class StandState: public State
+struct StandState: public State
 {
   Graphics::Animation animation;
-
-public:
 
   void
   tick();

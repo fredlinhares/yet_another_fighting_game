@@ -67,12 +67,7 @@ WalkState::tick()
 
 WalkState::WalkState(Fighter *f):
   State{f, 4},
-  animation{true, {
-    {15, 4},
-    {15, 5},
-    {15, 6},
-    {15, 7},
-    {15, 8}}}
+  animation{true, {}}
 {
 }
 

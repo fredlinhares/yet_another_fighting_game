@@ -23,11 +23,9 @@
 namespace Entity
 {
 
-class WalkState: public State
+struct WalkState: public State
 {
   Graphics::Animation animation;
-
-public:
 
   void
   init();

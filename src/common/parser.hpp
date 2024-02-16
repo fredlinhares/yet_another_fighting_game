@@ -17,8 +17,11 @@
 #ifndef YAFC_PARSER_H
 #define YAFC_PARSER_H 1
 
+#include <string>
+#include <unordered_map>
 #include <vector>
 
+#include "graphics/animation.hpp"
 #include "graphics/frame.hpp"
 
 namespace Parse
@@ -26,6 +29,11 @@ namespace Parse
 
 void
 frames(std::vector<Graphics::Frame> *frames, const char *file_name);
+
+void
+animations(
+	std::unordered_map<std::string, Graphics::Animation*> *animations,
+	const char *file_name, bool create_animation=false);
 
 }
 

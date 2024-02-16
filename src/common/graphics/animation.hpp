@@ -34,6 +34,9 @@ class Animation
   std::vector<AnimationFrame> frames;
 
 public:
+  AnimationFrame*
+  add_frame();
+
   void
   reset();
 
