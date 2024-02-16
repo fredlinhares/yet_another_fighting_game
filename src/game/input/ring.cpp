@@ -47,7 +47,8 @@ Ring::reset()
 }
 
 void
-Ring::change_state(Direction direction, Input::AttackState attack)
+Ring::change_state(
+  Input::RelativeDirection direction, Input::AttackState attack)
 {
   if(this->num_inputs < SIZE)
     this->num_inputs++;
@@ -68,31 +69,31 @@ Ring::change_state(Direction direction, Input::AttackState attack)
 
     switch(this->inputs[index].direction)
     {
-    case Direction::none:
+    case Input::RelativeDirection::none:
       std::cout << "_";
       break;
-    case Direction::up:
+    case Input::RelativeDirection::up:
       std::cout << "↑";
       break;
-    case Direction::down:
+    case Input::RelativeDirection::down:
       std::cout << "↓";
       break;
-    case Direction::left:
+    case Input::RelativeDirection::back:
       std::cout << "←";
       break;
-    case Direction::right:
+    case Input::RelativeDirection::front:
       std::cout << "→";
       break;
-    case Direction::up_left:
+    case Input::RelativeDirection::up_back:
       std::cout << "↖";
       break;
-    case Direction::up_right:
+    case Input::RelativeDirection::up_front:
       std::cout << "↗";
       break;
-    case Direction::down_left:
+    case Input::RelativeDirection::down_back:
       std::cout << "↙";
       break;
-    case Direction::down_right:
+    case Input::RelativeDirection::down_front:
       std::cout << "↘";
       break;
     }
@@ -144,7 +145,7 @@ Ring::find_move(const std::vector<Move> &moves)
 	  valid_node = true;
 	// if is empty movement, maybe the player slipped for a single frame,
 	// so we read the previous one.
-	else if(this->inputs[ring_rindex].direction == Direction::none)
+	else if(this->inputs[ring_rindex].direction == RelativeDirection::none)
 	{
 	  decrement_ring_rindex(ring_rindex);
 	  continue;

@@ -22,10 +22,12 @@
 #include <vector>
 
 #include "../../common/core.hpp"
+#include "../../common/direction.hpp"
 #include "../../common/graphics/frame.hpp"
 #include "../../common/graphics/texture.hpp"
 #include "../input/config.hpp"
 #include "../input/move.hpp"
+#include "../input/relative_direction.hpp"
 #include "../input/ring.hpp"
 #include "state.hpp"
 
@@ -47,11 +49,12 @@ class Fighter
 public:
   const int half_width;
 
+  Direction facing_direction;
   int x, y;
 
   Input::AttackState last_attack, current_attack;
   Input::DirectionState current_direction;
-  Direction effective_direction;
+  Input::RelativeDirection effective_direction;
   Input::Ring input_ring;
   std::vector<Input::Move> moves;
 
@@ -73,7 +76,7 @@ public:
   void
   set_state(int state);
 
-  Fighter();
+  Fighter(Direction facing_direction, int x);
 
   ~Fighter();
 };

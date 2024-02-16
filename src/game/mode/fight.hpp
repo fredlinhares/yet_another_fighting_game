@@ -30,7 +30,7 @@ struct Fight : public Base
 {
   static constexpr int FLOOR_POSITION{203};
 
-  std::array<Entity::Fighter, 2> player;
+  std::array<Entity::Fighter, 2> players;
 
   void
   key_down(SDL_Keycode keycode);

@@ -36,15 +36,18 @@ JumpState::init()
 
   switch(this->fighter->effective_direction)
   {
-  case Direction::up_left:
+  case Input::RelativeDirection::up_back:
     this->horizontal_speed = - HORIZONTAL_SPEED;
     break;
-  case Direction::up_right:
+  case Input::RelativeDirection::up_front:
     this->horizontal_speed = HORIZONTAL_SPEED;
     break;
   default:
     this->horizontal_speed = 0;
   }
+
+  if(this->fighter->facing_direction == Direction::left)
+    this->horizontal_speed = - this->horizontal_speed;
 }
 
 void

@@ -64,20 +64,32 @@ Fighter::collide_right()
 void
 Fighter::tick()
 {
+  using namespace Input;
+
   // Set direction.
-  { // Eliminate self-contradicting input like left-right movement.
-    Direction vertical_direction{Direction::none};
-    Direction horizontal_direction{Direction::none};
+  { // Eliminate self-contradicting input like front-back movement.
+    RelativeDirection vertical_direction{RelativeDirection::none};
+    RelativeDirection horizontal_direction{RelativeDirection::none};
 
-    if(this->current_direction[Input::DIRECTION_INDEX_UP])
-      vertical_direction = Direction::up;
-    else if(this->current_direction[Input::DIRECTION_INDEX_DOWN])
-      vertical_direction = Direction::down;
+    if(this->current_direction[DIRECTION_INDEX_UP])
+      vertical_direction = RelativeDirection::up;
+    else if(this->current_direction[DIRECTION_INDEX_DOWN])
+      vertical_direction = RelativeDirection::down;
 
-    if(this->current_direction[Input::DIRECTION_INDEX_LEFT])
-      horizontal_direction = Direction::left;
-    else if(this->current_direction[Input::DIRECTION_INDEX_RIGHT])
-      horizontal_direction = Direction::right;
+    if(this->facing_direction == Direction::right)
+    {
+      if(this->current_direction[DIRECTION_INDEX_LEFT])
+	horizontal_direction = RelativeDirection::back;
+      else if(this->current_direction[DIRECTION_INDEX_RIGHT])
+	horizontal_direction = RelativeDirection::front;
+    }
+    else
+    {
+      if(this->current_direction[DIRECTION_INDEX_LEFT])
+	horizontal_direction = RelativeDirection::front;
+      else if(this->current_direction[DIRECTION_INDEX_RIGHT])
+	horizontal_direction = RelativeDirection::back;
+    }
 
     this->effective_direction = vertical_direction + horizontal_direction;
   }
@@ -105,6 +117,12 @@ void
 Fighter::render()
 {
   Graphics::Frame *frame{&this->frames[this->current_state->frame_index]};
+  SDL_RendererFlip flip;
+  if(this->facing_direction == Direction::right)
+    flip = SDL_FLIP_NONE;
+  else
+    flip = SDL_FLIP_HORIZONTAL;
+
   SDL_Rect destination{
     this->x + frame->x,
     this->y + frame->y,
@@ -112,7 +130,9 @@ Fighter::render()
     frame->sprite.h
   };
 
-  SDL_RenderCopy(core.renderer, this->texture, &frame->sprite, &destination);
+  SDL_RenderCopyEx(
+    core.renderer, this->texture, &frame->sprite, &destination, 0.f, nullptr,
+    flip);
 }
 
 void
@@ -122,28 +142,29 @@ Fighter::set_state(int state)
   this->current_state->init();
 }
 
-Fighter::Fighter():
+Fighter::Fighter(Direction facing_direction, int x):
   texture{Graphics::Texture::load("fighters/default/sprites.png")},
   states{
     new StandState{this},
     new WalkState{this},
     new JumpState{this}},
   half_width{31},
-  x{192},
+  facing_direction{facing_direction},
+  x{x},
   y{Mode::Fight::FLOOR_POSITION},
   last_attack{},
   current_attack{},
   current_direction{},
   moves{
     {"Fireball",
-     {Input::MoveNode(false, Direction::down),
-      Input::MoveNode(false, Direction::down_right),
-      Input::MoveNode(false, Direction::right),
+     {Input::MoveNode(false, Input::RelativeDirection::down),
+      Input::MoveNode(false, Input::RelativeDirection::down_front),
+      Input::MoveNode(false, Input::RelativeDirection::front),
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
     {"Uppercut",
-     {Input::MoveNode(false, Direction::right),
-      Input::MoveNode(false, Direction::down),
-      Input::MoveNode(false, Direction::down_right),
+     {Input::MoveNode(false, Input::RelativeDirection::front),
+      Input::MoveNode(false, Input::RelativeDirection::down),
+      Input::MoveNode(false, Input::RelativeDirection::down_front),
       Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
   Parse::frames(&this->frames, "fighters/default/frames.conf");

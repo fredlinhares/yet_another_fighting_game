@@ -51,7 +51,7 @@ public:
   Ring();
 
   void
-  change_state(Direction direction, Input::AttackState attack);
+  change_state(Input::RelativeDirection direction, Input::AttackState attack);
 
   const char*
   find_move(const std::vector<Move> &moves);

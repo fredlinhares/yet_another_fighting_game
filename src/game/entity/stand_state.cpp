@@ -28,13 +28,13 @@ StandState::tick()
 
   switch(this->fighter->effective_direction)
   {
-  case Direction::left:
-  case Direction::right:
+  case Input::RelativeDirection::front:
+  case Input::RelativeDirection::back:
     this->fighter->set_state(WALK_STATE);
     break;
-  case Direction::up:
-  case Direction::up_left:
-  case Direction::up_right:
+  case Input::RelativeDirection::up:
+  case Input::RelativeDirection::up_front:
+  case Input::RelativeDirection::up_back:
     this->fighter->set_state(JUMP_STATE);
     break;
   }

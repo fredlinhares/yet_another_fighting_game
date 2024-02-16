@@ -37,24 +37,32 @@ WalkState::tick()
 {
   this->frame_index = this->animation.tick();
 
+  int speed;
+
   switch(this->fighter->effective_direction)
   {
-  case Direction::left:
-    this->fighter->x -= SPEED;
-    this->fighter->collide_left();
+  case Input::RelativeDirection::back:
+    speed = - SPEED;
     break;
-  case Direction::right:
-    this->fighter->x += SPEED;
-    this->fighter->collide_right();
+  case Input::RelativeDirection::front:
+    speed = SPEED;
     break;
-  case Direction::up:
-  case Direction::up_left:
-  case Direction::up_right:
+  case Input::RelativeDirection::up:
+  case Input::RelativeDirection::up_back:
+  case Input::RelativeDirection::up_front:
     this->fighter->set_state(JUMP_STATE);
     break;
   default:
     this->fighter->set_state(STAND_STATE);
   }
+
+  if(this->fighter->facing_direction == Direction::left) speed = - speed;
+  this->fighter->x += speed;
+
+  if(speed > 0)
+    this->fighter->collide_right();
+  else
+    this->fighter->collide_left();
 }
 
 WalkState::WalkState(Fighter *f):

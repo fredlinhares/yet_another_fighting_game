@@ -24,7 +24,7 @@ MoveEntry::MoveEntry(AttackState attack):
 {
 }
 
-MoveEntry::MoveEntry(Direction direction):
+MoveEntry::MoveEntry(RelativeDirection direction):
   direction{direction}
 {
 }

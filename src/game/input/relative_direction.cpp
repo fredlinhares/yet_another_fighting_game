@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-#include "state.hpp"
+#include "relative_direction.hpp"
 
 namespace Input
 {
 
-State::State():
-  direction{RelativeDirection::none},
-  attack{0}
+RelativeDirection
+operator+(const RelativeDirection &a, const RelativeDirection &b)
 {
+  return static_cast<RelativeDirection>(
+    static_cast<uint8_t>(a) + static_cast<uint8_t>(b));
 }
 
 }

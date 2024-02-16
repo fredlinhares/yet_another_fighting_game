@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "config.hpp"
-#include "../../common/direction.hpp"
+#include "relative_direction.hpp"
 
 namespace Input
 {
@@ -29,10 +29,10 @@ namespace Input
 union MoveEntry
 {
   AttackState attack;
-  Direction direction;
+  RelativeDirection direction;
 
   MoveEntry(AttackState attack);
-  MoveEntry(Direction direction);
+  MoveEntry(RelativeDirection direction);
 };
 
 struct MoveNode

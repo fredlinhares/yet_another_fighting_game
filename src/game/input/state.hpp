@@ -18,14 +18,14 @@
 #define YAFG_INPUT_STATE_H 1
 
 #include "config.hpp"
-#include "../../common/direction.hpp"
+#include "relative_direction.hpp"
 
 namespace Input
 {
 
 struct State
 {
-  Direction direction;
+  RelativeDirection direction;
   AttackState attack;
 
   State();

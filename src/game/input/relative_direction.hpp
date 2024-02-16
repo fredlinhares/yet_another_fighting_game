@@ -14,15 +14,30 @@
  * limitations under the License.
  */
 
-#include "state.hpp"
+#ifndef YAFG_INPUT_RELATIVE_DIRECTION_H
+#define YAFG_INPUT_RELATIVE_DIRECTION_H 1
+
+#include <cstdint>
 
 namespace Input
 {
 
-State::State():
-  direction{RelativeDirection::none},
-  attack{0}
+enum class RelativeDirection: uint8_t
 {
-}
+  none = 0,
+  up = 1,
+  down = 2,
+  back = 3,
+  front = 6,
+  up_back = 4,
+  up_front = 7,
+  down_back = 5,
+  down_front = 8
+};
+
+RelativeDirection
+operator+(const RelativeDirection &a, const RelativeDirection &b);
 
 }
+
+#endif /* YAFG_INPUT_RELATIVE_DIRECTION_H */
