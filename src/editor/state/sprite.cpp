@@ -47,28 +47,26 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 
   for(int i{0}; i < this->mode->sprites.size(); i++)
   {
-    ::Sprite *sprite{&this->mode->sprites[0]};
+    ::Sprite *sprite{&this->mode->sprites[i]};
     Direction vertical_direction{Direction::none};
     Direction horizontal_direction{Direction::none};
     Direction direction;
 
-    if(x > sprite->outer_left)
+    if(x >= sprite->outer_left && x <= sprite->outer_right &&
+			 y >= sprite->outer_up && y <= sprite->outer_down)
     {
       if(x < sprite->center_left)
 	horizontal_direction = Direction::left;
       else if(x < sprite->center_right)
 	horizontal_direction = Direction::none;
-      else if(x < sprite->outer_right)
+      else
 	horizontal_direction = Direction::right;
-    }
 
-    if(y > sprite->outer_up)
-    {
       if(y < sprite->center_up)
 	vertical_direction = Direction::up;
       else if(y < sprite->center_down)
 	vertical_direction = Direction::none;
-      else if(y < sprite->outer_down)
+      else
 	vertical_direction = Direction::down;
     }
 
@@ -125,6 +123,7 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 	break;
       }
 
+			this->mode->resize_state.sprite = &this->mode->sprites[i];
       this->mode->current_state = &this->mode->resize_state;
       return;
     }
