@@ -18,9 +18,91 @@
 
 #include "../common/graphics/texture.hpp"
 #include "main.hpp"
-#include "mode/sprite.hpp"
 
 EditorState *editor_state;
+
+namespace
+{
+
+void
+load_texture(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	std::string texture_path{"./fighters/" + self->character + "/sprites.png"};
+	self->texture = Graphics::Texture::load(texture_path.c_str());
+}
+
+void
+unload_texture(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	SDL_DestroyTexture(self->texture);
+}
+
+void
+load_sprites(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	std::vector<Graphics::Frame> frames;
+	std::string frame_path{"./fighters/" + self->character + "/frames.conf"};
+	Parse::frames(&frames, frame_path.c_str());
+	self->sprites.reserve(frames.size());
+
+	for(Graphics::Frame &f: frames)
+		self->sprites.emplace_back(f);
+}
+
+void
+load_animations(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	std::string animations_path{
+		"./fighters/" + self->character + "/animations.conf"};
+	Parse::animations(&self->animations, animations_path.c_str(), true);
+}
+
+void
+load_font(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	// TODO: Usa a project's font.
+	self->font = TTF_OpenFont("/usr/share/fonts/TTF/HanaMinA.ttf", 16);
+}
+
+void
+unload_font(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	TTF_CloseFont(self->font);
+}
+
+const CommandChain loader{
+	{&load_texture, &unload_texture},
+	{&load_sprites, nullptr},
+	{&load_animations, nullptr},
+	{&load_font, &unload_font}
+};
+
+}
+
+EditorState::EditorState(const char* character):
+	next_game_mode{nullptr}
+{
+	this->character = character;
+
+	loader.execute(this);
+}
+
+EditorState::~EditorState()
+{
+	loader.revert(this);
+}
 
 int
 main(int argc, char *argv[])
@@ -30,9 +112,6 @@ main(int argc, char *argv[])
   core.window_height = 720;
   core.init();
 
-  editor_state = new EditorState();
-
-  SDL_Texture* sprites;
   { // Parse args
     if(argc < 2)
     {
@@ -41,13 +120,10 @@ main(int argc, char *argv[])
       return 1;
     }
 
-    editor_state->character = argv[1];
-    std::string texture_path{
-      "./fighters/" + editor_state->character + "/sprites.png"};
-    editor_state->texture = Graphics::Texture::load(texture_path.c_str());
+		editor_state = new EditorState(argv[1]);
   }
 
-  Mode::Base *game_mode = new Mode::Sprite{};
+	Mode::Base *game_mode = new Mode::Sprite{};
 
   { // main loop
     SDL_Event event;
@@ -56,6 +132,14 @@ main(int argc, char *argv[])
 
     while(!quit)
     {
+			// Change mode
+			if(editor_state->next_game_mode != nullptr)
+			{
+				delete game_mode;
+				game_mode = editor_state->next_game_mode;
+				editor_state->next_game_mode = nullptr;
+			}
+
       // Input processing
       while(SDL_PollEvent(&event))
       {
@@ -105,7 +189,6 @@ main(int argc, char *argv[])
   }
 
   delete game_mode;
-  SDL_DestroyTexture(editor_state->texture);
   delete editor_state;
   core.finish();
 

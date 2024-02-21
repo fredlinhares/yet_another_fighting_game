@@ -14,26 +14,33 @@
  * limitations under the License.
  */
 
-#include <string>
-#include <unordered_map>
+#ifndef YAFCE_STATE_NAME_SELECTION_H
+#define YAFCE_STATE_NAME_SELECTION_H 1
 
-#include "../common/graphics/animation.hpp"
-#include "../common/main.hpp"
-#include "../common/parser.hpp"
-#include "mode/sprite.hpp"
+#include "../state.hpp"
 
-struct EditorState
+namespace Mode
 {
-	Mode::Base *next_game_mode;
+	class AnimationList;
+}
 
-  std::string character;
-  SDL_Texture *texture;
-	TTF_Font* font;
-	std::vector<Sprite> sprites;
-	std::unordered_map<std::string, Graphics::Animation*> animations;
 
-	EditorState(const char* character);
-	~EditorState();
+namespace State
+{
+
+struct NameSelection: public State::Base
+{
+	Mode::AnimationList* const mode;
+
+	void
+	key_down(SDL_Keycode keycode);
+
+	void
+	mouse_button_down(SDL_MouseButtonEvent &b);
+
+	NameSelection(Mode::AnimationList *mode);
 };
 
-extern EditorState *editor_state;
+}
+
+#endif /* YAFCE_STATE_NAME_SELECTION_H */

@@ -28,7 +28,7 @@ struct Base
   State::Base *current_state;
 
   virtual void
-  tick() = 0;
+  tick(){};
 
   virtual void
   render() = 0;

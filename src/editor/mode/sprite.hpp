@@ -42,8 +42,6 @@ class Sprite: public Base
   define_display_position();
 
 public:
-  std::vector<::Sprite> sprites;
-
   State::Resize resize_state;
   State::Scroll scroll_state;
   State::Sprite sprite_state;

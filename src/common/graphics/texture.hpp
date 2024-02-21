@@ -25,6 +25,9 @@ namespace Graphics::Texture
 SDL_Texture*
 load(const char *file_path);
 
+SDL_Texture*
+create_image_from_text(TTF_Font *font, const char *text, SDL_Color color);
+
 }
 
 #endif /* YAFC_GRAPHICS_TEXTURE_H */

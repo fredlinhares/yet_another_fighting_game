@@ -24,6 +24,7 @@ CPP_FILES = FileList[
 LIBRARIES = [
   'SDL2',
   'SDL2_image',
+  'SDL2_ttf'
 ]
 
 CLEAN.include(

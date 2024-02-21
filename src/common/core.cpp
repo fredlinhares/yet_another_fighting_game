@@ -100,11 +100,29 @@ unload_sdl_img(void *obj)
   IMG_Quit();
 }
 
+void
+load_sdl_ttf(void *obj)
+{
+  if((TTF_Init() == -1))
+  {
+    std::string error{"SDL_ttf could not initialize! TTF Error → "};
+    error += TTF_GetError();
+    throw CommandError{error};
+  }
+}
+
+void
+unload_sdl_ttf(void *obj)
+{
+	TTF_Quit();
+}
+
 const CommandChain loader{
   {&load_sdl, &unload_sdl},
   {&load_window, &unload_window},
   {&load_renderer, &unload_renderer},
-  {&load_sdl_img, &unload_sdl_img}
+  {&load_sdl_img, &unload_sdl_img},
+  {&load_sdl_ttf, &unload_sdl_ttf}
 };
 
 }

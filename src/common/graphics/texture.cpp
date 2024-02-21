@@ -32,6 +32,17 @@ throw_image_error(const char *file_path, const char *message)
   throw std::runtime_error{error};
 }
 
+void
+throw_text_error(const char *message, const char *text, const char *sdl_error)
+{
+  std::string error{message};
+  error += " Text → ";
+  error += text;
+  error += ", TTF_Error → ";
+  error += sdl_error;
+  throw std::runtime_error{error};
+}
+
 }
 
 namespace Graphics::Texture
@@ -55,6 +66,27 @@ load(const char *file_path)
   }
 
   return texture;
+}
+
+SDL_Texture*
+create_image_from_text(TTF_Font *font, const char *text, SDL_Color color)
+{
+	SDL_Texture *texture{nullptr};
+	SDL_Surface *image{TTF_RenderText_Solid(font, text, color)};
+
+	if(image == NULL)
+		throw_text_error("Text could no be rendered!", text, TTF_GetError());
+	else
+	{
+		texture = SDL_CreateTextureFromSurface(core.renderer, image);
+		SDL_FreeSurface(image);
+
+		if(texture == NULL)
+			throw_text_error(
+				"Text could no be converted to texture!", text, SDL_GetError());
+	}
+
+	return texture;
 }
 
 }

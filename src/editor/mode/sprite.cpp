@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include "../../common/parser.hpp"
 #include "../main.hpp"
 #include "sprite.hpp"
 
@@ -137,7 +136,7 @@ Sprite::add_sprite()
   if(y < 10) y = 10;
   else if(y > this->tex_height - 10) y = this->tex_height - 10;
 
-  this->sprites.emplace_back(x - 10, y - 10, 20, 20);
+  editor_state->sprites.emplace_back(x - 10, y - 10, 20, 20);
 }
 
 void
@@ -151,7 +150,7 @@ Sprite::render()
   SDL_RenderCopy(
     core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
-  for(const ::Sprite &sprite: this->sprites)
+  for(const ::Sprite &sprite: editor_state->sprites)
     this->render_rect(sprite.size, 0x33, 0x99, 0x33);
 }
 
@@ -162,17 +161,6 @@ Sprite::Sprite():
   sprite_state{this}
 {
   this->current_state = &this->sprite_state;
-
-  { // Load sprites
-    std::vector<Graphics::Frame> frames;
-    std::string frame_path{
-      "./fighters/" + editor_state->character + "/frames.conf"};
-    Parse::frames(&frames, frame_path.c_str());
-    this->sprites.reserve(frames.size());
-
-    for(Graphics::Frame &f: frames)
-      this->sprites.emplace_back(f);
-  }
 
   SDL_QueryTexture(
     editor_state->texture, nullptr, nullptr, &tex_width, &tex_height);

@@ -17,6 +17,8 @@
 #include "sprite.hpp"
 
 #include "../../common/direction.hpp"
+#include "../main.hpp"
+#include "../mode/animation_list.hpp"
 #include "../mode/sprite.hpp"
 
 namespace State
@@ -36,6 +38,9 @@ Sprite::key_down(SDL_Keycode keycode)
   case SDLK_n:
     this->mode->add_sprite();
     break;
+  case SDLK_2:
+		editor_state->next_game_mode = new Mode::AnimationList{};
+    break;
   }
 }
 
@@ -45,9 +50,9 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
   int x, y;
   this->mode->get_mouse_position(x, y);
 
-  for(int i{0}; i < this->mode->sprites.size(); i++)
+  for(int i{0}; i < editor_state->sprites.size(); i++)
   {
-    ::Sprite *sprite{&this->mode->sprites[i]};
+    ::Sprite *sprite{&editor_state->sprites[i]};
     Direction vertical_direction{Direction::none};
     Direction horizontal_direction{Direction::none};
     Direction direction;
@@ -123,7 +128,7 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 	break;
       }
 
-			this->mode->resize_state.sprite = &this->mode->sprites[i];
+			this->mode->resize_state.sprite = &editor_state->sprites[i];
       this->mode->current_state = &this->mode->resize_state;
       return;
     }

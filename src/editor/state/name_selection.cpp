@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-#include <string>
-#include <unordered_map>
+#include "name_selection.hpp"
 
-#include "../common/graphics/animation.hpp"
-#include "../common/main.hpp"
-#include "../common/parser.hpp"
-#include "mode/sprite.hpp"
-
-struct EditorState
+namespace State
 {
-	Mode::Base *next_game_mode;
 
-  std::string character;
-  SDL_Texture *texture;
-	TTF_Font* font;
-	std::vector<Sprite> sprites;
-	std::unordered_map<std::string, Graphics::Animation*> animations;
+void
+NameSelection::key_down(SDL_Keycode keycode)
+{
+}
 
-	EditorState(const char* character);
-	~EditorState();
-};
+void
+NameSelection::mouse_button_down(SDL_MouseButtonEvent &b)
+{
+}
 
-extern EditorState *editor_state;
+NameSelection::NameSelection(Mode::AnimationList* mode):
+  mode{mode}
+{
+}
+
+}
