@@ -66,6 +66,16 @@ load_animations(void *obj)
 }
 
 void
+unload_animation(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	std::unordered_map<std::string, Graphics::Animation*>::iterator it;
+	for(it = self->animations.begin(); it != self->animations.end(); it++)
+		delete it->second;
+}
+
+void
 load_font(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
@@ -85,7 +95,7 @@ unload_font(void *obj)
 const CommandChain loader{
 	{&load_texture, &unload_texture},
 	{&load_sprites, nullptr},
-	{&load_animations, nullptr},
+	{&load_animations, unload_animation},
 	{&load_font, &unload_font}
 };
 
