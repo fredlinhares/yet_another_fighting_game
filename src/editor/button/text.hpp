@@ -14,30 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_LIST_H
-#define YAFCE_MODE_ANIMATION_LIST_H 1
+#ifndef YAFCE_BUTTON_TEXT_H
+#define YAFCE_BUTTON_TEXT_H 1
 
-#include <vector>
+#include <functional>
 
-#include "../button/text.hpp"
-#include "../mode.hpp"
-#include "../state/name_selection.hpp"
+#include "../main.hpp"
 
-namespace Mode
+namespace Button
 {
 
-struct AnimationList: public Base
+struct Text
 {
-	State::NameSelection name_selection_state;
+	std::function<void(void)> callback;
+	SDL_Texture *texture;
+	SDL_Rect src, dst;
 
-	std::vector<Button::Text> animation_buttons;
+	void
+	click();
 
 	void
 	render();
 
-	AnimationList();
+	Text &operator=
+	(const Text &that) = delete;
+
+	Text(Text &&that);
+
+	Text(const char *name, int x, int y, std::function<void(void)> callback);
+	~Text();
 };
 
 }
 
-#endif /* YAFCE_MODE_ANIMATION_LIST_H */
+#endif /* YAFCE_BUTTON_TEXT_H */

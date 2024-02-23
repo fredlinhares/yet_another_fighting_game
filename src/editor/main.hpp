@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#ifndef YAFCE_MAIN_H
+#define YAFCE_MAIN_H 1
+
 #include <string>
 #include <unordered_map>
 
@@ -28,7 +31,7 @@ struct EditorState
 
   std::string character;
   SDL_Texture *texture;
-	TTF_Font* font;
+	TTF_Font *font;
 	std::vector<Sprite> sprites;
 	std::unordered_map<std::string, Graphics::Animation*> animations;
 
@@ -37,3 +40,5 @@ struct EditorState
 };
 
 extern EditorState *editor_state;
+
+#endif /* YAFCE_MAIN_H */

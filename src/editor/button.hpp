@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_LIST_H
-#define YAFCE_MODE_ANIMATION_LIST_H 1
+#ifndef YAFCE_BUTTON_H
+#define YAFCE_BUTTON_H 1
 
-#include <vector>
-
-#include "../button/text.hpp"
-#include "../mode.hpp"
-#include "../state/name_selection.hpp"
-
-namespace Mode
+namespace Button
 {
 
-struct AnimationList: public Base
+struct Base
 {
-	State::NameSelection name_selection_state;
+	const SDL_Rect location;
 
-	std::vector<Button::Text> animation_buttons;
+	virtual void
+	click() = 0;
 
-	void
-	render();
-
-	AnimationList();
+	virtual void
+	render() = 0;
 };
 
 }
 
-#endif /* YAFCE_MODE_ANIMATION_LIST_H */
+#endif /* YAFCE_BUTTON_H */
