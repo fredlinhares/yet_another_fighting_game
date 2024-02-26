@@ -21,21 +21,22 @@
 
 #include "../button/text.hpp"
 #include "../mode.hpp"
-#include "../state/name_selection.hpp"
+#include "../state/click_button.hpp"
 
 namespace Mode
 {
 
 struct AnimationList: public Base
 {
-	State::NameSelection name_selection_state;
+	State::ClickButton click_button_state;
 
-	std::vector<Button::Text> animation_buttons;
+	std::vector<Button::Base*> buttons;
 
 	void
 	render();
 
 	AnimationList();
+	~AnimationList();
 };
 
 }

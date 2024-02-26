@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-#include "name_selection.hpp"
+#ifndef YAFCE_STATE_CLICK_BUTTON_H
+#define YAFCE_STATE_CLICK_BUTTON_H 1
+
+#include "../button.hpp"
+#include "../state.hpp"
 
 namespace State
 {
 
-void
-NameSelection::key_down(SDL_Keycode keycode)
+struct ClickButton: public State::Base
 {
-}
+	std::vector<Button::Base*> * const buttons;
 
-void
-NameSelection::mouse_button_down(SDL_MouseButtonEvent &b)
-{
-}
+	void
+	key_down(SDL_Keycode keycode);
 
-NameSelection::NameSelection(Mode::AnimationList* mode):
-  mode{mode}
-{
-}
+	void
+	mouse_button_down(SDL_MouseButtonEvent &b);
+
+	ClickButton(std::vector<Button::Base*> *buttons);
+};
 
 }
+
+#endif /* YAFCE_STATE_CLICK_BUTTON_H */

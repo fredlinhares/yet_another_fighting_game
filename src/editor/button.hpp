@@ -17,18 +17,23 @@
 #ifndef YAFCE_BUTTON_H
 #define YAFCE_BUTTON_H 1
 
+#include "../common/core.hpp"
+
 namespace Button
 {
 
 struct Base
 {
-	const SDL_Rect location;
+	SDL_Rect location;
 
 	virtual void
 	click() = 0;
 
 	virtual void
 	render() = 0;
+
+	virtual
+	~Base(){};
 };
 
 }

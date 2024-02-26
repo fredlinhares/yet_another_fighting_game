@@ -30,7 +30,7 @@ Text::click()
 void
 Text::render()
 {
-	SDL_RenderCopy(core.renderer, this->texture, &this->src, &this->dst);
+	SDL_RenderCopy(core.renderer, this->texture, &this->src, &this->location);
 }
 
 Text::Text(Text &&that)
@@ -38,7 +38,7 @@ Text::Text(Text &&that)
 	this->callback = that.callback;
 	this->texture = that.texture;
 	this->src = that.src;
-	this->dst = that.dst;
+	this->location = that.location;
 
 	that.texture = nullptr;
 }
@@ -57,7 +57,7 @@ Text::Text(const char *name, int x, int y, std::function<void(void)> callback):
 	SDL_Rect dst{x, y, width, height};
 
 	this->src = src;
-	this->dst = dst;
+	this->location = dst;
 }
 
 Text::~Text()

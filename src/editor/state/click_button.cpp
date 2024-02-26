@@ -14,33 +14,38 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_STATE_NAME_SELECTION_H
-#define YAFCE_STATE_NAME_SELECTION_H 1
-
-#include "../state.hpp"
-
-namespace Mode
-{
-	class AnimationList;
-}
-
+#include "click_button.hpp"
 
 namespace State
 {
 
-struct NameSelection: public State::Base
+void
+ClickButton::key_down(SDL_Keycode keycode)
 {
-	Mode::AnimationList* const mode;
-
-	void
-	key_down(SDL_Keycode keycode);
-
-	void
-	mouse_button_down(SDL_MouseButtonEvent &b);
-
-	NameSelection(Mode::AnimationList *mode);
-};
-
 }
 
-#endif /* YAFCE_STATE_NAME_SELECTION_H */
+void
+ClickButton::mouse_button_down(SDL_MouseButtonEvent &b)
+{
+  int mouse_x, mouse_y;
+  SDL_GetMouseState(&mouse_x, &mouse_y);
+
+	for(Button::Base *button: *this->buttons)
+	{
+		if(mouse_x > button->location.x &&
+			 mouse_x < button->location.x + button->location.w &&
+			 mouse_y > button->location.y &&
+			 mouse_y < button->location.y + button->location.h)
+		{
+			button->click();
+			break;
+		}
+	}
+}
+
+ClickButton::ClickButton(std::vector<Button::Base*> *buttons):
+	buttons{buttons}
+{
+}
+
+}

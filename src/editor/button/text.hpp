@@ -19,16 +19,17 @@
 
 #include <functional>
 
+#include "../button.hpp"
 #include "../main.hpp"
 
 namespace Button
 {
 
-struct Text
+struct Text: public Base
 {
 	std::function<void(void)> callback;
 	SDL_Texture *texture;
-	SDL_Rect src, dst;
+	SDL_Rect src;
 
 	void
 	click();

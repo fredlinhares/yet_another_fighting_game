@@ -25,24 +25,30 @@ namespace Mode
 void
 AnimationList::render()
 {
-	for(Button::Text &button: this->animation_buttons) button.render();
+	for(Button::Base *button: this->buttons) button->render();
 }
 
 AnimationList::AnimationList():
-	name_selection_state{this}
+	click_button_state{&this->buttons}
 {
 	int y{10};
 
 	for(const auto & [key, value]: editor_state->animations)
 	{
-		this->animation_buttons.emplace_back(key.c_str(), 10, y, []() {
+		Button::Text* button{new Button::Text{key.c_str(), 10, y, []() {
 			std::cout << "clicked" << std::endl;
-		});
+		}}};
+		this->buttons.push_back(button);
 
-		y += 10 + this->animation_buttons.back().src.h;
+		y += 10 + button->location.h;
 	}
 
-	this->current_state = &this->name_selection_state;
+	this->current_state = &this->click_button_state;
+}
+
+AnimationList::~AnimationList()
+{
+	for(Button::Base* button: this->buttons) delete button;
 }
 
 }
