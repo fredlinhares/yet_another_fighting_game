@@ -16,9 +16,8 @@
 
 #include "animation_list.hpp"
 
-#include <iostream>
-
 #include "../main.hpp"
+#include "animation.hpp"
 
 namespace Mode
 {
@@ -37,7 +36,7 @@ AnimationList::AnimationList():
 	for(const auto & [key, value]: editor_state->animations)
 	{
 		Button::Text* button{new Button::Text{key.c_str(), 10, y, [name = key]() {
-			std::cout << name << std::endl;
+			editor_state->next_game_mode = new Mode::Animation{name.c_str()};
 		}}};
 		this->buttons.push_back(button);
 
