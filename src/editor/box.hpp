@@ -14,45 +14,22 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_STATE_RESIZE_H
-#define YAFCE_STATE_RESIZE_H 1
+#ifndef YAFCE_BOX_H
+#define YAFCE_BOX_H 1
 
-#include "../frame.hpp"
-#include "../state.hpp"
+#include "../common/core.hpp"
+#include "../common/graphics/frame.hpp"
 
-namespace Mode
+struct Box
 {
-  class Sprite;
-}
-
-namespace State
-{
-
-struct Resize: public State::Base
-{
-  Mode::Sprite* const mode;
-	Box* box;
-
-  void (Resize::*vertical_move)(int num);
-  void (Resize::*horizontal_move)(int num);
+  int outer_left, center_left, outer_right, center_right, outer_up,
+    center_up, outer_down, center_down;
+  SDL_Rect size;
 
   void
-  mouse_button_up(SDL_MouseButtonEvent& b);
-  void
-  mouse_motion(int x, int y, int xrel, int yrel);
+  update_size();
 
-  void
-  up_corner(int y);
-  void
-  down_corner(int y);
-  void
-  left_corner(int x);
-  void
-  right_corner(int x);
-
-  Resize(Mode::Sprite* mode);
+  Box(int x, int y, int w, int h);
 };
 
-}
-
-#endif /* YAFCE_STATE_RESIZE_H */
+#endif /* YAFCE_BOX_H */

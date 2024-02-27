@@ -14,23 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_SPRITE_H
-#define YAFCE_SPRITE_H 1
+#ifndef YAFCE_FRAME_H
+#define YAFCE_FRAME_H 1
 
-#include "../common/core.hpp"
-#include "../common/graphics/frame.hpp"
+#include "box.hpp"
 
-struct Sprite
+struct Frame
 {
-  int outer_left, center_left, outer_right, center_right, outer_up,
-    center_up, outer_down, center_down;
-  SDL_Rect size;
+	// The position of the sprites are relative to the pivot.
+  int x, y;
+  Box sprite, head, upper_body, lower_body, collision;
 
   void
-  update_box_size();
+  set_sprite(int x, int y, int w, int h);
+  void
+  set_head(int x, int y, int w, int h);
+  void
+  set_upper_body(int x, int y, int w, int h);
+  void
+  set_lower_body(int x, int y, int w, int h);
+  void
+  set_collision(int x, int y, int w, int h);
 
-  Sprite(int x, int y, int w, int h);
-  Sprite(const Graphics::Frame &frame);
+  Frame(const Graphics::Frame &frame);
+	Frame(int x, int y, int w, int h);
 };
 
-#endif /* YAFCE_SPRITE_H */
+#endif /* YAFCE_FRAME_H */

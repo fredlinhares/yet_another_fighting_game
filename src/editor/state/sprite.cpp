@@ -50,36 +50,36 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
   int x, y;
   this->mode->get_mouse_position(x, y);
 
-  for(int i{0}; i < editor_state->sprites.size(); i++)
+  for(int i{0}; i < editor_state->frames.size(); i++)
   {
-    ::Sprite *sprite{&editor_state->sprites[i]};
+		Frame *frame{&editor_state->frames[i]};
     Direction vertical_direction{Direction::none};
     Direction horizontal_direction{Direction::none};
     Direction direction;
 
-    if(x >= sprite->outer_left && x <= sprite->outer_right &&
-			 y >= sprite->outer_up && y <= sprite->outer_down)
-    {
-      if(x < sprite->center_left)
+		if(x >= frame->sprite.outer_left && x <= frame->sprite.outer_right &&
+			 y >= frame->sprite.outer_up && y <= frame->sprite.outer_down)
+		{
+			if(x < frame->sprite.center_left)
 	horizontal_direction = Direction::left;
-      else if(x < sprite->center_right)
+      else if(x < frame->sprite.center_right)
 	horizontal_direction = Direction::none;
       else
 	horizontal_direction = Direction::right;
 
-      if(y < sprite->center_up)
+      if(y < frame->sprite.center_up)
 	vertical_direction = Direction::up;
-      else if(y < sprite->center_down)
+      else if(y < frame->sprite.center_down)
 	vertical_direction = Direction::none;
       else
 	vertical_direction = Direction::down;
-    }
+		}
 
     direction = vertical_direction + horizontal_direction;
 
     if(direction != Direction::none)
     {
-      this->mode->resize_state.sprite = sprite;
+			this->mode->resize_state.box = &frame->sprite;
 
       this->mode->resize_state.horizontal_move = nullptr;
       this->mode->resize_state.vertical_move = nullptr;
@@ -128,7 +128,6 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 	break;
       }
 
-			this->mode->resize_state.sprite = &editor_state->sprites[i];
       this->mode->current_state = &this->mode->resize_state;
       return;
     }

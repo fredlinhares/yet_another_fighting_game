@@ -42,17 +42,17 @@ unload_texture(void *obj)
 }
 
 void
-load_sprites(void *obj)
+load_frames(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
 
 	std::vector<Graphics::Frame> frames;
 	std::string frame_path{"./fighters/" + self->character + "/frames.conf"};
 	Parse::frames(&frames, frame_path.c_str());
-	self->sprites.reserve(frames.size());
+	self->frames.reserve(frames.size());
 
 	for(Graphics::Frame &f: frames)
-		self->sprites.emplace_back(f);
+		self->frames.emplace_back(f);
 }
 
 void
@@ -94,7 +94,7 @@ unload_font(void *obj)
 
 const CommandChain loader{
 	{&load_texture, &unload_texture},
-	{&load_sprites, nullptr},
+	{&load_frames, nullptr},
 	{&load_animations, unload_animation},
 	{&load_font, &unload_font}
 };

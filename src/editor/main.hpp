@@ -32,7 +32,7 @@ struct EditorState
   std::string character;
   SDL_Texture *texture;
 	TTF_Font *font;
-	std::vector<Sprite> sprites;
+	std::vector<Frame> frames;
 	std::unordered_map<std::string, Graphics::Animation*> animations;
 
 	EditorState(const char* character);

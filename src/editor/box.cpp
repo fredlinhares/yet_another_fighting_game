@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include "sprite.hpp"
+#include "box.hpp"
 
 void
-Sprite::update_box_size()
+Box::update_size()
 {
   this->outer_left = this->size.x - 2;
   this->center_left = this->size.x + 2;
@@ -29,13 +29,8 @@ Sprite::update_box_size()
   this->center_down = this->size.y + this->size.h - 2;
 }
 
-Sprite::Sprite(int x, int y, int w, int h):
+Box::Box(int x, int y, int w, int h):
   size{x, y, w, h}
 {
-  this->update_box_size();
-}
-
-Sprite::Sprite(const Graphics::Frame &frame):
-  Sprite{frame.sprite.x, frame.sprite.y, frame.sprite.w, frame.sprite.h}
-{
+  this->update_size();
 }

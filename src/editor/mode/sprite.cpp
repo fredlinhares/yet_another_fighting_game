@@ -136,7 +136,7 @@ Sprite::add_sprite()
   if(y < 10) y = 10;
   else if(y > this->tex_height - 10) y = this->tex_height - 10;
 
-  editor_state->sprites.emplace_back(x - 10, y - 10, 20, 20);
+  editor_state->frames.emplace_back(x - 10, y - 10, 20, 20);
 }
 
 void
@@ -150,8 +150,8 @@ Sprite::render()
   SDL_RenderCopy(
     core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
-  for(const ::Sprite &sprite: editor_state->sprites)
-    this->render_rect(sprite.size, 0x33, 0x99, 0x33);
+  for(const Frame &frame: editor_state->frames)
+    this->render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
 }
 
 Sprite::Sprite():

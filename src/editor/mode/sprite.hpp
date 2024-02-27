@@ -19,8 +19,8 @@
 
 #include <vector>
 
+#include "../frame.hpp"
 #include "../mode.hpp"
-#include "../sprite.hpp"
 #include "../state/resize.hpp"
 #include "../state/scroll.hpp"
 #include "../state/sprite.hpp"

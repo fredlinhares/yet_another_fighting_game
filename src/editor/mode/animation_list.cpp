@@ -16,8 +16,9 @@
 
 #include "animation_list.hpp"
 
-#include "../main.hpp"
 #include <iostream>
+
+#include "../main.hpp"
 
 namespace Mode
 {
@@ -35,8 +36,8 @@ AnimationList::AnimationList():
 
 	for(const auto & [key, value]: editor_state->animations)
 	{
-		Button::Text* button{new Button::Text{key.c_str(), 10, y, []() {
-			std::cout << "clicked" << std::endl;
+		Button::Text* button{new Button::Text{key.c_str(), 10, y, [name = key]() {
+			std::cout << name << std::endl;
 		}}};
 		this->buttons.push_back(button);
 

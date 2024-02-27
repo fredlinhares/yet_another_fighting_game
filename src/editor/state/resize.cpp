@@ -32,65 +32,65 @@ Resize::mouse_motion(int x, int y, int xrel, int yrel)
   if(xrel != 0 && this->horizontal_move)
     (this->*horizontal_move)(x / this->mode->zoom_level() + this->mode->x());
   if(yrel != 0 && this->vertical_move)
-  {
     (this->*vertical_move)(y / this->mode->zoom_level() + this->mode->y());
-  }
 
-  this->sprite->update_box_size();
+	this->box->update_size();
 }
 
 void
 Resize::up_corner(int y)
 {
-  int left_y{this->sprite->size.y};
-  int right_y{this->sprite->size.y + this->sprite->size.h};
-  this->sprite->size.y = y;
-  this->sprite->size.h -= y - left_y;
+	int left_y{this->box->size.y};
+	int right_y{this->box->size.y + this->box->size.h};
+	this->box->size.y = y;
+	this->box->size.h -= y - left_y;
 
-  if(this->sprite->size.y < 0) this->sprite->size.y = 0;
-  else if(this->sprite->size.h <= 0)
-  {
-    this->sprite->size.y = right_y - 1;
-    this->sprite->size.h = 1;
-  }
+	if(this->box->size.y < 0) this->box->size.y = 0;
+	else if(this->box->size.h <= 0)
+	{
+		this->box->size.y = right_y - 1;
+		this->box->size.h = 1;
+	}
 }
 
 void
 Resize::down_corner(int y)
 {
-  this->sprite->size.h = y - this->sprite->size.y;
+	this->box->size.h = y - this->box->size.y;
 
-  if(this->sprite->size.y + this->sprite->size.h >
-     this->mode->texture_height())
-    this->sprite->size.h = this->mode->texture_height() - this->sprite->size.y;
-  else if(this->sprite->size.h < 1) this->sprite->size.h = 1;
+	if(this->box->size.y + this->box->size.h >
+		 this->mode->texture_height())
+		this->box->size.h =
+			this->mode->texture_height() - this->box->size.y;
+	else if(this->box->size.h < 1) this->box->size.h = 1;
 }
 
 void
 Resize::left_corner(int x)
 {
-  int left_x{this->sprite->size.x};
-  int right_x{this->sprite->size.x + this->sprite->size.w};
-  this->sprite->size.x = x;
-  this->sprite->size.w -= x - left_x;
+	int left_x{this->box->size.x};
+	int right_x{this->box->size.x + this->box->size.w};
+	this->box->size.x = x;
+	this->box->size.w -= x - left_x;
 
-  if(this->sprite->size.x < 0) this->sprite->size.x = 0;
-  else if(this->sprite->size.w <= 0)
-  {
-    this->sprite->size.x = right_x - 1;
-    this->sprite->size.w = 1;
-  }
+	if(this->box->size.x < 0) this->box->size.x = 0;
+	else if(this->box->size.w <= 0)
+	{
+		this->box->size.x = right_x - 1;
+		this->box->size.w = 1;
+	}
 }
 
 void
 Resize::right_corner(int x)
 {
-  this->sprite->size.w = x - this->sprite->size.x;
+	this->box->size.w = x - this->box->size.x;
 
-  if(this->sprite->size.y + this->sprite->size.w >
-     this->mode->texture_height())
-    this->sprite->size.w = this->mode->texture_height() - this->sprite->size.y;
-  else if(this->sprite->size.w < 1) this->sprite->size.w = 1;
+	if(this->box->size.y + this->box->size.w >
+		 this->mode->texture_height())
+		this->box->size.w =
+			this->mode->texture_height() - this->box->size.y;
+	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
 Resize::Resize(Mode::Sprite* mode):
