@@ -71,22 +71,6 @@ Sprite::get_mouse_position(int &x, int &y)
 }
 
 void
-Sprite::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
-{
-  int x{(rect.x - this->src_rect.x) * this->zoom};
-  int y{(rect.y - this->src_rect.y) * this->zoom};
-  int w{rect.w * this->zoom};
-  int h{rect.h * this->zoom};
-  SDL_Rect position{x, y, w, h};
-
-  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0x33);
-  SDL_RenderFillRect(core.renderer, &position);
-
-  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0xff);
-  SDL_RenderDrawRect(core.renderer, &position);
-}
-
-void
 Sprite::zoom_in()
 {
   if(this->zoom >= 8) return;
@@ -96,7 +80,7 @@ Sprite::zoom_in()
   this->src_rect.x += this->src_rect.w / 2;
   this->src_rect.y += this->src_rect.h / 2;
 
-  this->correct_position();  
+	this->correct_position();
 }
 
 void
@@ -109,7 +93,7 @@ Sprite::zoom_out()
   this->src_rect.x -= this->src_rect.w / 4;
   this->src_rect.y -= this->src_rect.h / 4;
 
-  this->correct_position();  
+	this->correct_position();
 }
 
 void
@@ -121,7 +105,7 @@ Sprite::scroll(int x, int y)
   if(core.window_height < this->display_height)
     this->src_rect.y -= y;
 
-  this->correct_position();  
+	this->correct_position();
 }
 
 void
@@ -155,11 +139,11 @@ Sprite::render()
 }
 
 Sprite::Sprite():
-  zoom{1},
   resize_state{this},
   scroll_state{this},
   sprite_state{this}
 {
+  this->zoom = 1;
   this->current_state = &this->sprite_state;
 
   SDL_QueryTexture(

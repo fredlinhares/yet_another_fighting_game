@@ -23,6 +23,21 @@ namespace Mode
 {
 
 void
+Animation::zoom_in()
+{
+  if(this->zoom >= 8) return;
+  this->zoom *= 2;
+}
+
+void
+Animation::zoom_out()
+{
+  if(this->zoom <= 1) return;
+  this->zoom /= 2;
+}
+
+
+void
 Animation::tick()
 {
 	this->frame_index = this->current_animation->tick();
@@ -35,10 +50,10 @@ Animation::render()
 	SDL_Rect *position{&frame->sprite.size};
 
   SDL_Rect destination{
-    this->x + frame->x,
-    this->y + frame->y,
-    position->w,
-    position->h
+    this->_x + frame->x,
+    this->_y + frame->y,
+    position->w * this->zoom,
+    position->h * this->zoom
   };
 
 	SDL_RenderCopy(
@@ -46,13 +61,13 @@ Animation::render()
 }
 
 Animation::Animation(const char *animation_name):
-	x{core.window_width/2},
-	y{core.window_height/2},
+	_x{core.window_width/2},
+	_y{core.window_height/2},
 	current_animation{editor_state->animations[animation_name]},
-	click_button_state{&this->buttons}
+	animation_state{this}
 {
-
-	this->current_state = &this->click_button_state;
+	this->zoom = 1;
+	this->current_state = &this->animation_state;
 }
 
 }

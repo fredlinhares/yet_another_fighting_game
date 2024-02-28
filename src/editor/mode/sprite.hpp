@@ -24,16 +24,16 @@
 #include "../state/resize.hpp"
 #include "../state/scroll.hpp"
 #include "../state/sprite.hpp"
+#include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Sprite: public Base
+class Sprite: public Base, public Zoomable
 {
   SDL_Rect src_rect, dst_rect;
   int tex_width, tex_height;
   int display_width, display_height;
-  int zoom;
 
   void
   correct_position();
@@ -54,14 +54,9 @@ public:
   texture_width(){return this->tex_width;};
   inline int
   texture_height(){return this->tex_height;};
-  inline int
-  zoom_level(){return this->zoom;};
 
   void
   get_mouse_position(int &x, int &y);
-
-  void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
 
   void
   zoom_in();

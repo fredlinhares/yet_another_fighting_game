@@ -14,45 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_H
-#define YAFCE_MODE_ANIMATION_H 1
+#ifndef YAFCE_STATE_ANIMATION_H
+#define YAFCE_STATE_ANIMATION_H 1
 
-#include "../../common/graphics/animation.hpp"
-#include "../../common/graphics/frame.hpp"
-#include "../mode.hpp"
-#include "../state/animation.hpp"
-#include "zoomable.hpp"
+#include "../state.hpp"
 
 namespace Mode
 {
+	class Animation;
+}
 
-class Animation: public Base, public Zoomable
+namespace State
 {
-	int _x, _y, frame_index;
-	Graphics::Animation* current_animation;
 
-public:
-	State::Animation animation_state;
-
-	inline int
-	x() {return this->_x;};
-	inline int
-	y() {return this->_y;};
+struct Animation: public State::Base
+{
+	Mode::Animation* const mode;
 
   void
-  zoom_in();
+  key_down(SDL_Keycode keycode);
+
   void
-  zoom_out();
+  mouse_button_down(SDL_MouseButtonEvent& b);
 
-	void
-	tick();
-
-	void
-	render();
-
-	Animation(const char *animation_name);
+  Animation(Mode::Animation* mode);
 };
 
 }
 
-#endif /* YAFCE_MODE_ANIMATION_H */
+#endif /* YAFCE_STATE_ANIMATION_H */

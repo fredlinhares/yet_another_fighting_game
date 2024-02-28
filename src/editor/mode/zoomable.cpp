@@ -14,45 +14,25 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_H
-#define YAFCE_MODE_ANIMATION_H 1
-
-#include "../../common/graphics/animation.hpp"
-#include "../../common/graphics/frame.hpp"
-#include "../mode.hpp"
-#include "../state/animation.hpp"
 #include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Animation: public Base, public Zoomable
+void
+Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 {
-	int _x, _y, frame_index;
-	Graphics::Animation* current_animation;
+  int x{(rect.x - this->x()) * this->zoom};
+  int y{(rect.y - this->y()) * this->zoom};
+  int w{rect.w * this->zoom};
+  int h{rect.h * this->zoom};
+  SDL_Rect position{x, y, w, h};
 
-public:
-	State::Animation animation_state;
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0x33);
+  SDL_RenderFillRect(core.renderer, &position);
 
-	inline int
-	x() {return this->_x;};
-	inline int
-	y() {return this->_y;};
-
-  void
-  zoom_in();
-  void
-  zoom_out();
-
-	void
-	tick();
-
-	void
-	render();
-
-	Animation(const char *animation_name);
-};
-
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0xff);
+  SDL_RenderDrawRect(core.renderer, &position);
 }
 
-#endif /* YAFCE_MODE_ANIMATION_H */
+}

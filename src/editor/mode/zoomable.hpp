@@ -14,45 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_H
-#define YAFCE_MODE_ANIMATION_H 1
+#ifndef YAFCE_MODE_ZOOMABLE_H
+#define YAFCE_MODE_ZOOMABLE_H 1
 
-#include "../../common/graphics/animation.hpp"
-#include "../../common/graphics/frame.hpp"
-#include "../mode.hpp"
-#include "../state/animation.hpp"
-#include "zoomable.hpp"
+#include "../../common/core.hpp"
 
 namespace Mode
 {
 
-class Animation: public Base, public Zoomable
+class Zoomable
 {
-	int _x, _y, frame_index;
-	Graphics::Animation* current_animation;
+protected:
+  int zoom;
 
 public:
-	State::Animation animation_state;
+	virtual int
+	x() = 0;
+	virtual int
+	y() = 0;
 
-	inline int
-	x() {return this->_x;};
-	inline int
-	y() {return this->_y;};
+  inline int
+  zoom_level(){return this->zoom;};
 
   void
-  zoom_in();
-  void
-  zoom_out();
-
-	void
-	tick();
-
-	void
-	render();
-
-	Animation(const char *animation_name);
+  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
 };
 
 }
 
-#endif /* YAFCE_MODE_ANIMATION_H */
+#endif /* YAFCE_MODE_ZOOMABLE_H */
