@@ -66,7 +66,14 @@ Frame::set_collision(int x, int y, int w, int h)
   this->collision.h = h;
 }
 
-Frame::Frame()
+Frame::Frame():
+	x{-20},
+	y{-60},
+	sprite{0, 0, 40, 60},
+	head{-10, -60, 20, 20},
+	upper_body{-15, -40, 30, 20},
+	lower_body{-15, -20, 30, 20},
+	collision{-10, -30, 20, 20}
 {
 }
 

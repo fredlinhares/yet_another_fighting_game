@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ZOOMABLE_H
-#define YAFCE_MODE_ZOOMABLE_H 1
+#ifndef YAFCE_STATE_BOX_H
+#define YAFCE_STATE_BOX_H 1
 
-#include "../../common/core.hpp"
+#include "../state.hpp"
 
 namespace Mode
 {
+	class Box;
+}
 
-class Zoomable
+namespace State
 {
-protected:
-  int zoom;
 
-public:
-	virtual int
-	x() = 0;
-	virtual int
-	y() = 0;
+struct Box: public State::Base
+{
+	Mode::Box* const mode;
 
-  inline int
-  zoom_level(){return this->zoom;};
+  void
+  key_down(SDL_Keycode keycode);
 
-  virtual void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+  void
+  mouse_button_down(SDL_MouseButtonEvent& b);
+
+  Box(Mode::Box* mode);
 };
 
 }
 
-#endif /* YAFCE_MODE_ZOOMABLE_H */
+#endif /* YAFCE_STATE_BOX_H */

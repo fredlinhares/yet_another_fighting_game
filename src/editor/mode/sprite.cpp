@@ -97,6 +97,22 @@ Sprite::zoom_out()
 }
 
 void
+Sprite::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
+{
+  int x{(rect.x - this->x()) * this->zoom};
+  int y{(rect.y - this->y()) * this->zoom};
+  int w{rect.w * this->zoom};
+  int h{rect.h * this->zoom};
+  SDL_Rect position{x, y, w, h};
+
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0x33);
+  SDL_RenderFillRect(core.renderer, &position);
+
+  SDL_SetRenderDrawColor(core.renderer, r, g, b, 0xff);
+  SDL_RenderDrawRect(core.renderer, &position);
+}
+
+void
 Sprite::scroll(int x, int y)
 {
   if(core.window_width < this->display_width)

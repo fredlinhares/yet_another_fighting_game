@@ -14,32 +14,43 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ZOOMABLE_H
-#define YAFCE_MODE_ZOOMABLE_H 1
+#include "box.hpp"
 
-#include "../../common/core.hpp"
+#include "../main.hpp"
+#include "../mode/animation_list.hpp"
+#include "../mode/box.hpp"
 
-namespace Mode
+namespace State
 {
 
-class Zoomable
+void
+Box::key_down(SDL_Keycode keycode)
 {
-protected:
-  int zoom;
-
-public:
-	virtual int
-	x() = 0;
-	virtual int
-	y() = 0;
-
-  inline int
-  zoom_level(){return this->zoom;};
-
-  virtual void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
-};
-
+  switch(keycode)
+  {
+  case SDLK_e:
+    this->mode->zoom_in();
+    break;
+  case SDLK_d:
+    this->mode->zoom_out();
+    break;
+  case SDLK_2:
+		editor_state->next_game_mode = new Mode::Box{};
+    break;
+  case SDLK_3:
+		editor_state->next_game_mode = new Mode::AnimationList{};
+    break;
+  }
 }
 
-#endif /* YAFCE_MODE_ZOOMABLE_H */
+void
+Box::mouse_button_down(SDL_MouseButtonEvent& b)
+{
+}
+
+Box::Box(Mode::Box* mode):
+	mode{mode}
+{
+}
+
+}

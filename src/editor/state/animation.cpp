@@ -19,6 +19,7 @@
 #include "../main.hpp"
 #include "../mode/animation.hpp"
 #include "../mode/animation_list.hpp"
+#include "../mode/box.hpp"
 
 namespace State
 {
@@ -35,6 +36,9 @@ Animation::key_down(SDL_Keycode keycode)
     this->mode->zoom_out();
     break;
   case SDLK_2:
+		editor_state->next_game_mode = new Mode::Box{};
+    break;
+  case SDLK_3:
 		editor_state->next_game_mode = new Mode::AnimationList{};
     break;
   }

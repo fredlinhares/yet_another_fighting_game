@@ -14,32 +14,41 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ZOOMABLE_H
-#define YAFCE_MODE_ZOOMABLE_H 1
+#ifndef YAFCE_MODE_BOX_H
+#define YAFCE_MODE_BOX_H 1
 
-#include "../../common/core.hpp"
+#include "../frame.hpp"
+#include "../mode.hpp"
+#include "../state/box.hpp"
+#include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Zoomable
+class Box: public Base, public Zoomable
 {
-protected:
-  int zoom;
+	int _x, _y;
+	Frame *frame;
 
 public:
-	virtual int
-	x() = 0;
-	virtual int
-	y() = 0;
+	State::Box box_state;
 
-  inline int
-  zoom_level(){return this->zoom;};
+	inline int
+	x() {return this->_x;};
+	inline int
+	y() {return this->_y;};
 
-  virtual void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+	void
+	zoom_in();
+	void
+	zoom_out();
+
+	void
+	render();
+
+	Box();
 };
 
 }
 
-#endif /* YAFCE_MODE_ZOOMABLE_H */
+#endif /* YAFCE_MODE_BOX_H */

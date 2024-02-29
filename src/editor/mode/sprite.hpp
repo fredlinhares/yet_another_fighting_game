@@ -64,6 +64,9 @@ public:
   zoom_out();
 
   void
+  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+
+  void
   scroll(int x, int y);
 
   void
