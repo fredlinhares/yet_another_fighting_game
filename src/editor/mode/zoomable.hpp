@@ -17,6 +17,7 @@
 #ifndef YAFCE_MODE_ZOOMABLE_H
 #define YAFCE_MODE_ZOOMABLE_H 1
 
+#include "../frame.hpp"
 #include "../../common/core.hpp"
 
 namespace Mode
@@ -43,6 +44,9 @@ public:
 
   inline int
   zoom_level(){return this->zoom;};
+
+	void
+	render_sprite(const Frame &frame);
 
 	void
 	render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);

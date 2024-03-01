@@ -16,8 +16,26 @@
 
 #include "zoomable.hpp"
 
+#include "../main.hpp"
+
 namespace Mode
 {
+
+void
+Zoomable::render_sprite(const Frame &frame)
+{
+	const SDL_Rect *position{&frame.sprite.size};
+
+  SDL_Rect destination{
+    this->x() + frame.x * this->zoom,
+    this->y() + frame.y * this->zoom,
+    position->w * this->zoom,
+    position->h * this->zoom
+  };
+
+	SDL_RenderCopy(
+		core.renderer, editor_state->texture, position, &destination);
+}
 
 void
 Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)

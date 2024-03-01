@@ -51,17 +51,7 @@ void
 Animation::render()
 {
 	Frame *frame{&editor_state->frames[this->frame_index]};
-	SDL_Rect *position{&frame->sprite.size};
-
-  SDL_Rect destination{
-    this->_x + frame->x * this->zoom,
-    this->_y + frame->y * this->zoom,
-    position->w * this->zoom,
-    position->h * this->zoom
-  };
-
-	SDL_RenderCopy(
-		core.renderer, editor_state->texture, position, &destination);
+	this->render_sprite(*frame);
 }
 
 Animation::Animation(const char *animation_name):

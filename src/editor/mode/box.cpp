@@ -53,17 +53,7 @@ Box::default_state()
 void
 Box::render()
 {
-	SDL_Rect *position{&this->frame->sprite.size};
-
-  SDL_Rect destination{
-    this->_x + frame->x * this->zoom,
-    this->_y + frame->y * this->zoom,
-    position->w * this->zoom,
-    position->h * this->zoom
-  };
-
-	SDL_RenderCopy(
-		core.renderer, editor_state->texture, position, &destination);
+	this->render_sprite(*this->frame);
 
 	this->render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
 	this->render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
