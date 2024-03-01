@@ -46,14 +46,15 @@ public:
   State::Scroll scroll_state;
   State::Sprite sprite_state;
 
-  inline int
-  x(){return this->src_rect.x;};
-  inline int
-  y(){return this->src_rect.y;};
-  inline int
-  texture_width(){return this->tex_width;};
-  inline int
-  texture_height(){return this->tex_height;};
+	inline int
+	x(){return - this->src_rect.x;};
+	inline int
+	y(){return - this->src_rect.y;};
+
+	inline int
+	width(){return this->tex_width;};
+	inline int
+	height(){return this->tex_height;};
 
   void
   get_mouse_position(int &x, int &y);
@@ -63,8 +64,8 @@ public:
   void
   zoom_out();
 
-  void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+	void
+	default_state();
 
   void
   scroll(int x, int y);

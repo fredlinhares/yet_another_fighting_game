@@ -21,18 +21,71 @@ namespace State
 {
 
 void
+Resize::set_resize_move(Direction direction)
+{
+	this->horizontal_move = nullptr;
+	this->vertical_move = nullptr;
+
+	switch(direction)
+	{
+	case Direction::up:
+		this->vertical_move = &State::Resize::up_corner;
+		break;
+	case Direction::down:
+		this->vertical_move = &State::Resize::down_corner;
+		break;
+	case Direction::left:
+		this->horizontal_move = &State::Resize::left_corner;
+		break;
+	case Direction::right:
+		this->horizontal_move = &State::Resize::right_corner;
+		break;
+	case Direction::up_right:
+		this->vertical_move = &State::Resize::up_corner;
+		this->horizontal_move = &State::Resize::right_corner;
+		break;
+	case Direction::up_left:
+		this->vertical_move = &State::Resize::up_corner;
+		this->horizontal_move = &State::Resize::left_corner;
+		break;
+	case Direction::down_right:
+		this->vertical_move = &State::Resize::down_corner;
+		this->horizontal_move = &State::Resize::right_corner;
+		break;
+	case Direction::down_left:
+		this->vertical_move = &State::Resize::down_corner;
+		this->horizontal_move = &State::Resize::left_corner;
+		break;
+	}
+}
+
+void
 Resize::mouse_button_up(SDL_MouseButtonEvent& b)
 {
-  this->mode->current_state = &this->mode->sprite_state;
+  this->mode->default_state();
 }
 
 void
 Resize::mouse_motion(int x, int y, int xrel, int yrel)
 {
   if(xrel != 0 && this->horizontal_move)
-    (this->*horizontal_move)(x / this->mode->zoom_level() + this->mode->x());
+	{
+		int _x;
+		if(this->mode->x() > 0)
+			_x = (x - this->mode->x()) / this->mode->zoom_level() ;
+		else
+			_x = x / this->mode->zoom_level() + this->mode->x();
+    (this->*horizontal_move)(_x);
+	}
   if(yrel != 0 && this->vertical_move)
-    (this->*vertical_move)(y / this->mode->zoom_level() + this->mode->y());
+	{
+		int _y;
+		if(this->mode->y() > 0)
+			_y = (y - this->mode->y()) / this->mode->zoom_level() ;
+		else
+			_y = y / this->mode->zoom_level() + this->mode->y();
+    (this->*vertical_move)(_y);
+	}
 
 	this->box->update_size();
 }
@@ -58,10 +111,8 @@ Resize::down_corner(int y)
 {
 	this->box->size.h = y - this->box->size.y;
 
-	if(this->box->size.y + this->box->size.h >
-		 this->mode->texture_height())
-		this->box->size.h =
-			this->mode->texture_height() - this->box->size.y;
+	if(this->box->size.y + this->box->size.h > this->mode->height())
+		this->box->size.h = this->mode->height() - this->box->size.y;
 	else if(this->box->size.h < 1) this->box->size.h = 1;
 }
 
@@ -86,14 +137,12 @@ Resize::right_corner(int x)
 {
 	this->box->size.w = x - this->box->size.x;
 
-	if(this->box->size.y + this->box->size.w >
-		 this->mode->texture_height())
-		this->box->size.w =
-			this->mode->texture_height() - this->box->size.y;
+	if(this->box->size.y + this->box->size.w > this->mode->height())
+		this->box->size.w = this->mode->height() - this->box->size.y;
 	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
-Resize::Resize(Mode::Sprite* mode):
+Resize::Resize(Mode::Zoomable* mode):
   mode{mode},
   vertical_move{nullptr},
   horizontal_move{nullptr}

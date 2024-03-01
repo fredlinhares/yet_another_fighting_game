@@ -36,6 +36,10 @@ Animation::zoom_out()
   this->zoom /= 2;
 }
 
+void
+Animation::default_state()
+{
+}
 
 void
 Animation::tick()
@@ -50,8 +54,8 @@ Animation::render()
 	SDL_Rect *position{&frame->sprite.size};
 
   SDL_Rect destination{
-    this->_x + frame->x,
-    this->_y + frame->y,
+    this->_x + frame->x * this->zoom,
+    this->_y + frame->y * this->zoom,
     position->w * this->zoom,
     position->h * this->zoom
   };

@@ -33,11 +33,19 @@ public:
 	virtual int
 	y() = 0;
 
+	virtual int
+	width() = 0;
+	virtual int
+	height() = 0;
+
+	virtual void
+	default_state() = 0;
+
   inline int
   zoom_level(){return this->zoom;};
 
-  virtual void
-  render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+	void
+	render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
 };
 
 }

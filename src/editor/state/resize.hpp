@@ -18,23 +18,23 @@
 #define YAFCE_STATE_RESIZE_H 1
 
 #include "../frame.hpp"
+#include "../mode/zoomable.hpp"
 #include "../state.hpp"
-
-namespace Mode
-{
-  class Sprite;
-}
 
 namespace State
 {
 
 struct Resize: public State::Base
 {
-  Mode::Sprite* const mode;
-	Box* box;
+	Mode::Zoomable* const mode;
+
+	::Box* box;
 
   void (Resize::*vertical_move)(int num);
   void (Resize::*horizontal_move)(int num);
+
+	void
+	set_resize_move(Direction direction);
 
   void
   mouse_button_up(SDL_MouseButtonEvent& b);
@@ -50,7 +50,7 @@ struct Resize: public State::Base
   void
   right_corner(int x);
 
-  Resize(Mode::Sprite* mode);
+	Resize(Mode::Zoomable* mode);
 };
 
 }

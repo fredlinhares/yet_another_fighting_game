@@ -22,6 +22,15 @@ namespace Mode
 {
 
 void
+Box::get_mouse_position(int &x, int &y)
+{
+  int mouse_x, mouse_y;
+  SDL_GetMouseState(&mouse_x, &mouse_y);
+  x = (mouse_x - this->_x) / this->zoom;
+  y = (mouse_y - this->_y) / this->zoom;
+}
+
+void
 Box::zoom_in()
 {
   if(this->zoom >= 8) return;
@@ -36,13 +45,19 @@ Box::zoom_out()
 }
 
 void
+Box::default_state()
+{
+	this->current_state = &this->box_state;
+}
+
+void
 Box::render()
 {
 	SDL_Rect *position{&this->frame->sprite.size};
 
   SDL_Rect destination{
-    this->_x + frame->x,
-    this->_y + frame->y,
+    this->_x + frame->x * this->zoom,
+    this->_y + frame->y * this->zoom,
     position->w * this->zoom,
     position->h * this->zoom
   };
@@ -50,17 +65,18 @@ Box::render()
 	SDL_RenderCopy(
 		core.renderer, editor_state->texture, position, &destination);
 
-	this->render_rect(this->frame->head.size, 0x55, 0x55, 0x99);
-	this->render_rect(this->frame->upper_body.size, 0x33, 0x33, 0x99);
+	this->render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
+	this->render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
 	this->render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
 	this->render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
 }
 
 Box::Box():
 	_x{core.window_width/2},
-	_y{core.window_height/2},
+	_y{(core.window_height/6)*5},
 	frame{&editor_state->frames[0]},
-	box_state{this}
+	box_state{this},
+	resize_state{this}
 {
 	this->zoom = 1;
 	this->current_state = &this->box_state;

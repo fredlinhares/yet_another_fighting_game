@@ -22,8 +22,17 @@ namespace Mode
 void
 Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 {
-  int x{(this->x() + rect.x) * this->zoom};
-  int y{(this->y() + rect.y) * this->zoom};
+	int x, y;
+	if(this->x() > 0)
+		x = this->x() + rect.x * this->zoom;
+	else
+		x = (this->x() + rect.x) * this->zoom;
+
+	if(this->y() > 0)
+		y = this->y() + rect.y * this->zoom;
+	else
+		y = (this->y() + rect.y) * this->zoom;
+
   int w{rect.w * this->zoom};
   int h{rect.h * this->zoom};
   SDL_Rect position{x, y, w, h};

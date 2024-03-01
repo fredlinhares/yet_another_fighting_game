@@ -16,6 +16,37 @@
 
 #include "box.hpp"
 
+bool
+Box::click(Direction *direction, const int x, const int y)
+{
+	Direction vertical_direction{Direction::none};
+	Direction horizontal_direction{Direction::none};
+
+	if(x >= this->outer_left && x <= this->outer_right &&
+		 y >= this->outer_up && y <= this->outer_down)
+	{
+		if(x < this->center_left)
+			horizontal_direction = Direction::left;
+		else if(x < this->center_right)
+			horizontal_direction = Direction::none;
+		else
+			horizontal_direction = Direction::right;
+
+		if(y < this->center_up)
+			vertical_direction = Direction::up;
+		else if(y < this->center_down)
+			vertical_direction = Direction::none;
+		else
+			vertical_direction = Direction::down;
+
+		*direction = vertical_direction + horizontal_direction;
+
+		return true;
+	}
+	else
+		return false;
+}
+
 void
 Box::update_size()
 {

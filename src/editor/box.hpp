@@ -18,6 +18,7 @@
 #define YAFCE_BOX_H 1
 
 #include "../common/core.hpp"
+#include "../common/direction.hpp"
 #include "../common/graphics/frame.hpp"
 
 struct Box
@@ -25,6 +26,9 @@ struct Box
   int outer_left, center_left, outer_right, center_right, outer_up,
     center_up, outer_down, center_down;
   SDL_Rect size;
+
+	bool
+	click(Direction *direction, const int x, const int y);
 
   void
   update_size();

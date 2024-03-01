@@ -16,6 +16,8 @@
 
 #include "box.hpp"
 
+#include <array>
+
 #include "../main.hpp"
 #include "../mode/animation_list.hpp"
 #include "../mode/box.hpp"
@@ -46,6 +48,32 @@ Box::key_down(SDL_Keycode keycode)
 void
 Box::mouse_button_down(SDL_MouseButtonEvent& b)
 {
+  int x, y;
+  this->mode->get_mouse_position(x, y);
+
+	std::array<::Box*, 5> boxes{
+		&this->mode->frame->sprite,
+		&this->mode->frame->head,
+		&this->mode->frame->upper_body,
+		&this->mode->frame->lower_body,
+		&this->mode->frame->collision};
+
+
+	for(::Box* box: boxes)
+	{
+		Direction direction;
+
+		if(box->click(&direction, x, y))
+		{
+			this->mode->resize_state.box = box;
+
+			this->mode->resize_state.set_resize_move(direction);
+      this->mode->current_state = &this->mode->resize_state;
+      return;
+		}
+	}
+
+	this->mode->current_state = &this->mode->box_state;
 }
 
 Box::Box(Mode::Box* mode):

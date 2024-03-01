@@ -39,10 +39,18 @@ public:
 	inline int
 	y() {return this->_y;};
 
-  void
-  zoom_in();
-  void
-  zoom_out();
+	inline int
+	width(){return core.window_width/2;};
+	inline int
+	height(){return core.window_height/2;};
+
+	void
+	zoom_in();
+	void
+	zoom_out();
+
+	void
+	default_state();
 
 	void
 	tick();

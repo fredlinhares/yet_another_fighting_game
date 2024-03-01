@@ -20,6 +20,7 @@
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state/box.hpp"
+#include "../state/resize.hpp"
 #include "zoomable.hpp"
 
 namespace Mode
@@ -28,20 +29,33 @@ namespace Mode
 class Box: public Base, public Zoomable
 {
 	int _x, _y;
-	Frame *frame;
 
 public:
+	Frame *frame;
+
 	State::Box box_state;
+	State::Resize resize_state;
 
 	inline int
 	x() {return this->_x;};
 	inline int
 	y() {return this->_y;};
 
+	inline int
+	width() {return this->frame->sprite.size.w;};
+	inline int
+	height() {return this->frame->sprite.size.w;};
+
+	void
+	get_mouse_position(int &x, int &y);
+
 	void
 	zoom_in();
 	void
 	zoom_out();
+
+	void
+	default_state();
 
 	void
 	render();
