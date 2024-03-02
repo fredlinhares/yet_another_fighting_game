@@ -72,19 +72,19 @@ Resize::mouse_motion(int x, int y, int xrel, int yrel)
 	{
 		int _x;
 		if(this->mode->x() > 0)
-			_x = (x - this->mode->x()) / this->mode->zoom_level() ;
+			_x = (x - this->mode->x()) / this->mode->zoom_level();
 		else
-			_x = x / this->mode->zoom_level() + this->mode->x();
-    (this->*horizontal_move)(_x);
+			_x = x / this->mode->zoom_level() - this->mode->x();
+		(this->*horizontal_move)(_x);
 	}
   if(yrel != 0 && this->vertical_move)
 	{
 		int _y;
 		if(this->mode->y() > 0)
-			_y = (y - this->mode->y()) / this->mode->zoom_level() ;
+			_y = (y - this->mode->y()) / this->mode->zoom_level();
 		else
-			_y = y / this->mode->zoom_level() + this->mode->y();
-    (this->*vertical_move)(_y);
+			_y = y / this->mode->zoom_level() - this->mode->y();
+		(this->*vertical_move)(_y);
 	}
 
 	this->box->update_size();
