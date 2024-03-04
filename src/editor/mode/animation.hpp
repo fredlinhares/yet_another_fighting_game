@@ -35,14 +35,18 @@ public:
 	State::Animation animation_state;
 
 	inline int
-	x() {return this->_x;};
+	x() const {return this->_x;};
 	inline int
-	y() {return this->_y;};
+	y() const {return this->_y;};
 
 	inline int
-	width(){return core.window_width/2;};
+	up_limit() const {return -250;};
 	inline int
-	height(){return core.window_height/2;};
+	down_limit() const {return 250;};
+	inline int
+	left_limit() const {return -250;};
+	inline int
+	right_limit() const {return 250;};
 
 	void
 	zoom_in();

@@ -37,14 +37,18 @@ public:
 	State::Resize resize_state;
 
 	inline int
-	x() {return this->_x;};
+	x() const {return this->_x;};
 	inline int
-	y() {return this->_y;};
+	y() const {return this->_y;};
 
 	inline int
-	width() {return this->frame->sprite.size.w;};
+	up_limit() const {return - this->frame->sprite.size.h * 2;};
 	inline int
-	height() {return this->frame->sprite.size.w;};
+	down_limit() const {return this->frame->sprite.size.h * 2;};
+	inline int
+	left_limit() const {return - this->frame->sprite.size.w * 2;};
+	inline int
+	right_limit() const {return this->frame->sprite.size.w * 2;};
 
 	void
 	get_mouse_position(int &x, int &y);

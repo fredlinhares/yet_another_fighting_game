@@ -47,14 +47,18 @@ public:
   State::Sprite sprite_state;
 
 	inline int
-	x(){return - this->src_rect.x;};
+	x() const {return - this->src_rect.x;};
 	inline int
-	y(){return - this->src_rect.y;};
+	y() const {return - this->src_rect.y;};
 
 	inline int
-	width(){return this->tex_width;};
+	up_limit() const {return 0;};
 	inline int
-	height(){return this->tex_height;};
+	down_limit() const {return this->tex_height;};
+	inline int
+	left_limit() const {return 0;};
+	inline int
+	right_limit() const {return this->tex_width;};
 
   void
   get_mouse_position(int &x, int &y);

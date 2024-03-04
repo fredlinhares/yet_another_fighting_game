@@ -30,14 +30,18 @@ protected:
 
 public:
 	virtual int
-	x() = 0;
+	x() const = 0;
 	virtual int
-	y() = 0;
+	y() const = 0;
 
 	virtual int
-	width() = 0;
+	up_limit() const = 0;
 	virtual int
-	height() = 0;
+	down_limit() const = 0;
+	virtual int
+	left_limit() const = 0;
+	virtual int
+	right_limit() const = 0;
 
 	virtual void
 	default_state() = 0;

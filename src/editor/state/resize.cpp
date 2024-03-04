@@ -98,7 +98,11 @@ Resize::up_corner(int y)
 	this->box->size.y = y;
 	this->box->size.h -= y - left_y;
 
-	if(this->box->size.y < 0) this->box->size.y = 0;
+	if(this->box->size.y < this->mode->up_limit())
+	{
+		this->box->size.h -= this->mode->up_limit() - this->box->size.y;
+		this->box->size.y = this->mode->up_limit();
+	}
 	else if(this->box->size.h <= 0)
 	{
 		this->box->size.y = right_y - 1;
@@ -111,8 +115,8 @@ Resize::down_corner(int y)
 {
 	this->box->size.h = y - this->box->size.y;
 
-	if(this->box->size.y + this->box->size.h > this->mode->height())
-		this->box->size.h = this->mode->height() - this->box->size.y;
+	if(this->box->size.y + this->box->size.h > this->mode->down_limit())
+		this->box->size.h = this->mode->down_limit() - this->box->size.y;
 	else if(this->box->size.h < 1) this->box->size.h = 1;
 }
 
@@ -124,7 +128,11 @@ Resize::left_corner(int x)
 	this->box->size.x = x;
 	this->box->size.w -= x - left_x;
 
-	if(this->box->size.x < 0) this->box->size.x = 0;
+	if(this->box->size.x < this->mode->left_limit())
+	{
+		this->box->size.w -= this->mode->left_limit() - this->box->size.x;
+		this->box->size.x = this->mode->left_limit();
+	}
 	else if(this->box->size.w <= 0)
 	{
 		this->box->size.x = right_x - 1;
@@ -137,8 +145,8 @@ Resize::right_corner(int x)
 {
 	this->box->size.w = x - this->box->size.x;
 
-	if(this->box->size.y + this->box->size.w > this->mode->height())
-		this->box->size.w = this->mode->height() - this->box->size.y;
+	if(this->box->size.x + this->box->size.w > this->mode->right_limit())
+		this->box->size.w = this->mode->right_limit() - this->box->size.x;
 	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
