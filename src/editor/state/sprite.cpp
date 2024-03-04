@@ -61,6 +61,7 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 
 		if(frame->sprite.click(&direction, x, y))
     {
+			if(direction == Direction::none) continue;
 			this->mode->resize_state.box = &frame->sprite;
 
 			this->mode->resize_state.set_resize_move(direction);
