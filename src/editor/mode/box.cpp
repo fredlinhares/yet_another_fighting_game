@@ -59,6 +59,8 @@ Box::render()
 	this->render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
 	this->render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
 	this->render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
+
+	this->sprite_list.render();
 }
 
 Box::Box():

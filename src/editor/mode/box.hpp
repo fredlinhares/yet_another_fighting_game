@@ -19,6 +19,7 @@
 
 #include "../frame.hpp"
 #include "../mode.hpp"
+#include "../sprite_list.hpp"
 #include "../state/box.hpp"
 #include "../state/resize.hpp"
 #include "zoomable.hpp"
@@ -29,6 +30,7 @@ namespace Mode
 class Box: public Base, public Zoomable
 {
 	int _x, _y;
+	SpriteList sprite_list;
 
 public:
 	Frame *frame;
