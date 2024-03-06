@@ -42,6 +42,23 @@ unload_texture(void *obj)
 }
 
 void
+load_direction_buttons(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	std::string texture_path{"./img/ui/directions.png"};
+	self->tex_direction_buttons = Graphics::Texture::load(texture_path.c_str());
+}
+
+void
+unload_direction_buttons(void *obj)
+{
+	auto self{static_cast<EditorState*>(obj)};
+
+	SDL_DestroyTexture(self->tex_direction_buttons);
+}
+
+void
 load_frames(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
@@ -94,6 +111,7 @@ unload_font(void *obj)
 
 const CommandChain loader{
 	{&load_texture, &unload_texture},
+	{&load_direction_buttons, &unload_direction_buttons},
 	{&load_frames, nullptr},
 	{&load_animations, unload_animation},
 	{&load_font, &unload_font}
@@ -102,7 +120,11 @@ const CommandChain loader{
 }
 
 EditorState::EditorState(const char* character):
-	next_game_mode{nullptr}
+	next_game_mode{nullptr},
+	up_button{0, 0, 18, 18},
+	down_button{18, 0, 18, 18},
+	left_button{0, 18, 18, 18},
+	right_button{18, 18, 18, 18}
 {
 	this->character = character;
 

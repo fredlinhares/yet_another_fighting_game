@@ -30,8 +30,9 @@ struct EditorState
 	Mode::Base *next_game_mode;
 
   std::string character;
-  SDL_Texture *texture;
+	SDL_Texture *texture, *tex_direction_buttons;
 	TTF_Font *font;
+	SDL_Rect up_button, down_button, left_button, right_button;
 	std::vector<Frame> frames;
 	std::unordered_map<std::string, Graphics::Animation*> animations;
 

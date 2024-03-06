@@ -29,6 +29,7 @@ class SpriteList
 	};
 
 	int current_set, width, height;
+	SDL_Rect up_button, down_button;
 	std::vector<int> set_indexes;
 	std::vector<Sprite> positions;
 

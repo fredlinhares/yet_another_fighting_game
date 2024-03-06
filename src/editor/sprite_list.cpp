@@ -44,7 +44,7 @@ SpriteList::set_positions()
 		this->positions.emplace_back(
 			i,
 			core.window_width - sprite->size.w,
-			y,
+			y + editor_state->up_button.h,
 			sprite->size.w,
 			sprite->size.h);
 
@@ -71,12 +71,23 @@ SpriteList::render()
 			core.renderer, editor_state->texture,
 			&editor_state->frames[sprite.index].sprite.size, &sprite.position);
 	}
+
+	SDL_RenderCopy(
+		core.renderer, editor_state->tex_direction_buttons,
+		&editor_state->up_button, &this->up_button);
+	SDL_RenderCopy(
+		core.renderer, editor_state->tex_direction_buttons,
+		&editor_state->down_button, &this->down_button);
 }
 
 SpriteList::SpriteList():
 	current_set{0},
 	width{0},
-	height{core.window_height}
+	height{
+		core.window_height -
+		editor_state->up_button.h - editor_state->down_button.h},
+	up_button{0, 0, 18, 18},
+	down_button{0, core.window_height - 18, 18, 18}
 {
 	int index{0};
 	int current_height{0};
@@ -93,6 +104,13 @@ SpriteList::SpriteList():
 
 		index++;
 		current_height += frame.sprite.size.h;
+	}
+
+	{
+		int button_pos_x{
+			core.window_width - this->width / 2 - editor_state->up_button.w / 2};
+		this->up_button.x = button_pos_x;
+		this->down_button.x = button_pos_x;
 	}
 
 	this->set_positions();
