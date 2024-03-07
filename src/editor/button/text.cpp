@@ -22,7 +22,7 @@ namespace Button
 {
 
 void
-Text::click()
+Text::click_action(int x, int y)
 {
 	this->callback();
 }

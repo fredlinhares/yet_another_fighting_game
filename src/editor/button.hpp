@@ -26,8 +26,17 @@ struct Base
 {
 	SDL_Rect location;
 
+	inline static bool
+	is_point_inside_rect(const SDL_Rect &rect, int x, int y)
+		{return (
+				x > rect.x && x < rect.x + rect.w &&
+				y > rect.y && y < rect.y + rect.h);};
+
+	bool
+	is_clicked(int x, int y);
+
 	virtual void
-	click() = 0;
+	click_action(int x, int y) = 0;
 
 	virtual void
 	render() = 0;

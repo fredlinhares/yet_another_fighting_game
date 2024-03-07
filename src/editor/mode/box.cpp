@@ -68,7 +68,8 @@ Box::Box():
 	_y{(core.window_height/6)*5},
 	frame{&editor_state->frames[0]},
 	box_state{this},
-	resize_state{this}
+	resize_state{this},
+	sprite_list{&this->frame}
 {
 	this->zoom = 1;
 	this->current_state = &this->box_state;

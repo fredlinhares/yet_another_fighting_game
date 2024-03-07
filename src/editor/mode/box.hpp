@@ -19,7 +19,7 @@
 
 #include "../frame.hpp"
 #include "../mode.hpp"
-#include "../sprite_list.hpp"
+#include "../button/sprite_list.hpp"
 #include "../state/box.hpp"
 #include "../state/resize.hpp"
 #include "zoomable.hpp"
@@ -30,13 +30,14 @@ namespace Mode
 class Box: public Base, public Zoomable
 {
 	int _x, _y;
-	SpriteList sprite_list;
 
 public:
 	Frame *frame;
 
 	State::Box box_state;
 	State::Resize resize_state;
+
+	Button::SpriteList sprite_list;
 
 	inline int
 	x() const {return this->_x;};

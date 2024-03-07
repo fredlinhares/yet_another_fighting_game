@@ -17,9 +17,14 @@
 #ifndef YAFCE_SPRITE_LIST_H
 #define YAFCE_SPRITE_LIST_H 1
 
-#include "../common/main.hpp"
+#include "../../common/main.hpp"
+#include "../button.hpp"
+#include "../frame.hpp"
 
-class SpriteList
+namespace Button
+{
+
+class SpriteList: public Base
 {
 	struct Sprite
 	{
@@ -28,7 +33,9 @@ class SpriteList
 		Sprite(int index, int x, int y, int w, int h);
 	};
 
-	int current_set, width, height;
+	Frame **frame;
+
+	int current_set, sprites_height;
 	SDL_Rect up_button, down_button;
 	std::vector<int> set_indexes;
 	std::vector<Sprite> positions;
@@ -44,9 +51,14 @@ public:
 	previous_set();
 
 	void
+	click_action(int x, int y);
+
+	void
 	render();
 
-	SpriteList();
+	SpriteList(Frame **frame);
 };
+
+}
 
 #endif /* YAFCE_SPRITE_LIST_H */

@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-#include "click_button.hpp"
+#include "button.hpp"
 
-namespace State
+namespace Button
 {
 
-void
-ClickButton::key_down(SDL_Keycode keycode)
+bool
+Base::is_clicked(int x, int y)
 {
-}
+	if(Base::is_point_inside_rect(this->location, x, y))
+	{
+		this->click_action(x, y);
+		return true;
+	}
 
-void
-ClickButton::mouse_button_down(SDL_MouseButtonEvent &b)
-{
-  int mouse_x, mouse_y;
-  SDL_GetMouseState(&mouse_x, &mouse_y);
-
-	for(Button::Base *button: *this->buttons)
-		if(button->is_clicked(mouse_x, mouse_y)) break;
-}
-
-ClickButton::ClickButton(std::vector<Button::Base*> *buttons):
-	buttons{buttons}
-{
+	return false;
 }
 
 }

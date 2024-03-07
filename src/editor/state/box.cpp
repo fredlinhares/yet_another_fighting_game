@@ -48,8 +48,7 @@ Box::key_down(SDL_Keycode keycode)
 void
 Box::mouse_button_down(SDL_MouseButtonEvent& b)
 {
-  int x, y;
-  this->mode->get_mouse_position(x, y);
+	if(this->mode->sprite_list.is_clicked(b.x, b.y)) return;
 
 	std::array<::Box*, 5> boxes{
 		&this->mode->frame->sprite,
@@ -58,6 +57,8 @@ Box::mouse_button_down(SDL_MouseButtonEvent& b)
 		&this->mode->frame->lower_body,
 		&this->mode->frame->collision};
 
+  int x, y;
+  this->mode->get_mouse_position(x, y);
 
 	for(::Box* box: boxes)
 	{

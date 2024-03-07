@@ -16,7 +16,10 @@
 
 #include "sprite_list.hpp"
 
-#include "main.hpp"
+#include "../main.hpp"
+
+namespace Button
+{
 
 SpriteList::Sprite::Sprite(int index, int x, int y, int w, int h):
 	index{index},
@@ -55,11 +58,43 @@ SpriteList::set_positions()
 void
 SpriteList::next_set()
 {
+	this->current_set++;
+	if(this->current_set >= this->set_indexes.size())
+		this->current_set = 0;
 }
 
 void
 SpriteList::previous_set()
 {
+	this->current_set--;
+	if(this->current_set < 0)
+		this->current_set = this->set_indexes.size() - 1;
+}
+
+void
+SpriteList::click_action(int x, int y)
+{
+	if(Button::Base::is_point_inside_rect(this->up_button, x, y))
+	{
+		this->previous_set();
+		this->set_positions();
+		return;
+	}
+	if(Button::Base::is_point_inside_rect(this->down_button, x, y))
+	{
+		this->next_set();
+		this->set_positions();
+		return;
+	}
+
+	for(Sprite &sprite: this->positions)
+	{
+		if(Button::Base::is_point_inside_rect(sprite.position, x, y))
+		{
+			*this->frame = &editor_state->frames[sprite.index];
+			return;
+		}
+	}
 }
 
 void
@@ -80,10 +115,10 @@ SpriteList::render()
 		&editor_state->down_button, &this->down_button);
 }
 
-SpriteList::SpriteList():
+SpriteList::SpriteList(Frame **frame):
+	frame{frame},
 	current_set{0},
-	width{0},
-	height{
+	sprites_height{
 		core.window_height -
 		editor_state->up_button.h - editor_state->down_button.h},
 	up_button{0, 0, 18, 18},
@@ -92,11 +127,17 @@ SpriteList::SpriteList():
 	int index{0};
 	int current_height{0};
 
+	this->location.y = 0;
+	this->location.w = 0;
+	this->location.h = core.window_height;
+
+	this->set_indexes.emplace_back(0);
 	for(const Frame &frame: editor_state->frames)
 	{
-		if(frame.sprite.size.w > this->width) this->width = frame.sprite.size.w;
+		if(frame.sprite.size.w > this->location.w)
+			this->location.w = frame.sprite.size.w;
 
-		if(current_height + frame.sprite.size.h > this->height)
+		if(current_height + frame.sprite.size.h > this->sprites_height)
 		{
 			this->set_indexes.emplace_back(index);
 			current_height = 0;
@@ -107,11 +148,15 @@ SpriteList::SpriteList():
 	}
 
 	{
+		this->location.x = core.window_width - this->location.w;
 		int button_pos_x{
-			core.window_width - this->width / 2 - editor_state->up_button.w / 2};
+			core.window_width - this->location.w / 2 -
+			editor_state->up_button.w / 2};
 		this->up_button.x = button_pos_x;
 		this->down_button.x = button_pos_x;
 	}
 
 	this->set_positions();
+}
+
 }

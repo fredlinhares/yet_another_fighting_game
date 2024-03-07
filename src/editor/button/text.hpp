@@ -32,7 +32,7 @@ struct Text: public Base
 	SDL_Rect src;
 
 	void
-	click();
+	click_action(int x, int y);
 
 	void
 	render();
