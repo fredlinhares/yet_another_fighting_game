@@ -20,6 +20,7 @@
 #include "../../common/graphics/animation.hpp"
 #include "../../common/graphics/frame.hpp"
 #include "../mode.hpp"
+#include "../number.hpp"
 #include "../state/animation.hpp"
 #include "zoomable.hpp"
 
@@ -29,6 +30,7 @@ namespace Mode
 class Animation: public Base, public Zoomable
 {
 	int _x, _y, frame_index;
+	Number numbers;
 	Graphics::Animation* current_animation;
 
 public:
