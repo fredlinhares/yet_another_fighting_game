@@ -26,29 +26,6 @@ namespace State
 {
 
 void
-Sprite::key_down(SDL_Keycode keycode)
-{
-  switch(keycode)
-  {
-  case SDLK_e:
-    this->mode->zoom_in();
-    break;
-  case SDLK_d:
-    this->mode->zoom_out();
-    break;
-  case SDLK_n:
-    this->mode->add_sprite();
-    break;
-  case SDLK_2:
-		editor_state->next_game_mode = new Mode::Box{};
-    break;
-  case SDLK_3:
-		editor_state->next_game_mode = new Mode::AnimationList{};
-    break;
-  }
-}
-
-void
 Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 {
   int x, y;
@@ -76,6 +53,9 @@ Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 Sprite::Sprite(Mode::Sprite* mode):
   mode{mode}
 {
+	key_map.insert({SDLK_e, [mode=this->mode](){mode->zoom_in();}});
+	key_map.insert({SDLK_d, [mode=this->mode](){mode->zoom_out();}});
+	key_map.insert({SDLK_n, [mode=this->mode](){mode->add_sprite();}});
 }
 
 }

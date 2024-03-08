@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_STATE_CLICK_BUTTON_H
-#define YAFCE_STATE_CLICK_BUTTON_H 1
+#include "state.hpp"
 
-#include "../button.hpp"
-#include "../state.hpp"
+#include "main.hpp"
+#include "mode/animation_list.hpp"
+#include "mode/box.hpp"
+#include "mode/sprite.hpp"
 
 namespace State
 {
 
-struct ClickButton: public State::Base
+void
+Base::key_down(SDL_Keycode keycode)
 {
-	std::vector<Button::Base*> * const buttons;
-
-	void
-	mouse_button_down(SDL_MouseButtonEvent &b);
-
-	ClickButton(std::vector<Button::Base*> *buttons);
-};
-
+	if(this->key_map.contains(keycode)) this->key_map[keycode]();
 }
 
-#endif /* YAFCE_STATE_CLICK_BUTTON_H */
+void
+Base::key_up(SDL_Keycode keycode)
+{
+}
+
+Base::Base():
+	key_map{
+		{SDLK_1, [](){editor_state->next_game_mode = new Mode::Sprite{};}},
+		{SDLK_2, [](){editor_state->next_game_mode = new Mode::Box{};}},
+		{SDLK_3, [](){editor_state->next_game_mode = new Mode::AnimationList{};}}}
+{
+}
+
+}

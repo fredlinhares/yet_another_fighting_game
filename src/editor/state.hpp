@@ -17,17 +17,24 @@
 #ifndef YAFCE_STATE_H
 #define YAFCE_STATE_H 1
 
+#include <functional>
+#include <unordered_map>
+
 #include "../common/core.hpp"
 
 namespace State
 {
 
-struct Base
+class Base
 {
+protected:
+	std::unordered_map<SDL_Keycode, std::function<void(void)>> key_map;
+
+public:
   virtual void
-  key_down(SDL_Keycode keycode){};
+  key_down(SDL_Keycode keycode);
   virtual void
-  key_up(SDL_Keycode keycode){};
+  key_up(SDL_Keycode keycode);
 
   virtual void
   mouse_button_down(SDL_MouseButtonEvent& b){};
@@ -35,6 +42,8 @@ struct Base
   mouse_button_up(SDL_MouseButtonEvent& b){};
   virtual void
   mouse_motion(int x, int y, int xrel, int yrel){};
+
+	Base();
 };
 
 }

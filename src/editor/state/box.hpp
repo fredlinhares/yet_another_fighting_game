@@ -32,9 +32,6 @@ struct Box: public State::Base
 	Mode::Box* const mode;
 
   void
-  key_down(SDL_Keycode keycode);
-
-  void
   mouse_button_down(SDL_MouseButtonEvent& b);
 
   Box(Mode::Box* mode);

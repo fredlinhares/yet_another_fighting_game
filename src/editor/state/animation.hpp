@@ -32,9 +32,6 @@ struct Animation: public State::Base
 	Mode::Animation* const mode;
 
   void
-  key_down(SDL_Keycode keycode);
-
-  void
   mouse_button_down(SDL_MouseButtonEvent& b);
 
   Animation(Mode::Animation* mode);

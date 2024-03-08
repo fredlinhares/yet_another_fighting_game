@@ -20,11 +20,6 @@ namespace State
 {
 
 void
-ClickButton::key_down(SDL_Keycode keycode)
-{
-}
-
-void
 ClickButton::mouse_button_down(SDL_MouseButtonEvent &b)
 {
   int mouse_x, mouse_y;
