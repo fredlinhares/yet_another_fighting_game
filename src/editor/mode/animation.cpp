@@ -52,6 +52,9 @@ Animation::render()
 {
 	Frame *frame{&editor_state->frames[this->frame_index]};
 	this->render_sprite(*frame);
+
+	this->numbers.draw_fraction(
+		0, 0, this->frame_index + 1, this->current_animation->size());
 }
 
 Animation::Animation(const char *animation_name):

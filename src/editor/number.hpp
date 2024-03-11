@@ -35,6 +35,19 @@ class Number
 	write_character(Character &character, const char *text);
 
 public:
+	int
+	draw_bar(const int x, const int y);
+
+	// returns the position of the x after drawing the number so another number
+	// can be drawn in the sequence.
+	int
+	draw_number(const int x, const int y, const int number);
+
+	// returns the position of the x after drawing the number so another number
+	// can be drawn in the sequence.
+	int
+	draw_fraction(
+		const int x, const int y, const int numerator, const int denominator);
 
 	Number();
 	~Number();

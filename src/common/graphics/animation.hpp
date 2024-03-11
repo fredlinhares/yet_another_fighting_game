@@ -49,6 +49,9 @@ public:
   inline bool
   over(){return this->sequence_over;};
 
+	inline auto
+	size(){return this->frames.size();};
+
   Animation(bool looping, std::initializer_list<AnimationFrame> frames);
 };
 
