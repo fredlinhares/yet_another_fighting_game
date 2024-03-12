@@ -54,17 +54,40 @@ Animation::render()
 	this->render_sprite(*frame);
 
 	this->numbers.draw_fraction(
-		0, 0, this->frame_index + 1, this->current_animation->size());
+		this->frame_x, this->frame_y,
+		this->frame_index + 1, this->current_animation->size());
+
+	for(Button::Base *button: this->buttons) button->render();
 }
 
 Animation::Animation(const char *animation_name):
 	_x{core.window_width/2},
 	_y{core.window_height/2},
+	frame_x{core.window_width - 200 + editor_state->left_button.w},
+	frame_y{0},
 	current_animation{editor_state->animations[animation_name]},
 	animation_state{this}
 {
 	this->zoom = 1;
 	this->current_state = &this->animation_state;
+
+	int x{core.window_width - 200};
+	this->previous_frame_btn = new Button::Image{
+		&editor_state->left_button, core.window_width - 200, 0, [](){}};
+
+	this->next_frame_btn = new Button::Image{
+		&editor_state->right_button,
+		core.window_width - editor_state->right_button.w, 0, [](){}};
+
+	this->buttons.emplace_back(this->previous_frame_btn);
+	this->buttons.emplace_back(this->next_frame_btn);
 }
+
+Animation::~Animation()
+{
+	delete this->previous_frame_btn;
+	delete this->next_frame_btn;
+}
+
 
 }

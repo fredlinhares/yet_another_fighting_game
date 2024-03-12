@@ -19,6 +19,7 @@
 
 #include "../../common/graphics/animation.hpp"
 #include "../../common/graphics/frame.hpp"
+#include "../button/image.hpp"
 #include "../mode.hpp"
 #include "../number.hpp"
 #include "../state/animation.hpp"
@@ -29,9 +30,12 @@ namespace Mode
 
 class Animation: public Base, public Zoomable
 {
-	int _x, _y, frame_index;
+	int _x, _y, frame_x, frame_y, frame_index;
 	Number numbers;
 	Graphics::Animation* current_animation;
+
+	Button::Image *previous_frame_btn, *next_frame_btn;
+	std::vector<Button::Base*> buttons;
 
 public:
 	State::Animation animation_state;
@@ -65,6 +69,7 @@ public:
 	render();
 
 	Animation(const char *animation_name);
+	~Animation();
 };
 
 }
