@@ -30,14 +30,15 @@ namespace Mode
 
 class Animation: public Base, public Zoomable
 {
+	bool playing;
 	int _x, _y, frame_x, frame_y, frame_index;
 	Number numbers;
 	Graphics::Animation* current_animation;
 
-	Button::Image *previous_frame_btn, *next_frame_btn;
-	std::vector<Button::Base*> buttons;
+	Button::Image *previous_frame_btn, *next_frame_btn, *play_btn, *pause_btn;
 
 public:
+	std::vector<Button::Base*> buttons;
 	State::Animation animation_state;
 
 	inline int

@@ -124,7 +124,9 @@ EditorState::EditorState(const char* character):
 	up_button{0, 0, 18, 18},
 	down_button{18, 0, 18, 18},
 	left_button{0, 18, 18, 18},
-	right_button{18, 18, 18, 18}
+	right_button{18, 18, 18, 18},
+	play_button{36, 0, 18, 18},
+	pause_button{36, 18, 18, 18}
 {
 	this->character = character;
 

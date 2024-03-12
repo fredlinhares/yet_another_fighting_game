@@ -29,7 +29,6 @@ class Image: public Base
 {
 	std::function<void(void)> callback;
 	SDL_Rect* const src;
-	const SDL_Rect dst;
 
 public:
 

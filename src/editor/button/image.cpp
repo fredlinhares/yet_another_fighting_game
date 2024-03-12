@@ -32,15 +32,18 @@ Image::render()
 {
 	SDL_RenderCopy(
 		core.renderer, editor_state->tex_direction_buttons,
-		this->src, &this->dst);
+		this->src, &this->location);
 }
 
 Image::Image(
 	SDL_Rect* sprite, int x, int y, std::function<void(void)> callback):
 	src{sprite},
-	dst{x, y, sprite->w, sprite->h},
 	callback{callback}
 {
+	this->location.x = x;
+	this->location.y = y;
+	this->location.w = sprite->w;
+	this->location.h = sprite->h;
 }
 
 }

@@ -27,6 +27,8 @@ namespace State
 void
 Animation::mouse_button_down(SDL_MouseButtonEvent& b)
 {
+	for(Button::Base *button: this->mode->buttons)
+		if(button->is_clicked(b.x, b.y)) break;
 }
 
 Animation::Animation(Mode::Animation* mode):

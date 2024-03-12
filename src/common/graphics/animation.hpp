@@ -40,6 +40,12 @@ public:
   void
   reset();
 
+	void
+	next_frame();
+
+	void
+	previous_frame();
+
   int
   tick();
 

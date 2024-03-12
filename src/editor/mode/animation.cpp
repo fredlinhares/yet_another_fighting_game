@@ -44,7 +44,10 @@ Animation::default_state()
 void
 Animation::tick()
 {
-	this->frame_index = this->current_animation->tick();
+	if(this->playing)
+		this->frame_index = this->current_animation->tick();
+	else
+		this->frame_index = this->current_animation->index();
 }
 
 void
@@ -61,6 +64,7 @@ Animation::render()
 }
 
 Animation::Animation(const char *animation_name):
+	playing{true},
 	_x{core.window_width/2},
 	_y{core.window_height/2},
 	frame_x{core.window_width - 200 + editor_state->left_button.w},
@@ -71,22 +75,39 @@ Animation::Animation(const char *animation_name):
 	this->zoom = 1;
 	this->current_state = &this->animation_state;
 
-	int x{core.window_width - 200};
 	this->previous_frame_btn = new Button::Image{
-		&editor_state->left_button, core.window_width - 200, 0, [](){}};
+		&editor_state->left_button, core.window_width - 200, 0,
+		[animation=this->current_animation](){animation->previous_frame();}};
 
 	this->next_frame_btn = new Button::Image{
 		&editor_state->right_button,
-		core.window_width - editor_state->right_button.w, 0, [](){}};
+		core.window_width - editor_state->right_button.w, 0,
+		[animation=this->current_animation](){animation->next_frame();}};
+
+	int y{editor_state->left_button.w};
+	this->play_btn = new Button::Image{
+		&editor_state->play_button,
+		core.window_width - 200, y, [playing=&this->playing](){
+			*playing = true;}};
+
+	this->pause_btn = new Button::Image{
+		&editor_state->pause_button,
+		core.window_width - 200 + editor_state->play_button.w, y,
+		[playing=&this->playing](){
+			*playing =false;}};
 
 	this->buttons.emplace_back(this->previous_frame_btn);
 	this->buttons.emplace_back(this->next_frame_btn);
+	this->buttons.emplace_back(this->play_btn);
+	this->buttons.emplace_back(this->pause_btn);
 }
 
 Animation::~Animation()
 {
 	delete this->previous_frame_btn;
 	delete this->next_frame_btn;
+	delete this->play_btn;
+	delete this->pause_btn;
 }
 
 

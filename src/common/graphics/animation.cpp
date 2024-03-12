@@ -34,6 +34,33 @@ Animation::reset()
   this->sequence_over = false;
 }
 
+void
+Animation::next_frame()
+{
+	this->time = 0;
+	this->frame_index++;
+
+	if(this->frame_index >= frames.size())
+	{
+		if(this->looping)
+			this->frame_index = 0;
+		else
+		{
+			this->frame_index--;
+			this->sequence_over = true;
+		}
+	}
+}
+
+void
+Animation::previous_frame()
+{
+	this->time = 0;
+	this->frame_index--;
+
+	if(this->frame_index < 0) this->frame_index = frames.size() - 1;
+}
+
 int
 Animation::tick()
 {
@@ -43,22 +70,7 @@ Animation::tick()
 
   this->time++;
 
-  if(this->time >= frame->duration)
-  {
-    this->time = 0;
-    this->frame_index++;
-
-    if(this->frame_index >= frames.size())
-    {
-      if(this->looping)
-	this->frame_index = 0;
-      else
-      {
-	this->frame_index--;
-	this->sequence_over = true;
-      }
-    }
-  }
+  if(this->time >= frame->duration) this->next_frame();
 
   return frame->index;
 }
