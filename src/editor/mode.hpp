@@ -27,6 +27,9 @@ struct Base
 {
   State::Base *current_state;
 
+	virtual void
+	default_state(){};
+
   virtual void
   tick(){};
 

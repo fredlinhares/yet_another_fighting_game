@@ -14,48 +14,50 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ZOOMABLE_H
-#define YAFCE_MODE_ZOOMABLE_H 1
+#ifndef YAFCE_BUTTON_ZOOMABLE_H
+#define YAFCE_BUTTON_ZOOMABLE_H 1
 
+#include "../button.hpp"
 #include "../frame.hpp"
 #include "../../common/core.hpp"
 
-namespace Mode
+namespace Button
 {
 
-class Zoomable
+class Zoomable: public Base
 {
 protected:
-  int zoom;
+	int _zoom;
 
 public:
-	virtual int
-	x() const = 0;
-	virtual int
-	y() const = 0;
+	int x, y, up_limit, down_limit, left_limit, right_limit;
 
-	virtual int
-	up_limit() const = 0;
-	virtual int
-	down_limit() const = 0;
-	virtual int
-	left_limit() const = 0;
-	virtual int
-	right_limit() const = 0;
+	void
+	zoom_in();
+	void
+	zoom_out();
 
-	virtual void
-	default_state() = 0;
-
-  inline int
-  zoom_level(){return this->zoom;};
+	int
+	zoom(){return this->_zoom;};
 
 	void
 	render_sprite(const Frame &frame);
 
 	void
 	render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
+
+	void
+	click_action(int x, int y){};
+
+	void
+	render(){};
+
+	Zoomable(
+		int pos_x, int pos_y,
+		int width, int height,
+		int center_x, int center_y);
 };
 
 }
 
-#endif /* YAFCE_MODE_ZOOMABLE_H */
+#endif /* YAFCE_BUTTON_ZOOMABLE_H */

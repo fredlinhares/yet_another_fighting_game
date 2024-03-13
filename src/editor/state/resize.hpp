@@ -17,8 +17,9 @@
 #ifndef YAFCE_STATE_RESIZE_H
 #define YAFCE_STATE_RESIZE_H 1
 
+#include "../button/zoomable.hpp"
 #include "../frame.hpp"
-#include "../mode/zoomable.hpp"
+#include "../mode.hpp"
 #include "../state.hpp"
 
 namespace State
@@ -26,7 +27,8 @@ namespace State
 
 struct Resize: public State::Base
 {
-	Mode::Zoomable* const mode;
+	Mode::Base* const mode;
+	Button::Zoomable* const zoomable;
 
 	::Box* box;
 
@@ -50,7 +52,7 @@ struct Resize: public State::Base
   void
   right_corner(int x);
 
-	Resize(Mode::Zoomable* mode);
+	Resize(Mode::Base* mode, Button::Zoomable* zoomable);
 };
 
 }

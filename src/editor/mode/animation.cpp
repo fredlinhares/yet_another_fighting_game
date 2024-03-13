@@ -23,20 +23,6 @@ namespace Mode
 {
 
 void
-Animation::zoom_in()
-{
-  if(this->zoom >= 8) return;
-  this->zoom *= 2;
-}
-
-void
-Animation::zoom_out()
-{
-  if(this->zoom <= 1) return;
-  this->zoom /= 2;
-}
-
-void
 Animation::default_state()
 {
 }
@@ -54,7 +40,7 @@ void
 Animation::render()
 {
 	Frame *frame{&editor_state->frames[this->frame_index]};
-	this->render_sprite(*frame);
+	this->zoomable.render_sprite(*frame);
 
 	this->numbers.draw_fraction(
 		this->frame_x, this->frame_y,
@@ -65,15 +51,21 @@ Animation::render()
 
 Animation::Animation(const char *animation_name):
 	playing{true},
-	_x{core.window_width/2},
-	_y{core.window_height/2},
 	frame_x{core.window_width - 200 + editor_state->left_button.w},
 	frame_y{0},
 	current_animation{editor_state->animations[animation_name]},
+	zoomable{
+		0, 0,
+		core.window_width - 200, core.window_height,
+		(core.window_width - 200)/2, (core.window_height/6)*5},
 	animation_state{this}
 {
-	this->zoom = 1;
 	this->current_state = &this->animation_state;
+
+	this->zoomable.up_limit = -250;
+	this->zoomable.down_limit = 250;
+	this->zoomable.left_limit = -250;
+	this->zoomable.right_limit = 250;
 
 	this->previous_frame_btn = new Button::Image{
 		&editor_state->left_button, core.window_width - 200, 0,

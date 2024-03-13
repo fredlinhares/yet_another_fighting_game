@@ -61,8 +61,8 @@ Box::mouse_button_down(SDL_MouseButtonEvent& b)
 Box::Box(Mode::Box* mode):
 	mode{mode}
 {
-	key_map.insert({SDLK_e, [mode=this->mode](){mode->zoom_in();}});
-	key_map.insert({SDLK_d, [mode=this->mode](){mode->zoom_out();}});
+	key_map.insert({SDLK_e, [mode=this->mode](){mode->zoomable.zoom_in();}});
+	key_map.insert({SDLK_d, [mode=this->mode](){mode->zoomable.zoom_out();}});
 }
 
 }

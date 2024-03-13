@@ -71,19 +71,19 @@ Resize::mouse_motion(int x, int y, int xrel, int yrel)
   if(xrel != 0 && this->horizontal_move)
 	{
 		int _x;
-		if(this->mode->x() > 0)
-			_x = (x - this->mode->x()) / this->mode->zoom_level();
+		if(this->zoomable->x > 0)
+			_x = (x - this->zoomable->x) / this->zoomable->zoom();
 		else
-			_x = x / this->mode->zoom_level() - this->mode->x();
+			_x = x / this->zoomable->zoom() - this->zoomable->x;
 		(this->*horizontal_move)(_x);
 	}
   if(yrel != 0 && this->vertical_move)
 	{
 		int _y;
-		if(this->mode->y() > 0)
-			_y = (y - this->mode->y()) / this->mode->zoom_level();
+		if(this->zoomable->y > 0)
+			_y = (y - this->zoomable->y) / this->zoomable->zoom();
 		else
-			_y = y / this->mode->zoom_level() - this->mode->y();
+			_y = y / this->zoomable->zoom() - this->zoomable->y;
 		(this->*vertical_move)(_y);
 	}
 
@@ -98,10 +98,10 @@ Resize::up_corner(int y)
 	this->box->size.y = y;
 	this->box->size.h -= y - left_y;
 
-	if(this->box->size.y < this->mode->up_limit())
+	if(this->box->size.y < this->zoomable->up_limit)
 	{
-		this->box->size.h -= this->mode->up_limit() - this->box->size.y;
-		this->box->size.y = this->mode->up_limit();
+		this->box->size.h -= this->zoomable->up_limit - this->box->size.y;
+		this->box->size.y = this->zoomable->up_limit;
 	}
 	else if(this->box->size.h <= 0)
 	{
@@ -115,8 +115,8 @@ Resize::down_corner(int y)
 {
 	this->box->size.h = y - this->box->size.y;
 
-	if(this->box->size.y + this->box->size.h > this->mode->down_limit())
-		this->box->size.h = this->mode->down_limit() - this->box->size.y;
+	if(this->box->size.y + this->box->size.h > this->zoomable->down_limit)
+		this->box->size.h = this->zoomable->down_limit - this->box->size.y;
 	else if(this->box->size.h < 1) this->box->size.h = 1;
 }
 
@@ -128,10 +128,10 @@ Resize::left_corner(int x)
 	this->box->size.x = x;
 	this->box->size.w -= x - left_x;
 
-	if(this->box->size.x < this->mode->left_limit())
+	if(this->box->size.x < this->zoomable->left_limit)
 	{
-		this->box->size.w -= this->mode->left_limit() - this->box->size.x;
-		this->box->size.x = this->mode->left_limit();
+		this->box->size.w -= this->zoomable->left_limit - this->box->size.x;
+		this->box->size.x = this->zoomable->left_limit;
 	}
 	else if(this->box->size.w <= 0)
 	{
@@ -145,13 +145,14 @@ Resize::right_corner(int x)
 {
 	this->box->size.w = x - this->box->size.x;
 
-	if(this->box->size.x + this->box->size.w > this->mode->right_limit())
-		this->box->size.w = this->mode->right_limit() - this->box->size.x;
+	if(this->box->size.x + this->box->size.w > this->zoomable->right_limit)
+		this->box->size.w = this->zoomable->right_limit - this->box->size.x;
 	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
-Resize::Resize(Mode::Zoomable* mode):
+Resize::Resize(Mode::Base* mode, Button::Zoomable* zoomable):
   mode{mode},
+	zoomable{zoomable},
   vertical_move{nullptr},
   horizontal_move{nullptr}
 {

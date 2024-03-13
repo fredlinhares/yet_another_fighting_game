@@ -30,33 +30,36 @@ Sprite::correct_position()
   if(this->src_rect.y < 0) this->src_rect.y = 0;
   else if(this->src_rect.y + this->src_rect.h > this->tex_height)
     this->src_rect.y = this->tex_height - this->src_rect.h;
+
+	this->zoomable.x = - this->src_rect.x;
+	this->zoomable.y = - this->src_rect.y;
 }
 
 void
 Sprite::define_display_position()
 {
-  this->display_width = this->tex_width * this->zoom;
-  this->display_height = this->tex_height * this->zoom;
+  this->display_width = this->tex_width * this->zoomable.zoom();
+  this->display_height = this->tex_height * this->zoomable.zoom();
 
   if(display_width < core.window_width)
   {
-    this->src_rect.w = this->tex_width / this->zoom;
+    this->src_rect.w = this->tex_width / this->zoomable.zoom();
     this->dst_rect.w = display_width;
   }
   else
   {
-    this->src_rect.w = core.window_width / this->zoom;
+    this->src_rect.w = core.window_width / this->zoomable.zoom();
     this->dst_rect.w = core.window_width;
   }
 
   if(display_height < core.window_height)
   {
-    this->src_rect.h = this->tex_height / this->zoom;
+    this->src_rect.h = this->tex_height / this->zoomable.zoom();
     this->dst_rect.h = display_height;
   }
   else
   {
-    this->src_rect.h = core.window_height / this->zoom;
+    this->src_rect.h = core.window_height / this->zoomable.zoom();
     this->dst_rect.h = core.window_height;
   }
 }
@@ -66,15 +69,13 @@ Sprite::get_mouse_position(int &x, int &y)
 {
   int mouse_x, mouse_y;
   SDL_GetMouseState(&mouse_x, &mouse_y);
-  x = this->src_rect.x + mouse_x / this->zoom;
-  y = this->src_rect.y + mouse_y / this->zoom;
+  x = this->src_rect.x + mouse_x / this->zoomable.zoom();
+  y = this->src_rect.y + mouse_y / this->zoomable.zoom();
 }
 
 void
 Sprite::zoom_in()
 {
-  if(this->zoom >= 8) return;
-  this->zoom *= 2;
   this->define_display_position();
 
   this->src_rect.x += this->src_rect.w / 2;
@@ -86,8 +87,6 @@ Sprite::zoom_in()
 void
 Sprite::zoom_out()
 {
-  if(this->zoom <= 1) return;
-  this->zoom /= 2;
   this->define_display_position();
 
   this->src_rect.x -= this->src_rect.w / 4;
@@ -141,15 +140,18 @@ Sprite::render()
     core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
   for(const Frame &frame: editor_state->frames)
-    this->render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
+    this->zoomable.render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
 }
 
 Sprite::Sprite():
-  resize_state{this},
+	zoomable{
+		0, 0,
+		core.window_width, core.window_height,
+		0, 0},
+  resize_state{this, &this->zoomable},
   scroll_state{this},
   sprite_state{this}
 {
-  this->zoom = 1;
   this->current_state = &this->sprite_state;
 
   SDL_QueryTexture(
@@ -159,6 +161,11 @@ Sprite::Sprite():
   this->dst_rect.x = 0;
   this->src_rect.y = 0;
   this->dst_rect.y = 0;
+
+	this->zoomable.up_limit = 0;
+	this->zoomable.down_limit = this->tex_height;
+	this->zoomable.left_limit = 0;
+	this->zoomable.right_limit = this->tex_width;
 
   this->define_display_position();
 }

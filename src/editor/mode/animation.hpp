@@ -20,15 +20,15 @@
 #include "../../common/graphics/animation.hpp"
 #include "../../common/graphics/frame.hpp"
 #include "../button/image.hpp"
+#include "../button/zoomable.hpp"
 #include "../mode.hpp"
 #include "../number.hpp"
 #include "../state/animation.hpp"
-#include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Animation: public Base, public Zoomable
+class Animation: public Base
 {
 	bool playing;
 	int _x, _y, frame_x, frame_y, frame_index;
@@ -38,27 +38,9 @@ class Animation: public Base, public Zoomable
 	Button::Image *previous_frame_btn, *next_frame_btn, *play_btn, *pause_btn;
 
 public:
+	Button::Zoomable zoomable;
 	std::vector<Button::Base*> buttons;
 	State::Animation animation_state;
-
-	inline int
-	x() const {return this->_x;};
-	inline int
-	y() const {return this->_y;};
-
-	inline int
-	up_limit() const {return -250;};
-	inline int
-	down_limit() const {return 250;};
-	inline int
-	left_limit() const {return -250;};
-	inline int
-	right_limit() const {return 250;};
-
-	void
-	zoom_in();
-	void
-	zoom_out();
 
 	void
 	default_state();

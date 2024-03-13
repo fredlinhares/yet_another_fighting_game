@@ -24,24 +24,19 @@ namespace Mode
 void
 Box::get_mouse_position(int &x, int &y)
 {
-  int mouse_x, mouse_y;
-  SDL_GetMouseState(&mouse_x, &mouse_y);
-  x = (mouse_x - this->_x) / this->zoom;
-  y = (mouse_y - this->_y) / this->zoom;
+	int mouse_x, mouse_y;
+	SDL_GetMouseState(&mouse_x, &mouse_y);
+	x = (mouse_x - this->zoomable.x) / this->zoomable.zoom();
+	y = (mouse_y - this->zoomable.y) / this->zoomable.zoom();
 }
 
 void
-Box::zoom_in()
+Box::set_limits()
 {
-  if(this->zoom >= 8) return;
-  this->zoom *= 2;
-}
-
-void
-Box::zoom_out()
-{
-  if(this->zoom <= 1) return;
-  this->zoom /= 2;
+	this->zoomable.up_limit = - this->frame->sprite.size.h * 2;
+	this->zoomable.down_limit = this->frame->sprite.size.h * 2;
+	this->zoomable.left_limit = - this->frame->sprite.size.w * 2;
+	this->zoomable.right_limit = this->frame->sprite.size.w * 2;
 }
 
 void
@@ -53,26 +48,29 @@ Box::default_state()
 void
 Box::render()
 {
-	this->render_sprite(*this->frame);
+	this->zoomable.render_sprite(*this->frame);
 
-	this->render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
-	this->render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
-	this->render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
-	this->render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
+	this->zoomable.render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
+	this->zoomable.render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
+	this->zoomable.render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
+	this->zoomable.render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
 
 	this->sprite_list.render();
 }
 
 Box::Box():
-	_x{core.window_width/2},
-	_y{(core.window_height/6)*5},
 	frame{&editor_state->frames[0]},
 	box_state{this},
-	resize_state{this},
-	sprite_list{&this->frame}
+	resize_state{this, &this->zoomable},
+	sprite_list{&this->frame},
+	zoomable{
+		0, 0,
+		core.window_width - this->sprite_list.location.w, core.window_height,
+		(core.window_width - this->sprite_list.location.w) / 2,
+		(core.window_height/6)*5}
 {
-	this->zoom = 1;
 	this->current_state = &this->box_state;
+	this->set_limits();
 }
 
 }

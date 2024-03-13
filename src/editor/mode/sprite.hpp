@@ -19,17 +19,17 @@
 
 #include <vector>
 
+#include "../button/zoomable.hpp"
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state/resize.hpp"
 #include "../state/scroll.hpp"
 #include "../state/sprite.hpp"
-#include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Sprite: public Base, public Zoomable
+class Sprite: public Base
 {
   SDL_Rect src_rect, dst_rect;
   int tex_width, tex_height;
@@ -42,23 +42,11 @@ class Sprite: public Base, public Zoomable
   define_display_position();
 
 public:
+	Button::Zoomable zoomable;
+
   State::Resize resize_state;
   State::Scroll scroll_state;
   State::Sprite sprite_state;
-
-	inline int
-	x() const {return - this->src_rect.x;};
-	inline int
-	y() const {return - this->src_rect.y;};
-
-	inline int
-	up_limit() const {return 0;};
-	inline int
-	down_limit() const {return this->tex_height;};
-	inline int
-	left_limit() const {return 0;};
-	inline int
-	right_limit() const {return this->tex_width;};
 
   void
   get_mouse_position(int &x, int &y);

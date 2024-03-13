@@ -20,46 +20,28 @@
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../button/sprite_list.hpp"
+#include "../button/zoomable.hpp"
 #include "../state/box.hpp"
 #include "../state/resize.hpp"
-#include "zoomable.hpp"
 
 namespace Mode
 {
 
-class Box: public Base, public Zoomable
+struct Box: public Base
 {
-	int _x, _y;
-
-public:
 	Frame *frame;
 
 	State::Box box_state;
 	State::Resize resize_state;
 
 	Button::SpriteList sprite_list;
+	Button::Zoomable zoomable;
 
-	inline int
-	x() const {return this->_x;};
-	inline int
-	y() const {return this->_y;};
-
-	inline int
-	up_limit() const {return - this->frame->sprite.size.h * 2;};
-	inline int
-	down_limit() const {return this->frame->sprite.size.h * 2;};
-	inline int
-	left_limit() const {return - this->frame->sprite.size.w * 2;};
-	inline int
-	right_limit() const {return this->frame->sprite.size.w * 2;};
+  void
+  get_mouse_position(int &x, int &y);
 
 	void
-	get_mouse_position(int &x, int &y);
-
-	void
-	zoom_in();
-	void
-	zoom_out();
+	set_limits();
 
 	void
 	default_state();

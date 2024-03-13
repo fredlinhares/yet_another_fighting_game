@@ -18,8 +18,22 @@
 
 #include "../main.hpp"
 
-namespace Mode
+namespace Button
 {
+
+void
+Zoomable::zoom_in()
+{
+	if(this->_zoom >= 8) return;
+	this->_zoom *= 2;
+}
+
+void
+Zoomable::zoom_out()
+{
+	if(this->_zoom <= 1) return;
+	this->_zoom /= 2;
+}
 
 void
 Zoomable::render_sprite(const Frame &frame)
@@ -27,10 +41,10 @@ Zoomable::render_sprite(const Frame &frame)
 	const SDL_Rect *position{&frame.sprite.size};
 
   SDL_Rect destination{
-    this->x() + frame.x * this->zoom,
-    this->y() + frame.y * this->zoom,
-    position->w * this->zoom,
-    position->h * this->zoom
+		this->x + frame.x * this->_zoom,
+		this->y + frame.y * this->_zoom,
+		position->w * this->_zoom,
+		position->h * this->_zoom
   };
 
 	SDL_RenderCopy(
@@ -41,18 +55,18 @@ void
 Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 {
 	int x, y;
-	if(this->x() > 0)
-		x = this->x() + rect.x * this->zoom;
+	if(this->x > 0)
+		x = this->x + rect.x * this->_zoom;
 	else
-		x = (this->x() + rect.x) * this->zoom;
+		x = (this->x + rect.x) * this->_zoom;
 
-	if(this->y() > 0)
-		y = this->y() + rect.y * this->zoom;
+	if(this->y > 0)
+		y = this->y + rect.y * this->_zoom;
 	else
-		y = (this->y() + rect.y) * this->zoom;
+		y = (this->y + rect.y) * this->_zoom;
 
-  int w{rect.w * this->zoom};
-  int h{rect.h * this->zoom};
+	int w{rect.w * this->_zoom};
+	int h{rect.h * this->_zoom};
   SDL_Rect position{x, y, w, h};
 
   SDL_SetRenderDrawColor(core.renderer, r, g, b, 0x33);
@@ -60,6 +74,20 @@ Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 
   SDL_SetRenderDrawColor(core.renderer, r, g, b, 0xff);
   SDL_RenderDrawRect(core.renderer, &position);
+}
+
+Zoomable::Zoomable(
+	int pos_x, int pos_y,
+	int width, int height,
+	int center_x, int center_y):
+	_zoom{1},
+	x{center_x},
+	y{center_y}
+{
+	this->location.x = pos_x;
+	this->location.y = pos_y;
+	this->location.w = width;
+	this->location.y = height;
 }
 
 }
