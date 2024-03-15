@@ -40,7 +40,7 @@ void
 Animation::render()
 {
 	Frame *frame{&editor_state->frames[this->frame_index]};
-	this->zoomable.render_sprite(*frame);
+	this->sprite_box.render_sprite(*frame);
 
 	this->numbers.draw_fraction(
 		this->frame_x, this->frame_y,
@@ -56,15 +56,15 @@ Animation::Animation(const char *animation_name):
 	frame_x{core.window_width - 200 + editor_state->left_button.w},
 	frame_y{0},
 	current_animation{editor_state->animations[animation_name]},
-	zoomable{
+	sprite_box{
 		0, 0,
 		core.window_width - 200, core.window_height,
 		(core.window_width - 200)/2, (core.window_height/6)*5}
 {
-	this->zoomable.up_limit = -250;
-	this->zoomable.down_limit = 250;
-	this->zoomable.left_limit = -250;
-	this->zoomable.right_limit = 250;
+	this->sprite_box.up_limit = -250;
+	this->sprite_box.down_limit = 250;
+	this->sprite_box.left_limit = -250;
+	this->sprite_box.right_limit = 250;
 
 	this->previous_frame_btn = new Button::Image{
 		&editor_state->left_button, core.window_width - 200, 0,

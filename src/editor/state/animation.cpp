@@ -34,8 +34,8 @@ Animation::mouse_button_down(SDL_MouseButtonEvent& b)
 Animation::Animation(Mode::Animation* mode):
 	mode{mode}
 {
-	key_map.insert({SDLK_e, [mode=this->mode](){mode->zoomable.zoom_in();}});
-	key_map.insert({SDLK_d, [mode=this->mode](){mode->zoomable.zoom_out();}});
+	key_map.insert({SDLK_e, [mode=this->mode](){mode->sprite_box.zoom_in();}});
+	key_map.insert({SDLK_d, [mode=this->mode](){mode->sprite_box.zoom_out();}});
 }
 
 }

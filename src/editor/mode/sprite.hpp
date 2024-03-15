@@ -19,7 +19,7 @@
 
 #include <vector>
 
-#include "../button/zoomable.hpp"
+#include "../button/sprite_box.hpp"
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state/resize.hpp"
@@ -47,7 +47,7 @@ class Sprite: public Base
   define_display_position();
 
 public:
-	Button::Zoomable zoomable;
+	Button::SpriteBox sprite_box;
 	std::vector<Button::Base*> buttons;
 
   State::Sprite sprite_state;

@@ -62,7 +62,7 @@ Resize::set_resize_move(Direction direction)
 void
 Resize::mouse_button_up(SDL_MouseButtonEvent& b)
 {
-	this->zoomable->mode->reset_state();
+	this->sprite_box->mode->reset_state();
 }
 
 void
@@ -71,19 +71,19 @@ Resize::mouse_motion(int x, int y, int xrel, int yrel)
   if(xrel != 0 && this->horizontal_move)
 	{
 		int _x;
-		if(this->zoomable->x > 0)
-			_x = (x - this->zoomable->x) / this->zoomable->zoom();
+		if(this->sprite_box->x > 0)
+			_x = (x - this->sprite_box->x) / this->sprite_box->zoom();
 		else
-			_x = x / this->zoomable->zoom() - this->zoomable->x;
+			_x = x / this->sprite_box->zoom() - this->sprite_box->x;
 		(this->*horizontal_move)(_x);
 	}
   if(yrel != 0 && this->vertical_move)
 	{
 		int _y;
-		if(this->zoomable->y > 0)
-			_y = (y - this->zoomable->y) / this->zoomable->zoom();
+		if(this->sprite_box->y > 0)
+			_y = (y - this->sprite_box->y) / this->sprite_box->zoom();
 		else
-			_y = y / this->zoomable->zoom() - this->zoomable->y;
+			_y = y / this->sprite_box->zoom() - this->sprite_box->y;
 		(this->*vertical_move)(_y);
 	}
 
@@ -98,10 +98,10 @@ Resize::up_corner(int y)
 	this->box->size.y = y;
 	this->box->size.h -= y - left_y;
 
-	if(this->box->size.y < this->zoomable->up_limit)
+	if(this->box->size.y < this->sprite_box->up_limit)
 	{
-		this->box->size.h -= this->zoomable->up_limit - this->box->size.y;
-		this->box->size.y = this->zoomable->up_limit;
+		this->box->size.h -= this->sprite_box->up_limit - this->box->size.y;
+		this->box->size.y = this->sprite_box->up_limit;
 	}
 	else if(this->box->size.h <= 0)
 	{
@@ -115,8 +115,8 @@ Resize::down_corner(int y)
 {
 	this->box->size.h = y - this->box->size.y;
 
-	if(this->box->size.y + this->box->size.h > this->zoomable->down_limit)
-		this->box->size.h = this->zoomable->down_limit - this->box->size.y;
+	if(this->box->size.y + this->box->size.h > this->sprite_box->down_limit)
+		this->box->size.h = this->sprite_box->down_limit - this->box->size.y;
 	else if(this->box->size.h < 1) this->box->size.h = 1;
 }
 
@@ -128,10 +128,10 @@ Resize::left_corner(int x)
 	this->box->size.x = x;
 	this->box->size.w -= x - left_x;
 
-	if(this->box->size.x < this->zoomable->left_limit)
+	if(this->box->size.x < this->sprite_box->left_limit)
 	{
-		this->box->size.w -= this->zoomable->left_limit - this->box->size.x;
-		this->box->size.x = this->zoomable->left_limit;
+		this->box->size.w -= this->sprite_box->left_limit - this->box->size.x;
+		this->box->size.x = this->sprite_box->left_limit;
 	}
 	else if(this->box->size.w <= 0)
 	{
@@ -145,13 +145,13 @@ Resize::right_corner(int x)
 {
 	this->box->size.w = x - this->box->size.x;
 
-	if(this->box->size.x + this->box->size.w > this->zoomable->right_limit)
-		this->box->size.w = this->zoomable->right_limit - this->box->size.x;
+	if(this->box->size.x + this->box->size.w > this->sprite_box->right_limit)
+		this->box->size.w = this->sprite_box->right_limit - this->box->size.x;
 	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
-Resize::Resize(Button::Zoomable* zoomable, ::Box* box, Direction direction):
-	zoomable{zoomable},
+Resize::Resize(Button::SpriteBox* sprite_box, ::Box* box, Direction direction):
+	sprite_box{sprite_box},
 	box{box},
   vertical_move{nullptr},
   horizontal_move{nullptr}

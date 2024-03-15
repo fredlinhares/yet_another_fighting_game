@@ -39,35 +39,35 @@ Sprite::correct_position()
   else if(this->src_rect.y + this->src_rect.h > this->tex_height)
     this->src_rect.y = this->tex_height - this->src_rect.h;
 
-	this->zoomable.x = - this->src_rect.x;
-	this->zoomable.y = - this->src_rect.y;
+	this->sprite_box.x = - this->src_rect.x;
+	this->sprite_box.y = - this->src_rect.y;
 }
 
 void
 Sprite::define_display_position()
 {
-  this->display_width = this->tex_width * this->zoomable.zoom();
-  this->display_height = this->tex_height * this->zoomable.zoom();
+  this->display_width = this->tex_width * this->sprite_box.zoom();
+  this->display_height = this->tex_height * this->sprite_box.zoom();
 
   if(display_width < core.window_width)
   {
-    this->src_rect.w = this->tex_width / this->zoomable.zoom();
+    this->src_rect.w = this->tex_width / this->sprite_box.zoom();
     this->dst_rect.w = display_width;
   }
   else
   {
-    this->src_rect.w = core.window_width / this->zoomable.zoom();
+    this->src_rect.w = core.window_width / this->sprite_box.zoom();
     this->dst_rect.w = core.window_width;
   }
 
   if(display_height < core.window_height)
   {
-    this->src_rect.h = this->tex_height / this->zoomable.zoom();
+    this->src_rect.h = this->tex_height / this->sprite_box.zoom();
     this->dst_rect.h = display_height;
   }
   else
   {
-    this->src_rect.h = core.window_height / this->zoomable.zoom();
+    this->src_rect.h = core.window_height / this->sprite_box.zoom();
     this->dst_rect.h = core.window_height;
   }
 }
@@ -110,7 +110,7 @@ void
 Sprite::add_sprite()
 {
   int x, y;
-  this->zoomable.get_mouse_position(x, y);
+  this->sprite_box.get_mouse_position(x, y);
 
   if(x < 10) x = 10;
   else if(x > this->tex_width - 10) x = this->tex_width - 10;
@@ -133,18 +133,18 @@ Sprite::render()
     core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
   for(const Frame &frame: editor_state->frames)
-    this->zoomable.render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
+    this->sprite_box.render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
 }
 
 Sprite::Sprite():
-	zoomable{
+	sprite_box{
 		this, &this->boxes,
 		core.window_width, core.window_height,
 		0, 0},
   sprite_state{this},
 	Base{&this->sprite_state}
 {
-	this->buttons.emplace_back(&this->zoomable);
+	this->buttons.emplace_back(&this->sprite_box);
 
   SDL_QueryTexture(
     editor_state->texture, nullptr, nullptr, &tex_width, &tex_height);
@@ -154,10 +154,10 @@ Sprite::Sprite():
   this->src_rect.y = 0;
   this->dst_rect.y = 0;
 
-	this->zoomable.up_limit = 0;
-	this->zoomable.down_limit = this->tex_height;
-	this->zoomable.left_limit = 0;
-	this->zoomable.right_limit = this->tex_width;
+	this->sprite_box.up_limit = 0;
+	this->sprite_box.down_limit = this->tex_height;
+	this->sprite_box.left_limit = 0;
+	this->sprite_box.right_limit = this->tex_width;
 
 	this->set_boxes();
   this->define_display_position();

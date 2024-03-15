@@ -17,7 +17,7 @@
 #ifndef YAFCE_STATE_RESIZE_H
 #define YAFCE_STATE_RESIZE_H 1
 
-#include "../button/zoomable.hpp"
+#include "../button/sprite_box.hpp"
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state.hpp"
@@ -27,7 +27,7 @@ namespace State
 
 class Resize: public State::Base
 {
-	Button::Zoomable* const zoomable;
+	Button::SpriteBox* const sprite_box;
 
 	::Box* box;
   void (Resize::*vertical_move)(int num);
@@ -51,7 +51,7 @@ public:
   void
   right_corner(int x);
 
-	Resize(Button::Zoomable* zoomable, ::Box* box, Direction direction);
+	Resize(Button::SpriteBox* spriteBox, ::Box* box, Direction direction);
 };
 
 }

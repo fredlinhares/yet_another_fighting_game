@@ -20,7 +20,7 @@
 #include "../frame.hpp"
 #include "../mode.hpp"
 #include "../button/sprite_list.hpp"
-#include "../button/zoomable.hpp"
+#include "../button/sprite_box.hpp"
 #include "../state/box.hpp"
 #include "../state/resize.hpp"
 
@@ -35,7 +35,7 @@ struct Box: public Base
 	State::Box box_state;
 
 	Button::SpriteList sprite_list;
-	Button::Zoomable zoomable;
+	Button::SpriteBox sprite_box;
 	std::vector<::Box*> boxes;
 
 	void

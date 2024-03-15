@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_BUTTON_ZOOMABLE_H
-#define YAFCE_BUTTON_ZOOMABLE_H 1
+#ifndef YAFCE_BUTTON_SPRITE_BOX_H
+#define YAFCE_BUTTON_SPRITE_BOX_H 1
 
 #include "../button.hpp"
 #include "../frame.hpp"
@@ -25,7 +25,7 @@
 namespace Button
 {
 
-class Zoomable: public Base
+class SpriteBox: public Base
 {
 protected:
 	int _zoom;
@@ -58,7 +58,7 @@ public:
 	void
 	render(){};
 
-	Zoomable(
+	SpriteBox(
 		Mode::Base *mode,
 		std::vector<::Box*> *boxes,
 		int width, int height,
@@ -67,4 +67,4 @@ public:
 
 }
 
-#endif /* YAFCE_BUTTON_ZOOMABLE_H */
+#endif /* YAFCE_BUTTON_SPRITE_BOX_H */

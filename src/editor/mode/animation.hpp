@@ -20,7 +20,7 @@
 #include "../../common/graphics/animation.hpp"
 #include "../../common/graphics/frame.hpp"
 #include "../button/image.hpp"
-#include "../button/zoomable.hpp"
+#include "../button/sprite_box.hpp"
 #include "../mode.hpp"
 #include "../number.hpp"
 #include "../state/animation.hpp"
@@ -38,7 +38,7 @@ class Animation: public Base
 	Button::Image *previous_frame_btn, *next_frame_btn, *play_btn, *pause_btn;
 
 public:
-	Button::Zoomable zoomable;
+	Button::SpriteBox sprite_box;
 	std::vector<Button::Base*> buttons;
 	State::Animation animation_state;
 

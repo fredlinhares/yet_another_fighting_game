@@ -38,11 +38,11 @@ Sprite::Sprite(Mode::Sprite* mode):
   mode{mode}
 {
 	key_map.insert({SDLK_e, [mode=this->mode](){
-		mode->zoomable.zoom_in();
+		mode->sprite_box.zoom_in();
 		mode->zoom_in();
 	}});
 	key_map.insert({SDLK_d, [mode=this->mode](){
-		mode->zoomable.zoom_out();
+		mode->sprite_box.zoom_out();
 		mode->zoom_out();
 	}});
 	key_map.insert({SDLK_n, [mode=this->mode](){mode->add_sprite();}});

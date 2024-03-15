@@ -35,21 +35,21 @@ Box::set_boxes()
 void
 Box::set_limits()
 {
-	this->zoomable.up_limit = - this->frame->sprite.size.h * 2;
-	this->zoomable.down_limit = this->frame->sprite.size.h * 2;
-	this->zoomable.left_limit = - this->frame->sprite.size.w * 2;
-	this->zoomable.right_limit = this->frame->sprite.size.w * 2;
+	this->sprite_box.up_limit = - this->frame->sprite.size.h * 2;
+	this->sprite_box.down_limit = this->frame->sprite.size.h * 2;
+	this->sprite_box.left_limit = - this->frame->sprite.size.w * 2;
+	this->sprite_box.right_limit = this->frame->sprite.size.w * 2;
 }
 
 void
 Box::render()
 {
-	this->zoomable.render_sprite(*this->frame);
+	this->sprite_box.render_sprite(*this->frame);
 
-	this->zoomable.render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
-	this->zoomable.render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
-	this->zoomable.render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
-	this->zoomable.render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
+	this->sprite_box.render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
+	this->sprite_box.render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
+	this->sprite_box.render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
+	this->sprite_box.render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
 
 	this->sprite_list.render();
 }
@@ -61,14 +61,14 @@ Box::Box():
 		this->frame = &editor_state->frames[index];
 		this->set_boxes();
 	}},
-	zoomable{
+	sprite_box{
 		this, &this->boxes,
 		core.window_width - this->sprite_list.location.w, core.window_height,
 		(core.window_width - this->sprite_list.location.w) / 2,
 		(core.window_height/6)*5},
 	Base{&this->box_state}
 {
-	this->buttons.emplace_back(&this->zoomable);
+	this->buttons.emplace_back(&this->sprite_box);
 	this->buttons.emplace_back(&this->sprite_list);
 
 	this->set_boxes();

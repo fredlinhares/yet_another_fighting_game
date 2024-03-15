@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "zoomable.hpp"
+#include "sprite_box.hpp"
 
 #include "../main.hpp"
 
@@ -22,7 +22,7 @@ namespace Button
 {
 
 void
-Zoomable::get_mouse_position(int &x, int &y)
+SpriteBox::get_mouse_position(int &x, int &y)
 {
 	if(this->x <= 0 || this->y <= 0)
 	{
@@ -37,21 +37,21 @@ Zoomable::get_mouse_position(int &x, int &y)
 }
 
 void
-Zoomable::zoom_in()
+SpriteBox::zoom_in()
 {
 	if(this->_zoom >= 8) return;
 	this->_zoom *= 2;
 }
 
 void
-Zoomable::zoom_out()
+SpriteBox::zoom_out()
 {
 	if(this->_zoom <= 1) return;
 	this->_zoom /= 2;
 }
 
 void
-Zoomable::render_sprite(const Frame &frame)
+SpriteBox::render_sprite(const Frame &frame)
 {
 	const SDL_Rect *position{&frame.sprite.size};
 
@@ -67,7 +67,7 @@ Zoomable::render_sprite(const Frame &frame)
 }
 
 void
-Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
+SpriteBox::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 {
 	int x, y;
 	if(this->x > 0)
@@ -92,7 +92,7 @@ Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
 }
 
 void
-Zoomable::click_action(int x, int y)
+SpriteBox::click_action(int x, int y)
 {
 	this->get_mouse_position(x, y);
 
@@ -111,7 +111,7 @@ Zoomable::click_action(int x, int y)
 	}
 }
 
-Zoomable::Zoomable(
+SpriteBox::SpriteBox(
 	Mode::Base *mode,
 	std::vector<::Box*> *boxes,
 	int width, int height,
