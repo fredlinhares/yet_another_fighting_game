@@ -29,7 +29,8 @@ AnimationList::render()
 }
 
 AnimationList::AnimationList():
-	click_button_state{&this->buttons}
+	click_button_state{&this->buttons},
+	Base{&this->click_button_state}
 {
 	int y{10};
 
@@ -42,8 +43,6 @@ AnimationList::AnimationList():
 
 		y += 10 + button->location.h;
 	}
-
-	this->current_state = &this->click_button_state;
 }
 
 AnimationList::~AnimationList()

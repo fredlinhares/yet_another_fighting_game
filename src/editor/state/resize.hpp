@@ -25,16 +25,15 @@
 namespace State
 {
 
-struct Resize: public State::Base
+class Resize: public State::Base
 {
-	Mode::Base* const mode;
 	Button::Zoomable* const zoomable;
 
 	::Box* box;
-
   void (Resize::*vertical_move)(int num);
   void (Resize::*horizontal_move)(int num);
 
+public:
 	void
 	set_resize_move(Direction direction);
 
@@ -52,7 +51,7 @@ struct Resize: public State::Base
   void
   right_corner(int x);
 
-	Resize(Mode::Base* mode, Button::Zoomable* zoomable);
+	Resize(Button::Zoomable* zoomable, ::Box* box, Direction direction);
 };
 
 }

@@ -17,6 +17,8 @@
 #ifndef YAFCE_SPRITE_LIST_H
 #define YAFCE_SPRITE_LIST_H 1
 
+#include <functional>
+
 #include "../../common/main.hpp"
 #include "../button.hpp"
 #include "../frame.hpp"
@@ -33,7 +35,7 @@ class SpriteList: public Base
 		Sprite(int index, int x, int y, int w, int h);
 	};
 
-	Frame **frame;
+	std::function<void(int)> callback;
 
 	int current_set, sprites_height;
 	SDL_Rect up_button, down_button;
@@ -56,7 +58,7 @@ public:
 	void
 	render();
 
-	SpriteList(Frame **frame);
+	SpriteList(std::function<void(int)> callback);
 };
 
 }

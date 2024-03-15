@@ -30,26 +30,25 @@ namespace Mode
 struct Box: public Base
 {
 	Frame *frame;
+	std::vector<Button::Base*> buttons;
 
 	State::Box box_state;
-	State::Resize resize_state;
 
 	Button::SpriteList sprite_list;
 	Button::Zoomable zoomable;
+	std::vector<::Box*> boxes;
 
-  void
-  get_mouse_position(int &x, int &y);
+	void
+	set_boxes();
 
 	void
 	set_limits();
 
 	void
-	default_state();
-
-	void
 	render();
 
 	Box();
+	~Box();
 };
 
 }

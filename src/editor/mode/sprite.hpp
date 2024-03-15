@@ -35,6 +35,11 @@ class Sprite: public Base
   int tex_width, tex_height;
   int display_width, display_height;
 
+	std::vector<::Box*> boxes;
+
+	void
+	set_boxes();
+
   void
   correct_position();
 
@@ -43,13 +48,9 @@ class Sprite: public Base
 
 public:
 	Button::Zoomable zoomable;
+	std::vector<Button::Base*> buttons;
 
-  State::Resize resize_state;
-  State::Scroll scroll_state;
   State::Sprite sprite_state;
-
-  void
-  get_mouse_position(int &x, int &y);
 
   void
   zoom_in();
@@ -71,6 +72,7 @@ public:
   render();
 
   Sprite();
+  ~Sprite();
 };
 
 }

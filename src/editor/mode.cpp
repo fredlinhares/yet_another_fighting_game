@@ -14,40 +14,39 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_STATE_H
-#define YAFCE_STATE_H 1
+#include "mode.hpp"
 
-#include <functional>
-#include <unordered_map>
-
-#include "../common/core.hpp"
-
-namespace State
+namespace Mode
 {
-
-class Base
+void
+Base::change_state(State::Base *state)
 {
-protected:
-	std::unordered_map<SDL_Keycode, std::function<void(void)>> key_map;
-
-public:
-  virtual void
-  key_down(SDL_Keycode keycode);
-  virtual void
-  key_up(SDL_Keycode keycode);
-
-  virtual void
-  mouse_button_down(SDL_MouseButtonEvent& b){};
-  virtual void
-  mouse_button_up(SDL_MouseButtonEvent& b){};
-  virtual void
-  mouse_motion(int x, int y, int xrel, int yrel){};
-
-	Base();
-	virtual
-	~Base(){};
-};
-
+	this->clear_state();
+	this->_current_state = state;
 }
 
-#endif /* YAFCE_STATE_H */
+void
+Base::reset_state()
+{
+	this->clear_state();
+	this->_current_state = this->default_state;
+}
+
+void
+Base::clear_state()
+{
+	if(this->_current_state == this->default_state ||
+		 this->_current_state == nullptr)
+		return;
+
+	delete this->_current_state;
+	this->_current_state = nullptr;
+}
+
+Base::Base(State::Base *default_state):
+	default_state{default_state}
+{
+	this->_current_state = default_state;
+}
+
+}

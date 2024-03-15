@@ -24,7 +24,7 @@ namespace State
 void
 Scroll::mouse_button_up(SDL_MouseButtonEvent& b)
 {
-  this->mode->current_state = &this->mode->sprite_state;
+	this->mode->reset_state();
 }
 
 void

@@ -177,33 +177,33 @@ main(int argc, char *argv[])
       // Input processing
       while(SDL_PollEvent(&event))
       {
-	switch(event.type)
-	{
-	case SDL_QUIT:
-	  quit = true;
-	  break;
-	case SDL_KEYDOWN:
-	  game_mode->current_state->key_down(event.key.keysym.sym);
-	  break;
-	case SDL_KEYUP:
-	  game_mode->current_state->key_up(event.key.keysym.sym);
-	  break;
-	case SDL_MOUSEBUTTONDOWN:
-	  game_mode->current_state->mouse_button_down(event.button);
-	  break;
-	case SDL_MOUSEBUTTONUP:
-	  game_mode->current_state->mouse_button_up(event.button);
-	  break;
-	case SDL_MOUSEMOTION:
-	  int x{event.motion.x};
-	  int y{event.motion.y};
+				switch(event.type)
+				{
+				case SDL_QUIT:
+					quit = true;
+					break;
+				case SDL_KEYDOWN:
+					game_mode->current_state()->key_down(event.key.keysym.sym);
+					break;
+				case SDL_KEYUP:
+					game_mode->current_state()->key_up(event.key.keysym.sym);
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					game_mode->current_state()->mouse_button_down(event.button);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					game_mode->current_state()->mouse_button_up(event.button);
+					break;
+				case SDL_MOUSEMOTION:
+					int x{event.motion.x};
+					int y{event.motion.y};
 
-	  int xrel{event.motion.xrel};
-	  int yrel{event.motion.yrel};
+					int xrel{event.motion.xrel};
+					int yrel{event.motion.yrel};
 
-	  game_mode->current_state->mouse_motion(x, y, xrel, yrel);
-	  break;
-	}
+					game_mode->current_state()->mouse_motion(x, y, xrel, yrel);
+					break;
+				}
       }
 
       // Update game

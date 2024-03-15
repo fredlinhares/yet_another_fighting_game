@@ -62,7 +62,7 @@ Resize::set_resize_move(Direction direction)
 void
 Resize::mouse_button_up(SDL_MouseButtonEvent& b)
 {
-  this->mode->default_state();
+	this->zoomable->mode->reset_state();
 }
 
 void
@@ -150,12 +150,13 @@ Resize::right_corner(int x)
 	else if(this->box->size.w < 1) this->box->size.w = 1;
 }
 
-Resize::Resize(Mode::Base* mode, Button::Zoomable* zoomable):
-  mode{mode},
+Resize::Resize(Button::Zoomable* zoomable, ::Box* box, Direction direction):
 	zoomable{zoomable},
+	box{box},
   vertical_move{nullptr},
   horizontal_move{nullptr}
 {
+	this->set_resize_move(direction);
 }
 
 }

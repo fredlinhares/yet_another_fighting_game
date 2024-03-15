@@ -50,6 +50,8 @@ Animation::render()
 }
 
 Animation::Animation(const char *animation_name):
+	animation_state{this},
+	Base{&this->animation_state},
 	playing{true},
 	frame_x{core.window_width - 200 + editor_state->left_button.w},
 	frame_y{0},
@@ -57,11 +59,8 @@ Animation::Animation(const char *animation_name):
 	zoomable{
 		0, 0,
 		core.window_width - 200, core.window_height,
-		(core.window_width - 200)/2, (core.window_height/6)*5},
-	animation_state{this}
+		(core.window_width - 200)/2, (core.window_height/6)*5}
 {
-	this->current_state = &this->animation_state;
-
 	this->zoomable.up_limit = -250;
 	this->zoomable.down_limit = 250;
 	this->zoomable.left_limit = -250;

@@ -22,12 +22,14 @@ namespace Mode
 {
 
 void
-Box::get_mouse_position(int &x, int &y)
+Box::set_boxes()
 {
-	int mouse_x, mouse_y;
-	SDL_GetMouseState(&mouse_x, &mouse_y);
-	x = (mouse_x - this->zoomable.x) / this->zoomable.zoom();
-	y = (mouse_y - this->zoomable.y) / this->zoomable.zoom();
+	this->boxes.clear();
+
+	this->boxes.emplace_back(&this->frame->head);
+	this->boxes.emplace_back(&this->frame->upper_body);
+	this->boxes.emplace_back(&this->frame->lower_body);
+	this->boxes.emplace_back(&this->frame->collision);
 }
 
 void
@@ -37,12 +39,6 @@ Box::set_limits()
 	this->zoomable.down_limit = this->frame->sprite.size.h * 2;
 	this->zoomable.left_limit = - this->frame->sprite.size.w * 2;
 	this->zoomable.right_limit = this->frame->sprite.size.w * 2;
-}
-
-void
-Box::default_state()
-{
-	this->current_state = &this->box_state;
 }
 
 void
@@ -61,16 +57,27 @@ Box::render()
 Box::Box():
 	frame{&editor_state->frames[0]},
 	box_state{this},
-	resize_state{this, &this->zoomable},
-	sprite_list{&this->frame},
+	sprite_list{[&](int index){
+		this->frame = &editor_state->frames[index];
+		this->set_boxes();
+	}},
 	zoomable{
-		0, 0,
+		this, &this->boxes,
 		core.window_width - this->sprite_list.location.w, core.window_height,
 		(core.window_width - this->sprite_list.location.w) / 2,
-		(core.window_height/6)*5}
+		(core.window_height/6)*5},
+	Base{&this->box_state}
 {
-	this->current_state = &this->box_state;
+	this->buttons.emplace_back(&this->zoomable);
+	this->buttons.emplace_back(&this->sprite_list);
+
+	this->set_boxes();
 	this->set_limits();
+}
+
+Box::~Box()
+{
+	this->clear_state();
 }
 
 }

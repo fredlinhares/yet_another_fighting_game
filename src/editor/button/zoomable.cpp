@@ -22,6 +22,21 @@ namespace Button
 {
 
 void
+Zoomable::get_mouse_position(int &x, int &y)
+{
+	if(this->x <= 0 || this->y <= 0)
+	{
+		x = - this->x + x / this->_zoom;
+		y = - this->y + y / this->_zoom;
+	}
+	else
+	{
+		x = (x - this->x) / this->_zoom;
+		y = (y - this->y) / this->_zoom;
+	}
+}
+
+void
 Zoomable::zoom_in()
 {
 	if(this->_zoom >= 8) return;
@@ -76,18 +91,41 @@ Zoomable::render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b)
   SDL_RenderDrawRect(core.renderer, &position);
 }
 
+void
+Zoomable::click_action(int x, int y)
+{
+	this->get_mouse_position(x, y);
+
+	for(::Box* box: *this->boxes)
+	{
+		Direction direction;
+
+		if(box->click(&direction, x, y))
+		{
+			if(direction == Direction::none) continue;
+
+			State::Base *state = new State::Resize(this, &(*box), direction);
+			this->mode->change_state(state);
+			return;
+		}
+	}
+}
+
 Zoomable::Zoomable(
-	int pos_x, int pos_y,
+	Mode::Base *mode,
+	std::vector<::Box*> *boxes,
 	int width, int height,
 	int center_x, int center_y):
 	_zoom{1},
+	mode{mode},
+	boxes{boxes},
 	x{center_x},
 	y{center_y}
 {
-	this->location.x = pos_x;
-	this->location.y = pos_y;
+	this->location.x = 0;
+	this->location.y = 0;
 	this->location.w = width;
-	this->location.y = height;
+	this->location.h = height;
 }
 
 }

@@ -28,34 +28,8 @@ namespace State
 void
 Box::mouse_button_down(SDL_MouseButtonEvent& b)
 {
-	if(this->mode->sprite_list.is_clicked(b.x, b.y)) return;
-
-	std::array<::Box*, 5> boxes{
-		&this->mode->frame->sprite,
-		&this->mode->frame->head,
-		&this->mode->frame->upper_body,
-		&this->mode->frame->lower_body,
-		&this->mode->frame->collision};
-
-  int x, y;
-  this->mode->get_mouse_position(x, y);
-
-	for(::Box* box: boxes)
-	{
-		Direction direction;
-
-		if(box->click(&direction, x, y))
-		{
-			if(direction == Direction::none) continue;
-			this->mode->resize_state.box = box;
-
-			this->mode->resize_state.set_resize_move(direction);
-      this->mode->current_state = &this->mode->resize_state;
-      return;
-		}
-	}
-
-	this->mode->current_state = &this->mode->box_state;
+	for(Button::Base *button: this->mode->buttons)
+		if(button->is_clicked(b.x, b.y)) break;
 }
 
 Box::Box(Mode::Box* mode):

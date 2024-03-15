@@ -21,6 +21,14 @@ namespace Mode
 {
 
 void
+Sprite::set_boxes()
+{
+	this->boxes.clear();
+  for(int i{0}; i < editor_state->frames.size(); i++)
+		this->boxes.emplace_back(&editor_state->frames[i].sprite);
+}
+
+void
 Sprite::correct_position()
 {
   if(this->src_rect.x < 0) this->src_rect.x = 0;
@@ -65,15 +73,6 @@ Sprite::define_display_position()
 }
 
 void
-Sprite::get_mouse_position(int &x, int &y)
-{
-  int mouse_x, mouse_y;
-  SDL_GetMouseState(&mouse_x, &mouse_y);
-  x = this->src_rect.x + mouse_x / this->zoomable.zoom();
-  y = this->src_rect.y + mouse_y / this->zoomable.zoom();
-}
-
-void
 Sprite::zoom_in()
 {
   this->define_display_position();
@@ -96,12 +95,6 @@ Sprite::zoom_out()
 }
 
 void
-Sprite::default_state()
-{
-	this->current_state = &this->sprite_state;
-}
-
-void
 Sprite::scroll(int x, int y)
 {
   if(core.window_width < this->display_width)
@@ -117,7 +110,7 @@ void
 Sprite::add_sprite()
 {
   int x, y;
-  this->get_mouse_position(x, y);
+  this->zoomable.get_mouse_position(x, y);
 
   if(x < 10) x = 10;
   else if(x > this->tex_width - 10) x = this->tex_width - 10;
@@ -145,14 +138,13 @@ Sprite::render()
 
 Sprite::Sprite():
 	zoomable{
-		0, 0,
+		this, &this->boxes,
 		core.window_width, core.window_height,
 		0, 0},
-  resize_state{this, &this->zoomable},
-  scroll_state{this},
-  sprite_state{this}
+  sprite_state{this},
+	Base{&this->sprite_state}
 {
-  this->current_state = &this->sprite_state;
+	this->buttons.emplace_back(&this->zoomable);
 
   SDL_QueryTexture(
     editor_state->texture, nullptr, nullptr, &tex_width, &tex_height);
@@ -167,7 +159,13 @@ Sprite::Sprite():
 	this->zoomable.left_limit = 0;
 	this->zoomable.right_limit = this->tex_width;
 
+	this->set_boxes();
   this->define_display_position();
+}
+
+Sprite::~Sprite()
+{
+	this->clear_state();
 }
 
 }

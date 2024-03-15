@@ -23,18 +23,31 @@
 namespace Mode
 {
 
-struct Base
+class Base
 {
-  State::Base *current_state;
+	State::Base* const default_state;
+	State::Base *_current_state;
 
-	virtual void
-	default_state(){};
+public:
+	void
+	change_state(State::Base *state);
+
+	void
+	reset_state();
+
+	void
+	clear_state();
+
+	inline State::Base*
+	current_state() {return this->_current_state;};
 
   virtual void
   tick(){};
 
   virtual void
   render() = 0;
+
+	Base(State::Base *default_state);
 
   virtual
   ~Base(){};

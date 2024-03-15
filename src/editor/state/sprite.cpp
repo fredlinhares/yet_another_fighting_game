@@ -28,26 +28,10 @@ namespace State
 void
 Sprite::mouse_button_down(SDL_MouseButtonEvent& b)
 {
-  int x, y;
-  this->mode->get_mouse_position(x, y);
+	this->mode->change_state(new State::Scroll(this->mode));
 
-  for(int i{0}; i < editor_state->frames.size(); i++)
-  {
-		Frame *frame{&editor_state->frames[i]};
-    Direction direction;
-
-		if(frame->sprite.click(&direction, x, y))
-    {
-			if(direction == Direction::none) continue;
-			this->mode->resize_state.box = &frame->sprite;
-
-			this->mode->resize_state.set_resize_move(direction);
-      this->mode->current_state = &this->mode->resize_state;
-      return;
-    }
-  }
-
-  this->mode->current_state = &this->mode->scroll_state;
+	for(Button::Base *button: this->mode->buttons)
+		if(button->is_clicked(b.x, b.y)) return;
 }
 
 Sprite::Sprite(Mode::Sprite* mode):

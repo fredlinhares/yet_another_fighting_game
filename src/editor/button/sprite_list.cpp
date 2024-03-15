@@ -91,7 +91,7 @@ SpriteList::click_action(int x, int y)
 	{
 		if(Button::Base::is_point_inside_rect(sprite.position, x, y))
 		{
-			*this->frame = &editor_state->frames[sprite.index];
+			this->callback(sprite.index);
 			return;
 		}
 	}
@@ -115,8 +115,8 @@ SpriteList::render()
 		&editor_state->down_button, &this->down_button);
 }
 
-SpriteList::SpriteList(Frame **frame):
-	frame{frame},
+SpriteList::SpriteList(std::function<void(int)> callback):
+	callback{callback},
 	current_set{0},
 	sprites_height{
 		core.window_height -

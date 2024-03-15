@@ -19,6 +19,7 @@
 
 #include "../button.hpp"
 #include "../frame.hpp"
+#include "../mode.hpp"
 #include "../../common/core.hpp"
 
 namespace Button
@@ -28,9 +29,14 @@ class Zoomable: public Base
 {
 protected:
 	int _zoom;
+	std::vector<::Box*> const *boxes;
 
 public:
+	Mode::Base* const mode;
 	int x, y, up_limit, down_limit, left_limit, right_limit;
+
+	void
+	get_mouse_position(int &x, int &y);
 
 	void
 	zoom_in();
@@ -47,13 +53,14 @@ public:
 	render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
 
 	void
-	click_action(int x, int y){};
+	click_action(int x, int y);
 
 	void
 	render(){};
 
 	Zoomable(
-		int pos_x, int pos_y,
+		Mode::Base *mode,
+		std::vector<::Box*> *boxes,
 		int width, int height,
 		int center_x, int center_y);
 };
