@@ -34,8 +34,14 @@ AnimationController::render()
 {
 	this->numbers.draw_fraction(
 		this->animation_mode->frame_x, this->animation_mode->frame_y,
-		this->animation_mode->frame_index + 1,
+		this->animation_mode->current_animation->frame_index + 1,
 		this->animation_mode->current_animation->size());
+
+	this->numbers.draw_number(
+		this->animation_mode->frame_x,
+		this->animation_mode->frame_y + editor_state->right_button.w,
+		this->animation_mode->current_animation->frames[
+			this->animation_mode->current_animation->frame_index].duration);
 
 	for(Button::Base *button: this->buttons) button->render();
 }
@@ -43,35 +49,58 @@ AnimationController::render()
 AnimationController::AnimationController(
 	Mode::Animation *animation_mode):
 	animation_mode{animation_mode},
+
 	previous_frame_btn{
 		&editor_state->left_button, core.window_width - 200, 0,
 		[animation=animation_mode->current_animation](){
 			animation->previous_frame();}},
+
 	next_frame_btn{
 		&editor_state->right_button,
 		core.window_width - editor_state->right_button.w, 0,
 		[animation=animation_mode->current_animation](){
 			animation->next_frame();}},
+
+	decrease_duration_btn{
+		&editor_state->left_button, core.window_width - 200,
+		editor_state->left_button.w,
+		[animation=animation_mode->current_animation](){
+			if(animation->frames[animation->frame_index].duration <= 1) return;
+
+			animation->frames[animation->frame_index].duration--;}},
+
+	increase_duration_btn{
+		&editor_state->right_button,
+		core.window_width - editor_state->right_button.w,
+		editor_state->left_button.w,
+		[animation=animation_mode->current_animation](){
+		  if(animation->frames[animation->frame_index].duration >= 60) return;
+
+			animation->frames[animation->frame_index].duration++;}},
+
 	play_btn{
 		&editor_state->play_button,
-		core.window_width - 200, editor_state->left_button.w,
+		core.window_width - 200, editor_state->left_button.w * 2,
 		[playing=&animation_mode->playing](){*playing = true;}},
+
 	pause_btn{
 		&editor_state->pause_button,
 		core.window_width - 200 + editor_state->play_button.w,
-		editor_state->left_button.w,
+		editor_state->left_button.w * 2,
 		[playing=&animation_mode->playing](){*playing = false;}},
+
 	plus_btn{
 		&editor_state->plus_button,
-		core.window_width - 200, editor_state->left_button.w * 2,
+		core.window_width - 200, editor_state->left_button.w * 3,
 		[mode=animation_mode](){
 			mode->playing = false;
 			mode->buttons.pop_back();
 			mode->buttons.emplace_back(&mode->sprite_list);}},
+
 	minus_btn{
 		&editor_state->minus_button,
 		core.window_width - 200 + editor_state->play_button.w,
-		editor_state->left_button.w * 2,
+		editor_state->left_button.w * 3,
 		[mode=animation_mode](){
 			if(mode->current_animation->frames.size() <= 1) return;
 
@@ -89,6 +118,8 @@ AnimationController::AnimationController(
 
 	this->buttons.emplace_back(&this->previous_frame_btn);
 	this->buttons.emplace_back(&this->next_frame_btn);
+	this->buttons.emplace_back(&this->decrease_duration_btn);
+	this->buttons.emplace_back(&this->increase_duration_btn);
 	this->buttons.emplace_back(&this->play_btn);
 	this->buttons.emplace_back(&this->pause_btn);
 	this->buttons.emplace_back(&this->plus_btn);

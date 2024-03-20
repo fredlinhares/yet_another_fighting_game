@@ -34,8 +34,8 @@ class AnimationController: public Base
 {
 	Mode::Animation* const animation_mode;
 	Number numbers;
-	Image previous_frame_btn, next_frame_btn, play_btn, pause_btn, plus_btn,
-		minus_btn;
+	Image previous_frame_btn, next_frame_btn, decrease_duration_btn,
+		increase_duration_btn, play_btn, pause_btn, plus_btn, minus_btn;
 	std::vector<Base*> buttons;
 
 public:
