@@ -51,6 +51,16 @@ SpriteBox::zoom_out()
 }
 
 void
+SpriteBox::render_pivot()
+{
+	SDL_SetRenderDrawColor(core.renderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_RenderDrawLine(
+		core.renderer, this->x - 10, this->y, this->x + 10, this->y);
+	SDL_RenderDrawLine(
+		core.renderer, this->x, this->y - 10, this->x, this->y + 10);
+}
+
+void
 SpriteBox::render_sprite(const Frame &frame)
 {
 	const SDL_Rect *position{&frame.sprite.size};

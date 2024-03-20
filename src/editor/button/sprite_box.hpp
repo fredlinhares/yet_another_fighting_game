@@ -47,6 +47,9 @@ public:
 	zoom(){return this->_zoom;};
 
 	void
+	render_pivot();
+
+	void
 	render_sprite(const Frame &frame);
 
 	void
