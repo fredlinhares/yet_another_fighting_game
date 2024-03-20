@@ -27,13 +27,12 @@ struct AnimationFrame
   int duration, index;
 };
 
-class Animation
+struct Animation
 {
   bool looping, sequence_over;
   int frame_index, time;
   std::vector<AnimationFrame> frames;
 
-public:
   AnimationFrame*
   add_frame();
 

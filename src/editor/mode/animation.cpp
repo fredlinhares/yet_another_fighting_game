@@ -42,10 +42,6 @@ Animation::render()
 	Frame *frame{&editor_state->frames[this->frame_index]};
 	this->sprite_box.render_sprite(*frame);
 
-	this->numbers.draw_fraction(
-		this->frame_x, this->frame_y,
-		this->frame_index + 1, this->current_animation->size());
-
 	for(Button::Base *button: this->buttons) button->render();
 }
 
@@ -56,6 +52,7 @@ Animation::Animation(const char *animation_name):
 	frame_x{core.window_width - 200 + editor_state->left_button.w},
 	frame_y{0},
 	current_animation{editor_state->animations[animation_name]},
+	animation_controller{this},
 	sprite_box{
 		0, 0,
 		core.window_width - 200, core.window_height,
@@ -66,40 +63,7 @@ Animation::Animation(const char *animation_name):
 	this->sprite_box.left_limit = -250;
 	this->sprite_box.right_limit = 250;
 
-	this->previous_frame_btn = new Button::Image{
-		&editor_state->left_button, core.window_width - 200, 0,
-		[animation=this->current_animation](){animation->previous_frame();}};
-
-	this->next_frame_btn = new Button::Image{
-		&editor_state->right_button,
-		core.window_width - editor_state->right_button.w, 0,
-		[animation=this->current_animation](){animation->next_frame();}};
-
-	int y{editor_state->left_button.w};
-	this->play_btn = new Button::Image{
-		&editor_state->play_button,
-		core.window_width - 200, y, [playing=&this->playing](){
-			*playing = true;}};
-
-	this->pause_btn = new Button::Image{
-		&editor_state->pause_button,
-		core.window_width - 200 + editor_state->play_button.w, y,
-		[playing=&this->playing](){
-			*playing =false;}};
-
-	this->buttons.emplace_back(this->previous_frame_btn);
-	this->buttons.emplace_back(this->next_frame_btn);
-	this->buttons.emplace_back(this->play_btn);
-	this->buttons.emplace_back(this->pause_btn);
+	this->buttons.emplace_back(&this->animation_controller);
 }
-
-Animation::~Animation()
-{
-	delete this->previous_frame_btn;
-	delete this->next_frame_btn;
-	delete this->play_btn;
-	delete this->pause_btn;
-}
-
 
 }

@@ -14,43 +14,40 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_ANIMATION_H
-#define YAFCE_MODE_ANIMATION_H 1
+#ifndef YAFCE_BUTTON_ANIMATION_CONTROLLER_H
+#define YAFCE_BUTTON_ANIMATION_CONTROLLER_H 1
 
 #include "../../common/graphics/animation.hpp"
-#include "../../common/graphics/frame.hpp"
-#include "../button/animation_controller.hpp"
-#include "../button/image.hpp"
-#include "../button/sprite_box.hpp"
-#include "../mode.hpp"
-#include "../state/animation.hpp"
+#include "../button.hpp"
+#include "../number.hpp"
+#include "image.hpp"
 
 namespace Mode
 {
+	class Animation;
+};
 
-struct Animation: public Base
+namespace Button
 {
-	bool playing;
-	int _x, _y, frame_x, frame_y, frame_index;
-	Graphics::Animation* const current_animation;
 
-	Button::AnimationController animation_controller;
-	Button::SpriteBox sprite_box;
-	std::vector<Button::Base*> buttons;
-	State::Animation animation_state;
+class AnimationController: public Base
+{
+	Mode::Animation* const animation_mode;
+	Number numbers;
+	Image previous_frame_btn, next_frame_btn, play_btn, pause_btn;
+	std::vector<Base*> buttons;
 
-	void
-	default_state();
+public:
 
 	void
-	tick();
+	click_action(int x, int y);
 
 	void
 	render();
 
-	Animation(const char *animation_name);
+	AnimationController(Mode::Animation *animation_mode);
 };
 
 }
 
-#endif /* YAFCE_MODE_ANIMATION_H */
+#endif /* YAFCE_BUTTON_ANIMATION_CONTROLLER_H */

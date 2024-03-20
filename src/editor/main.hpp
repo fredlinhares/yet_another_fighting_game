@@ -33,7 +33,7 @@ struct EditorState
 	SDL_Texture *texture, *tex_direction_buttons;
 	TTF_Font *font;
 	SDL_Rect up_button, down_button, left_button, right_button, play_button,
-		pause_button;
+		pause_button, plus_button, minus_button;
 	std::vector<Frame> frames;
 	std::unordered_map<std::string, Graphics::Animation*> animations;
 
