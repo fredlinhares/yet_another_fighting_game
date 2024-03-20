@@ -22,6 +22,7 @@
 #include "../button/animation_controller.hpp"
 #include "../button/image.hpp"
 #include "../button/sprite_box.hpp"
+#include "../button/sprite_list.hpp"
 #include "../mode.hpp"
 #include "../state/animation.hpp"
 
@@ -36,6 +37,7 @@ struct Animation: public Base
 
 	Button::AnimationController animation_controller;
 	Button::SpriteBox sprite_box;
+	Button::SpriteList sprite_list;
 	std::vector<Button::Base*> buttons;
 	State::Animation animation_state;
 

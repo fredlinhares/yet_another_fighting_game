@@ -60,7 +60,20 @@ AnimationController::AnimationController(
 		&editor_state->pause_button,
 		core.window_width - 200 + editor_state->play_button.w,
 		editor_state->left_button.w,
-			[playing=&animation_mode->playing](){*playing = false;}}
+		[playing=&animation_mode->playing](){*playing = false;}},
+	plus_btn{
+		&editor_state->plus_button,
+		core.window_width - 200, editor_state->left_button.w * 2,
+		[mode=animation_mode](){
+			mode->playing = false;
+			mode->buttons.pop_back();
+			mode->buttons.emplace_back(&mode->sprite_list);}},
+	minus_btn{
+		&editor_state->minus_button,
+		core.window_width - 200 + editor_state->play_button.w,
+		editor_state->left_button.w * 2,
+		[mode=animation_mode](){
+		}}
 {
 	this->location.x = core.window_width - 200;
 	this->location.y = 0;
@@ -71,6 +84,8 @@ AnimationController::AnimationController(
 	this->buttons.emplace_back(&this->next_frame_btn);
 	this->buttons.emplace_back(&this->play_btn);
 	this->buttons.emplace_back(&this->pause_btn);
+	this->buttons.emplace_back(&this->plus_btn);
+	this->buttons.emplace_back(&this->minus_btn);
 }
 
 }

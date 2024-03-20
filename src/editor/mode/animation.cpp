@@ -56,7 +56,14 @@ Animation::Animation(const char *animation_name):
 	sprite_box{
 		0, 0,
 		core.window_width - 200, core.window_height,
-		(core.window_width - 200)/2, (core.window_height/6)*5}
+		(core.window_width - 200)/2, (core.window_height/6)*5},
+	sprite_list{
+		[&](int index){
+			this->current_animation->frames.insert(
+				this->current_animation->frames.begin() + this->frame_index + 1,
+				Graphics::AnimationFrame{10, index});
+			this->buttons.pop_back();
+			this->buttons.emplace_back(&this->animation_controller);}}
 {
 	this->sprite_box.up_limit = -250;
 	this->sprite_box.down_limit = 250;
