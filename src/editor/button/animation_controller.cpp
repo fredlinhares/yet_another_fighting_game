@@ -73,6 +73,13 @@ AnimationController::AnimationController(
 		core.window_width - 200 + editor_state->play_button.w,
 		editor_state->left_button.w * 2,
 		[mode=animation_mode](){
+			if(mode->current_animation->frames.size() <= 1) return;
+
+			mode->current_animation->frames.erase(
+				mode->current_animation->frames.begin() +
+				mode->current_animation->index());
+			mode->current_animation->reset();
+			mode->frame_index = mode->current_animation->index();
 		}}
 {
 	this->location.x = core.window_width - 200;
