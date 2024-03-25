@@ -17,23 +17,43 @@
 #ifndef YAFCE_BOX_H
 #define YAFCE_BOX_H 1
 
-#include "../common/core.hpp"
-#include "../common/direction.hpp"
-#include "../common/graphics/frame.hpp"
+#include "../../common/core.hpp"
+#include "../../common/direction.hpp"
+#include "../../common/graphics/frame.hpp"
+#include "../button.hpp"
+#include "../mode.hpp"
 
-struct Box
+namespace Button
 {
+
+class SpriteBox;
+
+class Box: public Base
+{
+	Mode::Base* const mode;
+	SpriteBox* const sprite_box;
+	SDL_Rect* const rect;
+	Uint8 red, green, blue;
   int outer_left, center_left, outer_right, center_right, outer_up,
     center_up, outer_down, center_down;
-  SDL_Rect size;
 
-	bool
-	click(Direction *direction, const int x, const int y);
+public:
+	void
+	update_frame();
+
+	void
+	click_action(const int x, const int y);
+
+	void
+	render();
 
   void
   update_size();
 
-  Box(int x, int y, int w, int h);
+Box(Mode::Base* mode, SpriteBox *sprite_box,
+		SDL_Rect *rect, Uint8 red, Uint8 green, Uint8 blue);
 };
+
+}
 
 #endif /* YAFCE_BOX_H */

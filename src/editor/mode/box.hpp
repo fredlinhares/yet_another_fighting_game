@@ -17,7 +17,6 @@
 #ifndef YAFCE_MODE_BOX_H
 #define YAFCE_MODE_BOX_H 1
 
-#include "../frame.hpp"
 #include "../mode.hpp"
 #include "../button/sprite_list.hpp"
 #include "../button/sprite_box.hpp"
@@ -29,14 +28,14 @@ namespace Mode
 
 struct Box: public Base
 {
-	Frame *frame;
+	Graphics::Frame *frame;
 	std::vector<Button::Base*> buttons;
 
 	State::Box box_state;
 
 	Button::SpriteList sprite_list;
 	Button::SpriteBox sprite_box;
-	std::vector<::Box*> boxes;
+	std::vector<Button::Box> boxes;
 
 	void
 	set_boxes();

@@ -61,9 +61,9 @@ SpriteBox::render_pivot()
 }
 
 void
-SpriteBox::render_sprite(const Frame &frame)
+SpriteBox::render_sprite(const Graphics::Frame &frame)
 {
-	const SDL_Rect *position{&frame.sprite.size};
+	const SDL_Rect *position{&frame.sprite};
 
   SDL_Rect destination{
 		this->x + frame.x * this->_zoom,
@@ -106,24 +106,18 @@ SpriteBox::click_action(int x, int y)
 {
 	this->get_mouse_position(x, y);
 
-	for(::Box* box: *this->boxes)
-	{
-		Direction direction;
+	for(Box &box: *this->boxes) if(box.is_clicked(x, y)) return;
+}
 
-		if(box->click(&direction, x, y))
-		{
-			if(direction == Direction::none) continue;
-
-			State::Base *state = new State::Resize(this, &(*box), direction);
-			this->mode->change_state(state);
-			return;
-		}
-	}
+void
+SpriteBox::render()
+{
+	for(Box &box: *this->boxes) box.render();
 }
 
 SpriteBox::SpriteBox(
 	Mode::Base *mode,
-	std::vector<::Box*> *boxes,
+	std::vector<Button::Box>* boxes,
 	int width, int height,
 	int center_x, int center_y):
 	_zoom{1},

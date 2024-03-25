@@ -42,16 +42,16 @@ SpriteList::set_positions()
 
 	for(int i{this->set_indexes[this->current_set]}; i <= final_index; i++)
 	{
-		Box *sprite = &editor_state->frames[i].sprite;
+		SDL_Rect *sprite = &editor_state->frames[i].sprite;
 
 		this->positions.emplace_back(
 			i,
-			core.window_width - sprite->size.w,
+			core.window_width - sprite->w,
 			y + editor_state->up_button.h,
-			sprite->size.w,
-			sprite->size.h);
+			sprite->w,
+			sprite->h);
 
-		y += sprite->size.h;
+		y += sprite->h;
 	}
 }
 
@@ -104,7 +104,7 @@ SpriteList::render()
 	{
 		SDL_RenderCopy(
 			core.renderer, editor_state->texture,
-			&editor_state->frames[sprite.index].sprite.size, &sprite.position);
+			&editor_state->frames[sprite.index].sprite, &sprite.position);
 	}
 
 	SDL_RenderCopy(
@@ -132,19 +132,19 @@ SpriteList::SpriteList(std::function<void(int)> callback):
 	this->location.h = core.window_height;
 
 	this->set_indexes.emplace_back(0);
-	for(const Frame &frame: editor_state->frames)
+	for(const Graphics::Frame &frame: editor_state->frames)
 	{
-		if(frame.sprite.size.w > this->location.w)
-			this->location.w = frame.sprite.size.w;
+		if(frame.sprite.w > this->location.w)
+			this->location.w = frame.sprite.w;
 
-		if(current_height + frame.sprite.size.h > this->sprites_height)
+		if(current_height + frame.sprite.h > this->sprites_height)
 		{
 			this->set_indexes.emplace_back(index);
 			current_height = 0;
 		}
 
 		index++;
-		current_height += frame.sprite.size.h;
+		current_height += frame.sprite.h;
 	}
 
 	{

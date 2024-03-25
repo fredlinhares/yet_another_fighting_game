@@ -36,7 +36,7 @@ struct Base
 	is_clicked(int x, int y);
 
 	virtual void
-	click_action(int x, int y) = 0;
+	click_action(const int x, const int y) = 0;
 
 	virtual void
 	render() = 0;

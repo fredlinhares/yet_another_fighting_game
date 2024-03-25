@@ -62,6 +62,7 @@ Resize::set_resize_move(Direction direction)
 void
 Resize::mouse_button_up(SDL_MouseButtonEvent& b)
 {
+	this->box->update_frame();
 	this->sprite_box->mode->reset_state();
 }
 
@@ -88,69 +89,77 @@ Resize::mouse_motion(int x, int y, int xrel, int yrel)
 	}
 
 	this->box->update_size();
+	this->box->update_frame();
 }
 
 void
 Resize::up_corner(int y)
 {
-	int left_y{this->box->size.y};
-	int right_y{this->box->size.y + this->box->size.h};
-	this->box->size.y = y;
-	this->box->size.h -= y - left_y;
+	int left_y{this->box->location.y};
+	int right_y{this->box->location.y + this->box->location.h};
+	this->box->location.y = y;
+	this->box->location.h -= y - left_y;
 
-	if(this->box->size.y < this->sprite_box->up_limit)
+	if(this->box->location.y < this->sprite_box->up_limit)
 	{
-		this->box->size.h -= this->sprite_box->up_limit - this->box->size.y;
-		this->box->size.y = this->sprite_box->up_limit;
+		this->box->location.h -=
+			this->sprite_box->up_limit - this->box->location.y;
+		this->box->location.y = this->sprite_box->up_limit;
 	}
-	else if(this->box->size.h <= 0)
+	else if(this->box->location.h <= 0)
 	{
-		this->box->size.y = right_y - 1;
-		this->box->size.h = 1;
+		this->box->location.y = right_y - 1;
+		this->box->location.h = 1;
 	}
 }
 
 void
 Resize::down_corner(int y)
 {
-	this->box->size.h = y - this->box->size.y;
+	this->box->location.h = y - this->box->location.y;
 
-	if(this->box->size.y + this->box->size.h > this->sprite_box->down_limit)
-		this->box->size.h = this->sprite_box->down_limit - this->box->size.y;
-	else if(this->box->size.h < 1) this->box->size.h = 1;
+	if(this->box->location.y + this->box->location.h >
+		 this->sprite_box->down_limit)
+		this->box->location.h =
+			this->sprite_box->down_limit - this->box->location.y;
+	else if(this->box->location.h < 1) this->box->location.h = 1;
 }
 
 void
 Resize::left_corner(int x)
 {
-	int left_x{this->box->size.x};
-	int right_x{this->box->size.x + this->box->size.w};
-	this->box->size.x = x;
-	this->box->size.w -= x - left_x;
+	int left_x{this->box->location.x};
+	int right_x{this->box->location.x + this->box->location.w};
+	this->box->location.x = x;
+	this->box->location.w -= x - left_x;
 
-	if(this->box->size.x < this->sprite_box->left_limit)
+	if(this->box->location.x < this->sprite_box->left_limit)
 	{
-		this->box->size.w -= this->sprite_box->left_limit - this->box->size.x;
-		this->box->size.x = this->sprite_box->left_limit;
+		this->box->location.w -=
+			this->sprite_box->left_limit - this->box->location.x;
+		this->box->location.x = this->sprite_box->left_limit;
 	}
-	else if(this->box->size.w <= 0)
+	else if(this->box->location.w <= 0)
 	{
-		this->box->size.x = right_x - 1;
-		this->box->size.w = 1;
+		this->box->location.x = right_x - 1;
+		this->box->location.w = 1;
 	}
 }
 
 void
 Resize::right_corner(int x)
 {
-	this->box->size.w = x - this->box->size.x;
+	this->box->location.w = x - this->box->location.x;
 
-	if(this->box->size.x + this->box->size.w > this->sprite_box->right_limit)
-		this->box->size.w = this->sprite_box->right_limit - this->box->size.x;
-	else if(this->box->size.w < 1) this->box->size.w = 1;
+	if(this->box->location.x + this->box->location.w >
+		 this->sprite_box->right_limit)
+		this->box->location.w =
+			this->sprite_box->right_limit - this->box->location.x;
+	else if(this->box->location.w < 1) this->box->location.w = 1;
 }
 
-Resize::Resize(Button::SpriteBox* sprite_box, ::Box* box, Direction direction):
+Resize::Resize(
+	Button::SpriteBox* sprite_box, Button::Box* box, Direction direction):
 	sprite_box{sprite_box},
 	box{box},
   vertical_move{nullptr},

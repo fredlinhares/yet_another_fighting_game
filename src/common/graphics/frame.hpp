@@ -40,6 +40,7 @@ struct Frame
   set_collision(int x, int y, int w, int h);
 
   Frame();
+  Frame(int x, int y, int w, int h);
 };
 
 }

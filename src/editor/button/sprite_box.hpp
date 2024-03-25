@@ -17,10 +17,10 @@
 #ifndef YAFCE_BUTTON_SPRITE_BOX_H
 #define YAFCE_BUTTON_SPRITE_BOX_H 1
 
-#include "../button.hpp"
-#include "../frame.hpp"
-#include "../mode.hpp"
 #include "../../common/core.hpp"
+#include "../../common/graphics/frame.hpp"
+#include "../button/box.hpp"
+#include "../mode.hpp"
 
 namespace Button
 {
@@ -29,7 +29,7 @@ class SpriteBox: public Base
 {
 protected:
 	int _zoom;
-	std::vector<::Box*> const *boxes;
+	std::vector<Button::Box>* const boxes;
 
 public:
 	Mode::Base* const mode;
@@ -50,7 +50,7 @@ public:
 	render_pivot();
 
 	void
-	render_sprite(const Frame &frame);
+	render_sprite(const Graphics::Frame &frame);
 
 	void
 	render_rect(const SDL_Rect &rect, uint8_t r, uint8_t g, uint8_t b);
@@ -59,11 +59,11 @@ public:
 	click_action(int x, int y);
 
 	void
-	render(){};
+	render();
 
 	SpriteBox(
 		Mode::Base *mode,
-		std::vector<::Box*> *boxes,
+		std::vector<Button::Box> *boxes,
 		int width, int height,
 		int center_x, int center_y);
 };

@@ -26,33 +26,31 @@ Box::set_boxes()
 {
 	this->boxes.clear();
 
-	this->boxes.emplace_back(&this->frame->head);
-	this->boxes.emplace_back(&this->frame->upper_body);
-	this->boxes.emplace_back(&this->frame->lower_body);
-	this->boxes.emplace_back(&this->frame->collision);
+	this->boxes.emplace_back(
+		this, &this->sprite_box, &this->frame->head, 0x66, 0x66, 0xbb);
+	this->boxes.emplace_back(
+		this, &this->sprite_box, &this->frame->upper_body, 0x22, 0x22, 0x77);
+	this->boxes.emplace_back(
+		this, &this->sprite_box, &this->frame->lower_body, 0x44, 0x44, 0x99);
+	this->boxes.emplace_back(
+		this, &this->sprite_box, &this->frame->collision, 0x33, 0x99, 0x33);
 }
 
 void
 Box::set_limits()
 {
-	this->sprite_box.up_limit = - this->frame->sprite.size.h * 2;
-	this->sprite_box.down_limit = this->frame->sprite.size.h * 2;
-	this->sprite_box.left_limit = - this->frame->sprite.size.w * 2;
-	this->sprite_box.right_limit = this->frame->sprite.size.w * 2;
+	this->sprite_box.up_limit = - this->frame->sprite.h * 2;
+	this->sprite_box.down_limit = this->frame->sprite.h * 2;
+	this->sprite_box.left_limit = - this->frame->sprite.w * 2;
+	this->sprite_box.right_limit = this->frame->sprite.w * 2;
 }
 
 void
 Box::render()
 {
 	this->sprite_box.render_sprite(*this->frame);
-
-	this->sprite_box.render_rect(this->frame->head.size, 0x66, 0x66, 0xbb);
-	this->sprite_box.render_rect(this->frame->upper_body.size, 0x22, 0x22, 0x77);
-	this->sprite_box.render_rect(this->frame->lower_body.size, 0x44, 0x44, 0x99);
-	this->sprite_box.render_rect(this->frame->collision.size, 0x33, 0x99, 0x33);
-
+	this->sprite_box.render();
 	this->sprite_box.render_pivot();
-
 	this->sprite_list.render();
 }
 

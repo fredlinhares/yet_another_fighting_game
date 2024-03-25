@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "../button/sprite_box.hpp"
-#include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state/resize.hpp"
 #include "../state/scroll.hpp"
@@ -35,7 +34,7 @@ class Sprite: public Base
   int tex_width, tex_height;
   int display_width, display_height;
 
-	std::vector<::Box*> boxes;
+	std::vector<Button::Box> boxes;
 
 	void
 	set_boxes();

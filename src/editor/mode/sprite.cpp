@@ -17,6 +17,8 @@
 #include "../main.hpp"
 #include "sprite.hpp"
 
+#include <iostream>
+
 namespace Mode
 {
 
@@ -25,7 +27,9 @@ Sprite::set_boxes()
 {
 	this->boxes.clear();
   for(int i{0}; i < editor_state->frames.size(); i++)
-		this->boxes.emplace_back(&editor_state->frames[i].sprite);
+		this->boxes.emplace_back(
+			this, &this->sprite_box, &editor_state->frames[i].sprite,
+			0x33, 0x99, 0x33);
 }
 
 void
@@ -119,6 +123,7 @@ Sprite::add_sprite()
   else if(y > this->tex_height - 10) y = this->tex_height - 10;
 
   editor_state->frames.emplace_back(x - 10, y - 10, 20, 20);
+	this->set_boxes();
 }
 
 void
@@ -132,8 +137,7 @@ Sprite::render()
   SDL_RenderCopy(
     core.renderer, editor_state->texture, &this->src_rect, &dst_rect);
 
-  for(const Frame &frame: editor_state->frames)
-    this->sprite_box.render_rect(frame.sprite.size, 0x33, 0x99, 0x33);
+	this->sprite_box.render();
 }
 
 Sprite::Sprite():

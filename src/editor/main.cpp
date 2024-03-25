@@ -63,13 +63,8 @@ load_frames(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
 
-	std::vector<Graphics::Frame> frames;
 	std::string frame_path{"./fighters/" + self->character + "/frames.conf"};
-	Parse::frames(&frames, frame_path.c_str());
-	self->frames.reserve(frames.size());
-
-	for(Graphics::Frame &f: frames)
-		self->frames.emplace_back(f);
+	Parse::frames(&self->frames, frame_path.c_str());
 }
 
 void

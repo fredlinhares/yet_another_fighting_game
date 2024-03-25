@@ -16,7 +16,6 @@
 
 #include "animation.hpp"
 
-#include "../frame.hpp"
 #include "../main.hpp"
 
 namespace Mode
@@ -39,7 +38,7 @@ Animation::tick()
 void
 Animation::render()
 {
-	Frame *frame{&editor_state->frames[this->frame_index]};
+	Graphics::Frame *frame{&editor_state->frames[this->frame_index]};
 	this->sprite_box.render_sprite(*frame);
 
 	for(Button::Base *button: this->buttons) button->render();

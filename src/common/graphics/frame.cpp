@@ -77,4 +77,13 @@ Frame::Frame():
 {
 }
 
+Frame::Frame(int x, int y, int w, int h):
+	Frame()
+{
+	this->sprite.x = x;
+	this->sprite.y = y;
+	this->sprite.w = w;
+	this->sprite.h = h;
+}
+
 }

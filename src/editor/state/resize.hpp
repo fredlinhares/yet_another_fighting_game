@@ -18,7 +18,6 @@
 #define YAFCE_STATE_RESIZE_H 1
 
 #include "../button/sprite_box.hpp"
-#include "../frame.hpp"
 #include "../mode.hpp"
 #include "../state.hpp"
 
@@ -29,7 +28,7 @@ class Resize: public State::Base
 {
 	Button::SpriteBox* const sprite_box;
 
-	::Box* box;
+	Button::Box* box;
   void (Resize::*vertical_move)(int num);
   void (Resize::*horizontal_move)(int num);
 
@@ -51,7 +50,7 @@ public:
   void
   right_corner(int x);
 
-	Resize(Button::SpriteBox* spriteBox, ::Box* box, Direction direction);
+	Resize(Button::SpriteBox* spriteBox, Button::Box* box, Direction direction);
 };
 
 }
