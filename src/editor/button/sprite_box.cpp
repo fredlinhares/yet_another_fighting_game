@@ -51,16 +51,6 @@ SpriteBox::zoom_out()
 }
 
 void
-SpriteBox::render_pivot()
-{
-	SDL_SetRenderDrawColor(core.renderer, 0xff, 0xff, 0xff, 0xff);
-	SDL_RenderDrawLine(
-		core.renderer, this->x - 10, this->y, this->x + 10, this->y);
-	SDL_RenderDrawLine(
-		core.renderer, this->x, this->y - 10, this->x, this->y + 10);
-}
-
-void
 SpriteBox::render_sprite(const Graphics::Frame &frame)
 {
 	const SDL_Rect *position{&frame.sprite};
@@ -106,18 +96,18 @@ SpriteBox::click_action(int x, int y)
 {
 	this->get_mouse_position(x, y);
 
-	for(Box &box: *this->boxes) if(box.is_clicked(x, y)) return;
+	for(Button::Base *box: *this->boxes) if(box->is_clicked(x, y)) return;
 }
 
 void
 SpriteBox::render()
 {
-	for(Box &box: *this->boxes) box.render();
+	for(Button::Base *box: *this->boxes) box->render();
 }
 
 SpriteBox::SpriteBox(
 	Mode::Base *mode,
-	std::vector<Button::Box>* boxes,
+	std::vector<Button::Base*> *boxes,
 	int width, int height,
 	int center_x, int center_y):
 	_zoom{1},

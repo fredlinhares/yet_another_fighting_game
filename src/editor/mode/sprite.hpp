@@ -34,7 +34,7 @@ class Sprite: public Base
   int tex_width, tex_height;
   int display_width, display_height;
 
-	std::vector<Button::Box> boxes;
+	std::vector<Button::Base*> boxes;
 
 	void
 	set_boxes();

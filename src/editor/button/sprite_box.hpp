@@ -29,7 +29,7 @@ class SpriteBox: public Base
 {
 protected:
 	int _zoom;
-	std::vector<Button::Box>* const boxes;
+	std::vector<Button::Base*>* const boxes;
 
 public:
 	Mode::Base* const mode;
@@ -47,9 +47,6 @@ public:
 	zoom(){return this->_zoom;};
 
 	void
-	render_pivot();
-
-	void
 	render_sprite(const Graphics::Frame &frame);
 
 	void
@@ -63,7 +60,7 @@ public:
 
 	SpriteBox(
 		Mode::Base *mode,
-		std::vector<Button::Box> *boxes,
+		std::vector<Button::Base*> *boxes,
 		int width, int height,
 		int center_x, int center_y);
 };

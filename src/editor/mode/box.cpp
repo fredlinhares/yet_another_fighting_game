@@ -24,16 +24,19 @@ namespace Mode
 void
 Box::set_boxes()
 {
+	for(Button::Base* box: this->boxes) delete box;
 	this->boxes.clear();
 
-	this->boxes.emplace_back(
-		this, &this->sprite_box, &this->frame->head, 0x66, 0x66, 0xbb);
-	this->boxes.emplace_back(
-		this, &this->sprite_box, &this->frame->upper_body, 0x22, 0x22, 0x77);
-	this->boxes.emplace_back(
-		this, &this->sprite_box, &this->frame->lower_body, 0x44, 0x44, 0x99);
-	this->boxes.emplace_back(
-		this, &this->sprite_box, &this->frame->collision, 0x33, 0x99, 0x33);
+	this->boxes.emplace_back(new Button::Box{
+			this, &this->sprite_box, &this->frame->head, 0x66, 0x66, 0xbb});
+	this->boxes.emplace_back(new Button::Box{
+			this, &this->sprite_box, &this->frame->upper_body, 0x22, 0x22, 0x77});
+	this->boxes.emplace_back(new Button::Box{
+			this, &this->sprite_box, &this->frame->lower_body, 0x44, 0x44, 0x99});
+	this->boxes.emplace_back(new Button::Box{
+			this, &this->sprite_box, &this->frame->collision, 0x33, 0x99, 0x33});
+	this->boxes.emplace_back(new Button::Pivot{
+			&this->sprite_box, &this->frame->x, &this->frame->y, 10});
 }
 
 void
@@ -50,7 +53,6 @@ Box::render()
 {
 	this->sprite_box.render_sprite(*this->frame);
 	this->sprite_box.render();
-	this->sprite_box.render_pivot();
 	this->sprite_list.render();
 }
 
@@ -77,6 +79,7 @@ Box::Box():
 
 Box::~Box()
 {
+	for(Button::Base* box: this->boxes) delete box;
 	this->clear_state();
 }
 

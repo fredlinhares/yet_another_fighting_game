@@ -25,11 +25,12 @@ namespace Mode
 void
 Sprite::set_boxes()
 {
+	for(Button::Base* box: this->boxes) delete box;
 	this->boxes.clear();
   for(int i{0}; i < editor_state->frames.size(); i++)
 		this->boxes.emplace_back(
-			this, &this->sprite_box, &editor_state->frames[i].sprite,
-			0x33, 0x99, 0x33);
+			new Button::Box{this, &this->sprite_box, &editor_state->frames[i].sprite,
+				0x33, 0x99, 0x33});
 }
 
 void
@@ -169,6 +170,7 @@ Sprite::Sprite():
 
 Sprite::~Sprite()
 {
+	for(Button::Base* box: this->boxes) delete box;
 	this->clear_state();
 }
 

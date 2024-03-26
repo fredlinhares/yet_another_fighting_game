@@ -14,43 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_MODE_BOX_H
-#define YAFCE_MODE_BOX_H 1
+#include "../button.hpp"
+#include "sprite_box.hpp"
 
-#include "../mode.hpp"
-#include "../button/pivot.hpp"
-#include "../button/sprite_list.hpp"
-#include "../button/sprite_box.hpp"
-#include "../state/box.hpp"
-#include "../state/resize.hpp"
-
-namespace Mode
+namespace Button
 {
 
-struct Box: public Base
+class Pivot: public Base
 {
-	Graphics::Frame *frame;
-	std::vector<Button::Base*> buttons;
-
-	State::Box box_state;
-
-	Button::SpriteList sprite_list;
-	Button::SpriteBox sprite_box;
-	std::vector<Button::Base*> boxes;
+	SpriteBox* const sprite_box;
+	int* const pivot_x;
+	int* const pivot_y;
+	int radius;
 
 	void
-	set_boxes();
+	set_position();
 
+public:
 	void
-	set_limits();
+	click_action(int x, int y);
 
 	void
 	render();
 
-	Box();
-	~Box();
+	Pivot(SpriteBox *sprite_box, int *pivot_x, int *pivot_y, int radius);
 };
 
 }
-
-#endif /* YAFCE_MODE_BOX_H */
