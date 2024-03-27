@@ -42,11 +42,11 @@ void
 Pivot::render()
 {
 	int vertical_x = this->sprite_box->x;
-	int vertical_top_y = this->sprite_box->y - this->radius;
-	int vertical_botton_y = this->sprite_box->y + this->radius;
+	int vertical_top_y = 0;
+	int vertical_botton_y = this->sprite_box->location.h;
 
-	int horizontal_left_x = this->sprite_box->x - this->radius;
-	int horizontal_right_x = this->sprite_box->x + this->radius;
+	int horizontal_left_x = 0;
+	int horizontal_right_x = this->sprite_box->location.w;
 	int horizontal_y = this->sprite_box->y;
 
 	SDL_SetRenderDrawColor(core.renderer, 0xff, 0xff, 0xff, 0xff);
