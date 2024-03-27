@@ -16,7 +16,7 @@
 
 #include "pivot.hpp"
 
-#include <iostream>
+#include "../state/move_pivot.hpp"
 
 namespace Button
 {
@@ -33,33 +33,21 @@ Pivot::set_position()
 void
 Pivot::click_action(int x, int y)
 {
-	int relactive_x, relcative_y;
-	this->sprite_box->get_mouse_position(relactive_x, relcative_y);
-
-	std::cout << "pivot x:" << relactive_x << std::endl;
-	std::cout << "pivot y:" << relcative_y << std::endl;
+	State::Base *state = new State::MovePivot(
+		this->sprite_box, this->pivot_x, this->pivot_y);
+	this->sprite_box->mode->change_state(state);
 }
 
 void
 Pivot::render()
 {
-	int vertical_x =
-		this->sprite_box->x + (this->location.x + this->radius) *
-		this->sprite_box->zoom();
-	int vertical_top_y =
-		this->sprite_box->y + this->location.y * this->sprite_box->zoom();
-	int vertical_botton_y =
-		this->sprite_box->y + (this->location.y + this->location.h) *
-		this->sprite_box->zoom();
+	int vertical_x = this->sprite_box->x;
+	int vertical_top_y = this->sprite_box->y - this->radius;
+	int vertical_botton_y = this->sprite_box->y + this->radius;
 
-	int horizontal_left_x =
-		this->sprite_box->x + this->location.x * this->sprite_box->zoom();
-	int horizontal_right_x =
-		this->sprite_box->x + (this->location.x + this->location.w) *
-		this->sprite_box->zoom();
-	int horizontal_y =
-		this->sprite_box->y + (this->location.y + this->radius) *
-		this->sprite_box->zoom();
+	int horizontal_left_x = this->sprite_box->x - this->radius;
+	int horizontal_right_x = this->sprite_box->x + this->radius;
+	int horizontal_y = this->sprite_box->y;
 
 	SDL_SetRenderDrawColor(core.renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderDrawLine(

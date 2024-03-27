@@ -14,35 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_BUTTON_PIVOT_H
-#define YAFCE_BUTTON_PIVOT_H 1
+#ifndef YAFCE_STATE_MOVE_PIVOT_H
+#define YAFCE_STATE_MOVE_PIVOT_H 1
 
-#include "../button.hpp"
-#include "sprite_box.hpp"
+#include "../button/sprite_box.hpp"
+#include "../state.hpp"
 
-namespace Button
+namespace State
 {
 
-class Pivot: public Button::Base
+class MovePivot: public State::Base
 {
-	SpriteBox* const sprite_box;
+	Button::SpriteBox* const sprite_box;
 	int* const pivot_x;
 	int* const pivot_y;
-	int radius;
-
-	void
-	set_position();
 
 public:
 	void
-	click_action(int x, int y);
+	mouse_button_up(SDL_MouseButtonEvent& b);
 
 	void
-	render();
+	mouse_motion(int x, int y, int xrel, int yrel);
 
-	Pivot(SpriteBox *sprite_box, int *pivot_x, int *pivot_y, int radius);
+	MovePivot(Button::SpriteBox* sprite_box, int *pivot_x, int *pivot_y);
 };
 
 }
 
-#endif /* YAFCE_BUTTON_PIVOT_H */
+#endif /* YAFCE_STATE_MOVE_PIVOT_H */

@@ -14,35 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef YAFCE_BUTTON_PIVOT_H
-#define YAFCE_BUTTON_PIVOT_H 1
+#include "move_pivot.hpp"
 
-#include "../button.hpp"
-#include "sprite_box.hpp"
-
-namespace Button
+namespace State
 {
 
-class Pivot: public Button::Base
+void
+MovePivot::mouse_button_up(SDL_MouseButtonEvent& b)
 {
-	SpriteBox* const sprite_box;
-	int* const pivot_x;
-	int* const pivot_y;
-	int radius;
-
-	void
-	set_position();
-
-public:
-	void
-	click_action(int x, int y);
-
-	void
-	render();
-
-	Pivot(SpriteBox *sprite_box, int *pivot_x, int *pivot_y, int radius);
-};
-
+	this->sprite_box->mode->reset_state();
 }
 
-#endif /* YAFCE_BUTTON_PIVOT_H */
+void
+MovePivot::mouse_motion(int x, int y, int xrel, int yrel)
+{
+	if(xrel != 0) *this->pivot_x -= xrel;
+	if(yrel != 0) *this->pivot_y -= yrel;
+}
+
+MovePivot::MovePivot(Button::SpriteBox* sprite_box, int *pivot_x, int *pivot_y):
+	sprite_box{sprite_box},
+	pivot_x{pivot_x},
+	pivot_y{pivot_y}
+{
+}
+
+}
