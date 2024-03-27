@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-#include "state.hpp"
+#ifndef YAFCE_SERIALIZER_H
+#define YAFCE_SERIALIZER_H 1
 
-#include "main.hpp"
-#include "mode/animation_list.hpp"
-#include "mode/box.hpp"
-#include "mode/sprite.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-namespace State
+#include "../common/graphics/animation.hpp"
+#include "../common/graphics/frame.hpp"
+
+namespace Serializer
 {
 
 void
-Base::key_down(SDL_Keycode keycode)
-{
-	if(this->key_map.contains(keycode)) this->key_map[keycode]();
-}
+frames(const std::vector<Graphics::Frame> *frames, const char *file_name);
 
 void
-Base::key_up(SDL_Keycode keycode)
-{
-}
-
-Base::Base():
-	key_map{
-		{SDLK_1, [](){editor_state->next_game_mode = new Mode::Sprite{};}},
-		{SDLK_2, [](){editor_state->next_game_mode = new Mode::Box{};}},
-		{SDLK_3, [](){editor_state->next_game_mode = new Mode::AnimationList{};}},
-		{SDLK_s, [](){editor_state->save();}}}
-{
-}
+animations(
+	const std::unordered_map<std::string, Graphics::Animation*> *animations,
+	const char *file_name);
 
 }
+
+#endif /* YAFCE_SERIALIZER_H */

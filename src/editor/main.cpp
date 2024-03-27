@@ -18,6 +18,7 @@
 
 #include "../common/graphics/texture.hpp"
 #include "main.hpp"
+#include "serializer.hpp"
 
 EditorState *editor_state;
 
@@ -63,7 +64,7 @@ load_frames(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
 
-	std::string frame_path{"./fighters/" + self->character + "/frames.conf"};
+	std::string frame_path{self->frames_file_path()};
 	Parse::frames(&self->frames, frame_path.c_str());
 }
 
@@ -72,8 +73,7 @@ load_animations(void *obj)
 {
 	auto self{static_cast<EditorState*>(obj)};
 
-	std::string animations_path{
-		"./fighters/" + self->character + "/animations.conf"};
+	std::string animations_path{self->animations_file_path()};
 	Parse::animations(&self->animations, animations_path.c_str(), true);
 }
 
@@ -112,6 +112,26 @@ const CommandChain loader{
 	{&load_font, &unload_font}
 };
 
+}
+
+std::string
+EditorState::frames_file_path()
+{
+	return std::string{"./fighters/" + this->character + "/frames.conf"};
+}
+
+std::string
+EditorState::animations_file_path()
+{
+	return std::string{"./fighters/" + this->character + "/animations.conf"};
+}
+
+void
+EditorState::save()
+{
+	Serializer::frames(&this->frames, this->frames_file_path().c_str());
+	Serializer::animations(
+		&this->animations, this->animations_file_path().c_str());
 }
 
 EditorState::EditorState(const char* character):

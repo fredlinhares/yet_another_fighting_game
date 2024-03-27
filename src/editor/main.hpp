@@ -37,6 +37,15 @@ struct EditorState
 	std::vector<Graphics::Frame> frames;
 	std::unordered_map<std::string, Graphics::Animation*> animations;
 
+	std::string
+	frames_file_path();
+
+	std::string
+	animations_file_path();
+
+	void
+	save();
+
 	EditorState(const char* character);
 	~EditorState();
 };
