@@ -27,7 +27,7 @@ namespace
 {
   const std::regex re_title_num{"^\\[([0-9]+)\\]$"};
   const std::regex re_title_text{"^\\[([a-zA-Z_]+)\\]$"};
-  const std::regex re_key_value{"^([a-zA-Z]+)\\s*=\\s*([0-9a-zA-Z,\\-\\s]+)$"};
+  const std::regex re_key_value{"^([a-zA-Z_]+)\\s*=\\s*([0-9a-zA-Z,\\-\\s]+)$"};
   const std::regex re_number{"\\s*(\\-*[0-9]+)\\s*"};
   const std::regex re_number_sequence{"\\s*(\\-*[0-9]+)[\\s,]*"};
   const std::regex re_frame{"^\\s*frame\\s*$"};
