@@ -134,37 +134,40 @@ Ring::find_move(const std::vector<Move> &moves)
       bool valid_node{false};
       if(current_move->nodes[node_rindex].is_attack)
       {
-	if(current_move->nodes[node_rindex].entry.attack ==
-	   this->inputs[ring_rindex].attack)
-	  valid_node = true;
+				if(current_move->nodes[node_rindex].entry.attack ==
+					 this->inputs[ring_rindex].attack)
+					valid_node = true;
       }
       else
       {
-	if(current_move->nodes[node_rindex].entry.direction ==
-	      this->inputs[ring_rindex].direction)
-	  valid_node = true;
-	// if is empty movement, maybe the player slipped for a single frame,
-	// so we read the previous one.
-	else if(this->inputs[ring_rindex].direction == RelativeDirection::none)
-	{
-	  decrement_ring_rindex(ring_rindex);
-	  continue;
-	}
+				if(current_move->nodes[node_rindex].entry.direction ==
+					 this->inputs[ring_rindex].direction)
+					valid_node = true;
+				// If is empty movement, maybe the player slipped for a single frame,
+				// so we read the previous one. Or, if current direction is the same as
+				// the next one.
+				else if(this->inputs[ring_rindex].direction == RelativeDirection::none
+								|| current_move->nodes[node_rindex + 1].entry.direction ==
+								this->inputs[ring_rindex].direction)
+				{
+					decrement_ring_rindex(ring_rindex);
+					continue;
+				}
       }
 
       if(valid_node)
       {
-	if(node_rindex == 0)
-	{
-	  this->reset();
-	  return current_move->move_name;
-	}
+				if(node_rindex == 0)
+				{
+					this->reset();
+					return current_move->move_name;
+				}
 
-	node_rindex--;
-	decrement_ring_rindex(ring_rindex);
+				node_rindex--;
+				decrement_ring_rindex(ring_rindex);
       }
       else
-	break;
+				break;
     }
   }
 
