@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Frederico de Oliveira Linhares
+ * Copyright 2024-2025 Frederico de Oliveira Linhares
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,6 +128,7 @@ Ring::find_move(const std::vector<Move> &moves)
 
     int node_rindex = current_move->nodes.size() - 1;
     int ring_rindex{ring_end};
+		RelativeDirection last_valid_direction{RelativeDirection::none};
 
     for(int ii{0}; ii < Ring::SIZE; ii++)
     {
@@ -142,15 +143,23 @@ Ring::find_move(const std::vector<Move> &moves)
       {
 				if(current_move->nodes[node_rindex].entry.direction ==
 					 this->inputs[ring_rindex].direction)
+				{
+					last_valid_direction =
+						current_move->nodes[node_rindex].entry.direction;
 					valid_node = true;
+				}
 				// If is empty movement, maybe the player slipped for a single frame,
 				// so we read the previous one. Or, if current direction is the same as
 				// the next one.
 				else if(this->inputs[ring_rindex].direction == RelativeDirection::none
-								|| current_move->nodes[node_rindex + 1].entry.direction ==
-								this->inputs[ring_rindex].direction)
+								|| last_valid_direction == this->inputs[ring_rindex].direction)
 				{
 					decrement_ring_rindex(ring_rindex);
+					continue;
+				}
+				else if(!current_move->nodes[node_rindex].is_required)
+				{
+					node_rindex--;
 					continue;
 				}
       }

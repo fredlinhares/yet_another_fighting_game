@@ -17,8 +17,6 @@
 #include "../main.hpp"
 #include "sprite.hpp"
 
-#include <iostream>
-
 namespace Mode
 {
 

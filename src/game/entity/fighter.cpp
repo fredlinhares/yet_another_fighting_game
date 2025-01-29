@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Frederico de Oliveira Linhares
+ * Copyright 2024-2025 Frederico de Oliveira Linhares
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,15 +154,50 @@ Fighter::Fighter(Direction facing_direction, int x):
   current_direction{},
   moves{
     {"Fireball",
-     {Input::MoveNode(false, Input::RelativeDirection::down),
-      Input::MoveNode(false, Input::RelativeDirection::down_front),
-      Input::MoveNode(false, Input::RelativeDirection::front),
-      Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
+     {Input::MoveNode(
+				false, true, Input::RelativeDirection::down),
+      Input::MoveNode(
+				false, true, Input::RelativeDirection::down_front),
+      Input::MoveNode(
+				false, true, Input::RelativeDirection::front),
+      Input::MoveNode(
+				true, true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
     {"Uppercut",
-     {Input::MoveNode(false, Input::RelativeDirection::front),
-      Input::MoveNode(false, Input::RelativeDirection::down),
-      Input::MoveNode(false, Input::RelativeDirection::down_front),
-      Input::MoveNode(true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
+     {Input::MoveNode(
+				 false, true, Input::RelativeDirection::front),
+      Input::MoveNode(
+				false, false, Input::RelativeDirection::down_front),
+      Input::MoveNode(
+				false, true, Input::RelativeDirection::down),
+      Input::MoveNode(
+				false, true, Input::RelativeDirection::down_front),
+      Input::MoveNode(
+				true, true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}},
+    {"Pretzel",
+			{Input::MoveNode(
+				 false, true, Input::RelativeDirection::down_back),
+			 Input::MoveNode(
+				 false, false, Input::RelativeDirection::down),
+			 Input::MoveNode(
+				 false, false, Input::RelativeDirection::down_front),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::front),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::down_front),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::down),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::down_back),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::back),
+			 Input::MoveNode(
+				 false, false, Input::RelativeDirection::down_back),
+			 Input::MoveNode(
+				 false, false, Input::RelativeDirection::down),
+			 Input::MoveNode(
+				 false, true, Input::RelativeDirection::down_front),
+			 Input::MoveNode(
+				 true, true, Input::AttackState{Input::ATTACK_BIT_HEAVY_PUNCH})}}}
 {
   Parse::frames(&this->frames, "fighters/default/frames.conf");
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Frederico de Oliveira Linhares
+ * Copyright 2024-2025 Frederico de Oliveira Linhares
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ namespace Input
 
 struct Ring
 {
-  static constexpr int SIZE{16};
+  static constexpr int SIZE{32};
 
 protected:
   int start_index, num_inputs;
