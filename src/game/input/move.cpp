@@ -29,8 +29,15 @@ MoveEntry::MoveEntry(RelativeDirection direction):
 {
 }
 
-MoveNode::MoveNode(bool is_attack, bool is_required, MoveEntry entry):
-  is_attack{is_attack},
+MoveNode::MoveNode(bool is_required, AttackState entry):
+  is_attack{true},
+	is_required{is_required},
+  entry{entry}
+{
+}
+
+MoveNode::MoveNode(bool is_required, RelativeDirection entry):
+  is_attack{false},
 	is_required{is_required},
   entry{entry}
 {

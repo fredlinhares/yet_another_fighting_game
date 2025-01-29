@@ -41,7 +41,8 @@ struct MoveNode
 	bool is_required;
   MoveEntry entry;
 
-  MoveNode(bool is_attack, bool is_required, MoveEntry entry);
+  MoveNode(bool is_required, AttackState entry);
+  MoveNode(bool is_required, RelativeDirection entry);
 };
 
 struct Move
