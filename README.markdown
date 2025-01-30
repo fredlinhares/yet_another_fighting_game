@@ -1,35 +1,24 @@
 # Yet Another Fighting Games
 
-## Introdução
+This is an engine for fighting games.
 
-Esse é um jogo de luta simples criado com o propósito de demonstrar os princípios básicos da programação de jogos.
-Portanto ele não usará nenhum motor, ao invés disso usará o mínimo de dependências possíveis.
-Nesse projeto usaremos as linguagens de programação C++ e Ruby e a libSDL, nada mais.
+## Dependencies
 
-Como esse é projeto didático, sinta-se livre para contribuir mesmo que você tenha pouca ou nenhum experiência como programador.
-
-
-## Dependências
-
-A principal plataforma de desenvolvimento desse jogo será o GNU/Linux com o compilador GCC.
-Para que você consiga compilar o código no Windows ou MacOS, recomendo que use um ambiente de desenvolvimento parecido com o do Linux.
-Para o Windows, você pode usar o [MSYS2 com MINGW](https://www.msys2.org/).
-Para o MacOs, você pode usar o [Homebrew](https://brew.sh/).
-Toda a compilação do código é automatizada com o [Rake](https://ruby.github.io/rake/).
+This engine is mainly developed on GNU/Linux with the GCC compiler and [Rake](https://ruby.github.io/rake/) for automation.
+To compile in another platform, you should use an equivalent environment.
+For Windows, you can use [MSYS2 com MINGW](https://www.msys2.org/).
+For MacOS, you can use [Homebrew](https://brew.sh/).
 
 ### Windows (MSYS2)
 
-Primeiro faça o download do MSYS2 como explicado no site.
-Apos instalar o MSYS2, ele fornecerá vários ambientes como compiladores diferentes.
-Abra o `MSYS2 MINGW64` que se encontra no seu menu Iniciar.
-
-Para instalar os pacotes do MSYS2 use o seguinte comando:
+MSYS2 provides several different environments; I recommend using `MSYS2 MINGW64`.
+To install the dependencies, use the command:
 
 ```
-pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image ruby
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf ruby
 ```
 
-Após instalar os pacotes do Ruby, use:
+After installing Ruby, use this command to install `Rake`:
 
 ```
 gem install rake
@@ -38,45 +27,46 @@ gem install rake
 
 ### Arch Linux
 
-Para instalar as dependências basta usar o pacman:
+To install the dependencies using pacman:
 
 ```
-pacman -S gcc sdl2 sdl2_image ruby ruby-rake
+pacman -S gcc sdl2 sdl2_image sdl2_ttf ruby ruby-rake
 ```
 
 
 ### Debian Linux
 
-Para instalar as dependências é necessário instalar também os pacotes de desenvolvimento:
+There are some specific packages for development that you need to install as dependencies on top of normal dependencies:
 
 ```
-apt install g++ libsdl2-2.0-0 libsdl2-dev libsdl2-image-dev ruby ruby-rake
+apt install g++ libsdl2-2.0-0 libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev ruby ruby-rake
 ```
 
 
-## Compilando
+## Compiling
 
-Uma vez que você tenha o Ruby, o GCC (com suporte para C++) e o Rake instalado, pode compilar o jogo com apenas um comando no seu terminal:
+Once you have everything installed, go to inside the project folder and run Rake:
 
 ```
 rake
 ```
 
-Após compilar o jogo, poderá executá-lo através da linha de comando:
+After compiling the game, try running it to check if everything is working properly:
 
 ```
 ./yafg
 ```
 
 
-## Princípios de programação de jogos
+## Code Documentation
 
-Uma vez que tenha conseguido compilar e rodar o jogo com sucesso, você pode começar a ler sobre os algorítimos que são usados nesse código:
+Once you finished compiling and the game is running properly, you can read about the game architecture:
 
-[Ciclo principal](doc/ciclo_principal.markdown)
 
-[Modo de jogo](doc/modo_de_jogo.markdown)
+[Main Loop](doc/main_loop.markdown)
 
-[Inicialização de subsistemas](doc/inicializacao_de_subsistemas.markdown)
+[Game Modes](doc/game_mode.markdown)
 
-[Personagem](doc/personagem.markdown)
+[System Initialization](doc/subsystems_initialization.markdown)
+
+[Characters](doc/characters.markdown)
